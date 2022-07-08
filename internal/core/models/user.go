@@ -10,6 +10,7 @@ type User struct {
 	IsActive     bool   `json:"is_active"`
 	Status       string `json:"status"`
 	Avatar       string `json:"avatar"`
+	Token        string `json:"token"`
 }
 
 //FoodBeneficiary represents a decadev
