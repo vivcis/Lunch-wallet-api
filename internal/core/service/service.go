@@ -1,6 +1,9 @@
 package service
 
-import "github.com/decadevs/lunch-api/internal/core/models"
+import (
+	"github.com/decadevs/lunch-api/internal/core/models"
+	"github.com/decadevs/lunch-api/internal/ports"
+)
 
 type userService struct {
 	userRepository ports.UserRepository

@@ -1,6 +1,10 @@
 package repository
 
-import "gorm.io/gorm"
+import (
+	"github.com/decadevs/lunch-api/internal/core/models"
+	"github.com/decadevs/lunch-api/internal/ports"
+	"gorm.io/gorm"
+)
 
 type Postgres struct {
 	DB *gorm.DB

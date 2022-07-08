@@ -1,6 +1,10 @@
 package server
 
-import "log"
+import (
+	"github.com/decadevs/lunch-api/internal/adapters/repository"
+	"github.com/decadevs/lunch-api/internal/core/helpers"
+	"log"
+)
 
 func Run() error {
 	err := helpers.Load()

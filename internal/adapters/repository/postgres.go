@@ -2,6 +2,8 @@ package repository
 
 import (
 	"fmt"
+	"github.com/decadevs/lunch-api/internal/core/helpers"
+	"github.com/decadevs/lunch-api/internal/core/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

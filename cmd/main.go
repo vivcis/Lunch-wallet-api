@@ -1,6 +1,9 @@
 package main
 
-import "log"
+import (
+	"github.com/decadevs/lunch-api/cmd/server"
+	"log"
+)
 
 func main() {
 	err := server.Run()
