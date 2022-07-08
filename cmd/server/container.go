@@ -1,6 +1,9 @@
 package server
 
 import (
+	"github.com/decadevs/lunch-api/internal/adapters/api"
+	"github.com/decadevs/lunch-api/internal/adapters/repository"
+	"github.com/decadevs/lunch-api/internal/core/service"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
