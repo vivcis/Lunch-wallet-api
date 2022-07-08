@@ -14,7 +14,7 @@ type User struct {
 
 type FoodBeneficiary struct {
 	User
-	Stack string
+	Stack string `json:"stack"`
 }
 type KitchenStaff struct {
 	User
