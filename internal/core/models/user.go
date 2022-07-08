@@ -2,10 +2,10 @@ package models
 
 type User struct {
 	Model
-	FullName     string `json:"full_name"`
-	Email        string `json:"email" gorm:"unique"`
-	Location     string `json:"location"`
-	Password     string `json:"-"`
+	FullName     string `json:"full_name" binding:"required"`
+	Email        string `json:"email" binding:"required" gorm:"unique"`
+	Location     string `json:"location" binding:"required"`
+	Password     string `json:"password,omitempty" gorm:"-"`
 	PasswordHash string `json:"password_hash"`
 	IsActive     bool   `json:"is_active"`
 	Status       string `json:"status"`
