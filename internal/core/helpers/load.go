@@ -1,8 +1,10 @@
 package helpers
 
 import (
+	"errors"
 	"fmt"
 	"github.com/go-openapi/swag"
+	"github.com/joho/godotenv"
 	"os"
 	"reflect"
 	"strings"
