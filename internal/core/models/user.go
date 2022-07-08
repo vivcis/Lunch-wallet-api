@@ -12,6 +12,7 @@ type User struct {
 	Avatar       string `json:"avatar"`
 }
 
+//FoodBeneficiary represents a decadev
 type FoodBeneficiary struct {
 	User
 	Stack string `json:"stack"`
