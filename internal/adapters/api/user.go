@@ -2,10 +2,12 @@ package api
 
 import (
 	"errors"
+	"net/http"
+
 	"github.com/decadevs/lunch-api/internal/core/helpers"
+	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	"net/http"
 )
 
 func (u HTTPHandler) GetByID(c *gin.Context) {
@@ -26,4 +28,63 @@ func (u HTTPHandler) GetByID(c *gin.Context) {
 	}
 
 	helpers.JSON(c, "User found successfully", http.StatusOK, user, nil)
+}
+
+func (u *HTTPHandler) FoodBeneficiarySignUpHandler(c *gin.Context) {
+	user := &models.User{}
+	err := c.ShouldBindJSON(user)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Unable to bind JSON",
+		})
+		return
+	}
+	if user.FullName == "" || user.Password == "" || user.Email == "" || user.Location == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Enter all fields",
+		})
+		return
+	}
+	validEmail := user.ValidMailAddress()
+	if validEmail == false {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "enter valid email",
+		})
+		return
+	}
+
+	_, err = u.DB.FindUserByFullName(user.FullName)
+	if err == nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "fullname exists",
+		})
+		return
+	}
+	_, err = u.DB.FindUserByEmail(user.Email)
+	if err == nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "email exists",
+		})
+		return
+	}
+
+	_, err = u.DB.FindUserByLocation(user.Location)
+	if err == nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "select a location",
+		})
+		return
+	}
+	_, err = u.DB.CreateUser(user)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "could not create user",
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"message": "Sign Up Successful",
+	})
+
 }

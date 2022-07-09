@@ -1,5 +1,7 @@
 package models
 
+import "net/mail"
+
 type User struct {
 	Model
 	FullName     string `json:"full_name" binding:"required"`
@@ -23,4 +25,12 @@ type KitchenStaff struct {
 }
 type Admin struct {
 	User
+}
+
+func (user *User) ValidMailAddress() bool {
+	_, err := mail.ParseAddress(user.Email)
+	if err != nil {
+		return false
+	}
+	return true
 }
