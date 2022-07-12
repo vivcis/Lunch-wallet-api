@@ -1,16 +1,21 @@
 package server
 
 import (
+	"fmt"
+	"log"
+
 	"github.com/decadevs/lunch-api/internal/adapters/repository"
 	"github.com/decadevs/lunch-api/internal/core/helpers"
-	"log"
+	"github.com/decadevs/lunch-api/internal/core/models"
+	"gorm.io/gorm"
 )
 
-func Run() error {
+func Run() (*gorm.DB, error) {
 	err := helpers.Load()
 	if err != nil {
+		fmt.Println("1")
 		log.Fatal(err)
-		return err
+		return nil, err
 	}
 
 	db, err := repository.ConnectDb(&helpers.Config{
@@ -24,13 +29,25 @@ func Run() error {
 	})
 	if err != nil {
 		log.Fatal(err)
-		return err
+		return nil, err
 	}
 
 	err = repository.MigrateAll(db)
 	if err != nil {
 		log.Fatal(err)
-		return err
+		return nil, err
 	}
-	return nil
+	user := &models.FoodBeneficiary{
+		User: models.User{
+			FullName:     "jdoe",
+			Email:        "a@decagon.dev",
+			Location:     "ETP",
+			PasswordHash: "$223456788878878989",
+			IsActive:     true,
+			Token:        "",
+		},
+		Stack: "GO",
+	}
+	db.Create(&user)
+	return db, nil
 }

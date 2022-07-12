@@ -6,10 +6,10 @@ import (
 )
 
 func main() {
-	err := server.Run()
+	db, err := server.Run()
 	if err != nil {
 		log.Fatal(err)
 		return
 	}
-	server.Injection()
+	server.Injection(db)
 }

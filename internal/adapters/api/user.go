@@ -30,61 +30,77 @@ func (u HTTPHandler) GetByID(c *gin.Context) {
 	helpers.JSON(c, "User found successfully", http.StatusOK, user, nil)
 }
 
-func (u *HTTPHandler) FoodBeneficiarySignUpHandler(c *gin.Context) {
-	user := &models.User{}
-	err := c.ShouldBindJSON(user)
+func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
+	//user := &models.FoodBeneficiary{}
+	var user *models.FoodBeneficiary
+	err := c.ShouldBindJSON(&user)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Unable to bind JSON",
-		})
-		return
-	}
-	if user.FullName == "" || user.Password == "" || user.Email == "" || user.Location == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Enter all fields",
-		})
-		return
-	}
-	validEmail := user.ValidMailAddress()
-	if validEmail == false {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "enter valid email",
-		})
+		helpers.JSON(c, "Unable to bind request", 400, nil, []string{"unable to bind request: validation error"})
 		return
 	}
 
-	_, err = u.DB.FindUserByFullName(user.FullName)
-	if err == nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "fullname exists",
-		})
-		return
-	}
-	_, err = u.DB.FindUserByEmail(user.Email)
-	if err == nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "email exists",
-		})
+	if user.FullName == "" || user.Password == "" || user.Email == "" || user.Location == "" || user.Stack == "" {
+		helpers.JSON(c, "Enter all fields", 400, nil, []string{err.Error()})
 		return
 	}
 
-	_, err = u.DB.FindUserByLocation(user.Location)
-	if err == nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "select a location",
-		})
+	validDecagonEmail := user.ValidateDecagonEmail()
+	if !validDecagonEmail {
+		helpers.JSON(c, "Enter valid decagon email", 400, nil, []string{err.Error()})
 		return
 	}
-	_, err = u.DB.CreateUser(user)
+
+	_, Emailerr := u.UserService.FindUserByEmail(user.Email)
+	if Emailerr == nil {
+		helpers.JSON(c, "Email already exists", 400, nil, []string{"email exists"})
+		return
+	}
+	if err = user.HashPassword(); err != nil {
+		helpers.JSON(c, "Unable to hash password", 400, nil, []string{err.Error()})
+		return
+	}
+	_, err = u.UserService.CreateUser(user)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "could not create user",
-		})
+		helpers.JSON(c, "Unable to create user", 400, nil, []string{"unable to create user"})
+		return
+	}
+	helpers.JSON(c, "Signup Successful", 201, nil, nil)
+
+}
+
+func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
+	staff := &models.KitchenStaff{}
+	err := c.ShouldBindJSON(staff)
+	if err != nil {
+		helpers.JSON(c, "Unable to bind request", 400, nil, []string{err.Error()})
+		return
+	}
+	if staff.FullName == "" || staff.Password == "" || staff.Email == "" || staff.Location == "" {
+		helpers.JSON(c, "Enter all fields", 400, nil, []string{err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{
-		"message": "Sign Up Successful",
-	})
+	validDecagonEmail := staff.ValidateDecagonEmail()
+	if !validDecagonEmail {
+		helpers.JSON(c, "Enter valid decagon email", 400, nil, []string{err.Error()})
+		return
+	}
+
+	_, err = u.UserService.FindStaffByEmail(staff.Email)
+	if err == nil {
+		helpers.JSON(c, "Email exist", 400, nil, []string{"email exists"})
+		return
+	}
+
+	if err = staff.HashPassword(); err != nil {
+		helpers.JSON(c, "Unable to hash password", 400, nil, []string{err.Error()})
+		return
+	}
+	_, err = u.UserService.CreateStaff(staff)
+	if err != nil {
+		helpers.JSON(c, "Unable to create user", 400, nil, []string{err.Error()})
+		return
+	}
+	helpers.JSON(c, "Staff Signup Successful", 201, nil, nil)
 
 }
