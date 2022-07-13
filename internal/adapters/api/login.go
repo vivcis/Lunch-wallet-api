@@ -27,12 +27,6 @@ func (u HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 		return
 	}
 
-	hashpass, err := middleware.HashPassword(KitchenStaffLoginRequest.Password)
-	if err != nil {
-		//write error
-		c.JSON(500, gin.H{"message": "internal Server Error"})
-		return
-	}
 	kitchenStaff, sqlErr := u.UserService.FindKitchenStaffByEmail(KitchenStaffLoginRequest.Email)
 
 	if sqlErr != nil {
@@ -40,7 +34,7 @@ func (u HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "internal server error"})
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(kitchenStaff.PasswordHash), []byte(hashpass)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(kitchenStaff.PasswordHash), []byte(KitchenStaffLoginRequest.Password)); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "invalid Password"})
 		return
 	}
@@ -87,12 +81,6 @@ func (u HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
 		return
 	}
 
-	hashPassword, err := middleware.HashPassword(benefactorLoginRequest.Password)
-	if err != nil {
-		//write error
-		c.JSON(500, gin.H{"message": "internal Server Error"})
-		return
-	}
 	benefactor, sqlErr := u.UserService.FindFoodBenefactorByEmail(benefactorLoginRequest.Email)
 
 	if sqlErr != nil {
@@ -100,7 +88,7 @@ func (u HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "internal server error"})
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(benefactor.PasswordHash), []byte(hashPassword)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(benefactor.PasswordHash), []byte(benefactorLoginRequest.Password)); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "invalid Password"})
 		return
 	}
@@ -146,13 +134,7 @@ func (u HTTPHandler) LoginAdminHandler(c *gin.Context) {
 		c.JSON(400, gin.H{"message": "bad request"})
 		return
 	}
-
-	hashPassword, err := middleware.HashPassword(adminLoginRequest.Password)
-	if err != nil {
-		//write error
-		c.JSON(500, gin.H{"message": "internal Server Error"})
-		return
-	}
+	
 	admin, sqlErr := u.UserService.FindAdminByEmail(adminLoginRequest.Email)
 
 	if sqlErr != nil {
@@ -160,7 +142,7 @@ func (u HTTPHandler) LoginAdminHandler(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "internal server error"})
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(admin.PasswordHash), []byte(hashPassword)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(admin.PasswordHash), []byte(adminLoginRequest.Password)); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "invalid Password"})
 		return
 	}

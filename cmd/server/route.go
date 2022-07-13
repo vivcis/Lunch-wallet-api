@@ -29,24 +29,27 @@ func SetupRouter(appPort, address string, handler *api.HTTPHandler, userService 
 	{
 		r.POST("/user/beneficiarysignup", handler.FoodBeneficiarySignUp)
 		r.POST("/user/kitchenstaffsignup", handler.KitchenStaffSignUp)
+		r.POST("/user/kitchenstafflogin", handler.LoginKitchenStaffHandler)
+		r.POST("/user/benefactorlogin", handler.LoginFoodBenefactorHandler)
+		r.POST("/user/adminlogin", handler.LoginAdminHandler)
 	}
 
 	// authorizeKitchenStaff authorizes all authorized kitchen staff handler
-	authorizeKitchenStaff := router.Group("/")
+	authorizeKitchenStaff := r.Group("/")
 	authorizeKitchenStaff.Use(middleware.AuthorizeKitchenStaff(userService.FindKitchenStaffByEmail, userService.TokenInBlacklist))
 	{
 
 	}
 
 	// authorizeBenefactor authorizes all authorized benefactor handler
-	authorizeBenefactor := router.Group("/")
+	authorizeBenefactor := r.Group("/")
 	authorizeBenefactor.Use(middleware.AuthorizeFoodBenefactor(userService.FindFoodBenefactorByEmail, userService.TokenInBlacklist))
 	{
 
 	}
 
 	// authorizeAdmin authorizes all authorized admin handler
-	authorizeAdmin := router.Group("/")
+	authorizeAdmin := r.Group("/")
 	authorizeAdmin.Use(middleware.AuthorizeAdmin(userService.FindAdminByEmail, userService.TokenInBlacklist))
 	{
 

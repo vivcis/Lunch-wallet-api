@@ -22,7 +22,7 @@ func TestFoodBeneficiarySignUpEmailExists(t *testing.T) {
 		UserService: mockDb,
 	}
 
-	router := server.SetupRouter("8081", "http://localhost", r)
+	router := server.SetupRouter("8081", "http://localhost", r, mockDb)
 
 	user := models.User{
 		FullName:     "Orji Cecilia",
@@ -40,7 +40,7 @@ func TestFoodBeneficiarySignUpEmailExists(t *testing.T) {
 	if err != nil {
 		t.Fail()
 	}
-	mockDb.EXPECT().FindUserByEmail(beneficiary.Email).Return(&beneficiary, nil)
+	mockDb.EXPECT().FindFoodBenefactorByEmail(beneficiary.Email).Return(&beneficiary, nil)
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/api/v1/user/beneficiarysignup", strings.NewReader(string(newUser)))
@@ -59,7 +59,7 @@ func TestFoodBeneficiarySignUpBadRequest(t *testing.T) {
 	r := &api.HTTPHandler{
 		UserService: mockDb,
 	}
-	router := server.SetupRouter("8081", "http://localhost", r)
+	router := server.SetupRouter("8081", "http://localhost", r, mockDb)
 	user := []models.User{
 		{
 			FullName:     "",
@@ -106,7 +106,7 @@ func TestFoodBeneficiarySignUpBadRequest(t *testing.T) {
 	})
 
 	t.Run("Correct details", func(t *testing.T) {
-		mockDb.EXPECT().FindUserByEmail(beneficiary.Email).Return(&beneficiary, nil)
+		mockDb.EXPECT().FindFoodBenefactorByEmail(beneficiary.Email).Return(&beneficiary, nil)
 		w := httptest.NewRecorder()
 		req, _ := http.NewRequest("POST", "/api/v1/user/beneficiarysignup", strings.NewReader(string(newUse)))
 		router.ServeHTTP(w, req)
