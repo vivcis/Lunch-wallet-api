@@ -15,38 +15,46 @@ func NewUserService(userRepository ports.UserRepository) ports.UserService {
 	}
 }
 
-func (u *userService) GetByID(id string) (*models.User, error) {
-	return u.userRepository.GetByID(id)
+func (u *userService) FindFoodBenefactorByFullName(fullname string) (*models.FoodBeneficiary, error) {
+	return u.userRepository.FindFoodBenefactorByFullName(fullname)
 }
 
-func (u *userService) FindUserByFullName(fullname string) (*models.FoodBeneficiary, error) {
-	return u.userRepository.FindUserByFullName(fullname)
+func (u *userService) FindFoodBenefactorByEmail(email string) (*models.FoodBeneficiary, error) {
+	return u.userRepository.FindFoodBenefactorByEmail(email)
 }
 
-func (u *userService) FindUserByEmail(email string) (*models.FoodBeneficiary, error) {
-	return u.userRepository.FindUserByEmail(email)
+func (u *userService) FindFoodBenefactorByLocation(location string) (*models.FoodBeneficiary, error) {
+	return u.userRepository.FindFoodBenefactorByLocation(location)
 }
 
-func (u *userService) FindUserByLocation(location string) (*models.FoodBeneficiary, error) {
-	return u.userRepository.FindUserByLocation(location)
+func (u *userService) CreateFoodBenefactor(user *models.FoodBeneficiary) (*models.FoodBeneficiary, error) {
+	return u.userRepository.CreateFoodBenefactor(user)
 }
 
-func (u *userService) CreateUser(user *models.FoodBeneficiary) (*models.FoodBeneficiary, error) {
-	return u.userRepository.CreateUser(user)
+func (u *userService) FindKitchenStaffByFullName(fullname string) (*models.KitchenStaff, error) {
+	return u.userRepository.FindKitchenStaffByFullName(fullname)
 }
 
-func (u *userService) FindStaffByFullName(fullname string) (*models.KitchenStaff, error) {
-	return u.userRepository.FindStaffByFullName(fullname)
+func (u *userService) FindKitchenStaffByEmail(email string) (*models.KitchenStaff, error) {
+	return u.userRepository.FindKitchenStaffByEmail(email)
 }
 
-func (u *userService) FindStaffByEmail(email string) (*models.KitchenStaff, error) {
-	return u.userRepository.FindStaffByEmail(email)
+func (u *userService) FindKitchenStaffByLocation(location string) (*models.KitchenStaff, error) {
+	return u.userRepository.FindKitchenStaffByLocation(location)
 }
 
-func (u *userService) FindStaffByLocation(location string) (*models.KitchenStaff, error) {
-	return u.userRepository.FindStaffByLocation(location)
+func (u *userService) CreateKitchenStaff(user *models.KitchenStaff) (*models.KitchenStaff, error) {
+	return u.userRepository.CreateKitchenStaff(user)
 }
 
-func (u *userService) CreateStaff(user *models.KitchenStaff) (*models.KitchenStaff, error) {
-	return u.userRepository.CreateStaff(user)
+func (u *userService) FindAdminByEmail(email string) (*models.Admin, error) {
+	return u.userRepository.FindAdminByEmail(email)
+}
+
+func (u *userService) TokenInBlacklist(token *string) bool {
+	return u.userRepository.TokenInBlacklist(token)
+}
+
+func (u *userService) AddTokenToBlacklist(email string, token string) error {
+	return u.userRepository.AddTokenToBlacklist(email, token)
 }
