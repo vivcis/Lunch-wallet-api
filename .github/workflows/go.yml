@@ -33,5 +33,5 @@ jobs:
       - name: Test
         run: |
           go get github.com/golang/mock/mockgen
-          make mock
+          mockgen -source=internal/ports/repository.go -destination=internal/adapters/repository/mocks/db_mock.go -package=mocks
           go test -v ./...
