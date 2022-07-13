@@ -4,6 +4,7 @@ import (
 	"github.com/decadevs/lunch-api/internal/core/helpers"
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
 	"os"
@@ -136,4 +137,13 @@ func AuthorizeAdmin(findAdminByEmail func(string) (*models.Admin, error), tokenI
 		// calling next handler
 		c.Next()
 	}
+}
+
+func HashPassword(password string) (string, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	passwordHash := string(hashedPassword)
+	return passwordHash, nil
 }
