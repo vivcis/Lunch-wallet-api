@@ -3,29 +3,18 @@ package server
 import (
 	"github.com/decadevs/lunch-api/internal/adapters/api"
 	"github.com/decadevs/lunch-api/internal/adapters/repository"
+	"github.com/decadevs/lunch-api/internal/core/helpers"
 	"github.com/decadevs/lunch-api/internal/core/service"
-	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
-var DBConnection *gorm.DB
-
 // Injection inject all dependencies
-func Injection() {
-	var (
-		ginRoutes      = NewGinRouter(gin.Default())
-		userRepository = repository.NewUser(DBConnection)
-		userService    = service.NewUserService(userRepository)
-		Handler        = api.NewHTTPHandler(userService)
-	)
+func Injection(db *gorm.DB) {
+	userRepository := repository.NewUser(db)
+	userService := service.NewUserService(userRepository)
 
-	router := ginRoutes.GROUP("/api/v1")
-	user := router.Group("/user")
-	user.GET("/:id", Handler.GetByID)
+	Handler := api.NewHTTPHandler(userService)
+	router := SetupRouter(helpers.Instance.ServiceAddress, helpers.Instance.Port, Handler)
 
-	err := ginRoutes.SERVE()
-
-	if err != nil {
-		return
-	}
+	_ = router.Run(":" + helpers.Instance.Port)
 }

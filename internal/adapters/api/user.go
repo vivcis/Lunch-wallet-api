@@ -2,10 +2,12 @@ package api
 
 import (
 	"errors"
+	"net/http"
+
 	"github.com/decadevs/lunch-api/internal/core/helpers"
+	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	"net/http"
 )
 
 func (u HTTPHandler) GetByID(c *gin.Context) {
@@ -26,4 +28,69 @@ func (u HTTPHandler) GetByID(c *gin.Context) {
 	}
 
 	helpers.JSON(c, "User found successfully", http.StatusOK, user, nil)
+}
+
+func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
+	var user *models.FoodBeneficiary
+	err := c.ShouldBindJSON(&user)
+	if err != nil {
+		helpers.JSON(c, "Unable to bind request", 400, nil, []string{"unable to bind request: validation error"})
+		return
+	}
+
+	validDecagonEmail := user.ValidateDecagonEmail()
+	if !validDecagonEmail {
+		helpers.JSON(c, "Enter valid decagon email", 400, nil, []string{err.Error()})
+		return
+	}
+
+	_, Emailerr := u.UserService.FindUserByEmail(user.Email)
+	if Emailerr == nil {
+		helpers.JSON(c, "Email already exists", 400, nil, []string{"email exists"})
+		return
+	}
+	if err = user.HashPassword(); err != nil {
+		helpers.JSON(c, "Unable to hash password", 400, nil, []string{err.Error()})
+		return
+	}
+	_, err = u.UserService.CreateUser(user)
+	if err != nil {
+		helpers.JSON(c, "Unable to create user", 400, nil, []string{"unable to create user"})
+		return
+	}
+	helpers.JSON(c, "Signup Successful", 201, nil, nil)
+
+}
+
+func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
+	staff := &models.KitchenStaff{}
+	err := c.ShouldBindJSON(staff)
+	if err != nil {
+		helpers.JSON(c, "Unable to bind request", 400, nil, []string{err.Error()})
+		return
+	}
+
+	validDecagonEmail := staff.ValidateDecagonEmail()
+	if !validDecagonEmail {
+		helpers.JSON(c, "Enter valid decagon email", 400, nil, []string{err.Error()})
+		return
+	}
+
+	_, err = u.UserService.FindStaffByEmail(staff.Email)
+	if err == nil {
+		helpers.JSON(c, "Email exist", 400, nil, []string{"email exists"})
+		return
+	}
+
+	if err = staff.HashPassword(); err != nil {
+		helpers.JSON(c, "Unable to hash password", 400, nil, []string{err.Error()})
+		return
+	}
+	_, err = u.UserService.CreateStaff(staff)
+	if err != nil {
+		helpers.JSON(c, "Unable to create user", 400, nil, []string{err.Error()})
+		return
+	}
+	helpers.JSON(c, "Staff Signup Successful", 201, nil, nil)
+
 }
