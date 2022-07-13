@@ -35,9 +35,9 @@ func (m *MockUserRepository) EXPECT() *MockUserRepositoryMockRecorder {
 }
 
 // CreateStaff mocks base method.
-func (m *MockUserRepository) CreateStaff(user *models.KitchenStaff) (*models.KitchenStaff, error) {
+func (m *MockUserRepository) CreateKitchenStaff(user *models.KitchenStaff) (*models.KitchenStaff, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateStaff", user)
+	ret := m.ctrl.Call(m, "CreateKitchenStaff", user)
 	ret0, _ := ret[0].(*models.KitchenStaff)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
@@ -46,13 +46,13 @@ func (m *MockUserRepository) CreateStaff(user *models.KitchenStaff) (*models.Kit
 // CreateStaff indicates an expected call of CreateStaff.
 func (mr *MockUserRepositoryMockRecorder) CreateStaff(user interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateStaff", reflect.TypeOf((*MockUserRepository)(nil).CreateStaff), user)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateKitchenStaff", reflect.TypeOf((*MockUserRepository)(nil).CreateKitchenStaff), user)
 }
 
 // CreateUser mocks base method.
-func (m *MockUserRepository) CreateUser(user *models.FoodBeneficiary) (*models.FoodBeneficiary, error) {
+func (m *MockUserRepository) CreateFoodBenefactor(user *models.FoodBeneficiary) (*models.FoodBeneficiary, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateUser", user)
+	ret := m.ctrl.Call(m, "CreateFoodBenefactor", user)
 	ret0, _ := ret[0].(*models.FoodBeneficiary)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
@@ -61,13 +61,13 @@ func (m *MockUserRepository) CreateUser(user *models.FoodBeneficiary) (*models.F
 // CreateUser indicates an expected call of CreateUser.
 func (mr *MockUserRepositoryMockRecorder) CreateUser(user interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockUserRepository)(nil).CreateUser), user)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFoodBenefactor", reflect.TypeOf((*MockUserRepository)(nil).CreateFoodBenefactor), user)
 }
 
 // FindStaffByEmail mocks base method.
-func (m *MockUserRepository) FindStaffByEmail(email string) (*models.KitchenStaff, error) {
+func (m *MockUserRepository) FindKitchenStaffByEmail(email string) (*models.KitchenStaff, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindStaffByEmail", email)
+	ret := m.ctrl.Call(m, "FindKitchenStaffByEmail", email)
 	ret0, _ := ret[0].(*models.KitchenStaff)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
@@ -76,13 +76,13 @@ func (m *MockUserRepository) FindStaffByEmail(email string) (*models.KitchenStaf
 // FindStaffByEmail indicates an expected call of FindStaffByEmail.
 func (mr *MockUserRepositoryMockRecorder) FindStaffByEmail(email interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindStaffByEmail", reflect.TypeOf((*MockUserRepository)(nil).FindStaffByEmail), email)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindKitchenStaffByEmail", reflect.TypeOf((*MockUserRepository)(nil).FindKitchenStaffByEmail), email)
 }
 
 // FindStaffByFullName mocks base method.
-func (m *MockUserRepository) FindStaffByFullName(fullname string) (*models.KitchenStaff, error) {
+func (m *MockUserRepository) FindKitchenStaffByFullName(fullname string) (*models.KitchenStaff, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindStaffByFullName", fullname)
+	ret := m.ctrl.Call(m, "FindKitchenStaffByFullName", fullname)
 	ret0, _ := ret[0].(*models.KitchenStaff)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
@@ -91,13 +91,13 @@ func (m *MockUserRepository) FindStaffByFullName(fullname string) (*models.Kitch
 // FindStaffByFullName indicates an expected call of FindStaffByFullName.
 func (mr *MockUserRepositoryMockRecorder) FindStaffByFullName(fullname interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindStaffByFullName", reflect.TypeOf((*MockUserRepository)(nil).FindStaffByFullName), fullname)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindKitchenStaffByFullName", reflect.TypeOf((*MockUserRepository)(nil).FindKitchenStaffByFullName), fullname)
 }
 
 // FindStaffByLocation mocks base method.
-func (m *MockUserRepository) FindStaffByLocation(location string) (*models.KitchenStaff, error) {
+func (m *MockUserRepository) FindKitchenStaffByLocation(location string) (*models.KitchenStaff, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindStaffByLocation", location)
+	ret := m.ctrl.Call(m, "FindKitchenStaffByLocation", location)
 	ret0, _ := ret[0].(*models.KitchenStaff)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
@@ -106,13 +106,13 @@ func (m *MockUserRepository) FindStaffByLocation(location string) (*models.Kitch
 // FindStaffByLocation indicates an expected call of FindStaffByLocation.
 func (mr *MockUserRepositoryMockRecorder) FindStaffByLocation(location interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindStaffByLocation", reflect.TypeOf((*MockUserRepository)(nil).FindStaffByLocation), location)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindKitchenStaffByLocation", reflect.TypeOf((*MockUserRepository)(nil).FindKitchenStaffByLocation), location)
 }
 
 // FindUserByEmail mocks base method.
-func (m *MockUserRepository) FindUserByEmail(email string) (*models.FoodBeneficiary, error) {
+func (m *MockUserRepository) FindFoodBenefactorByEmail(email string) (*models.FoodBeneficiary, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindUserByEmail", email)
+	ret := m.ctrl.Call(m, "FindFoodBenefactorByEmail", email)
 	ret0, _ := ret[0].(*models.FoodBeneficiary)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
@@ -121,13 +121,13 @@ func (m *MockUserRepository) FindUserByEmail(email string) (*models.FoodBenefici
 // FindUserByEmail indicates an expected call of FindUserByEmail.
 func (mr *MockUserRepositoryMockRecorder) FindUserByEmail(email interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserByEmail", reflect.TypeOf((*MockUserRepository)(nil).FindUserByEmail), email)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindFoodBenefactorByEmail", reflect.TypeOf((*MockUserRepository)(nil).FindFoodBenefactorByEmail), email)
 }
 
 // FindUserByFullName mocks base method.
-func (m *MockUserRepository) FindUserByFullName(fullname string) (*models.FoodBeneficiary, error) {
+func (m *MockUserRepository) FindFoodBenefactorByFullName(fullname string) (*models.FoodBeneficiary, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindUserByFullName", fullname)
+	ret := m.ctrl.Call(m, "FindFoodBenefactorByFullName", fullname)
 	ret0, _ := ret[0].(*models.FoodBeneficiary)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
@@ -136,13 +136,13 @@ func (m *MockUserRepository) FindUserByFullName(fullname string) (*models.FoodBe
 // FindUserByFullName indicates an expected call of FindUserByFullName.
 func (mr *MockUserRepositoryMockRecorder) FindUserByFullName(fullname interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserByFullName", reflect.TypeOf((*MockUserRepository)(nil).FindUserByFullName), fullname)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindFoodBenefactorByFullName", reflect.TypeOf((*MockUserRepository)(nil).FindFoodBenefactorByFullName), fullname)
 }
 
 // FindUserByLocation mocks base method.
-func (m *MockUserRepository) FindUserByLocation(location string) (*models.FoodBeneficiary, error) {
+func (m *MockUserRepository) FindFoodBenefactorByLocation(location string) (*models.FoodBeneficiary, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindUserByLocation", location)
+	ret := m.ctrl.Call(m, "FindFoodBenefactorByLocation", location)
 	ret0, _ := ret[0].(*models.FoodBeneficiary)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
@@ -151,7 +151,7 @@ func (m *MockUserRepository) FindUserByLocation(location string) (*models.FoodBe
 // FindUserByLocation indicates an expected call of FindUserByLocation.
 func (mr *MockUserRepositoryMockRecorder) FindUserByLocation(location interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserByLocation", reflect.TypeOf((*MockUserRepository)(nil).FindUserByLocation), location)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindFoodBenefactorByLocation", reflect.TypeOf((*MockUserRepository)(nil).FindFoodBenefactorByLocation), location)
 }
 
 // GetByID mocks base method.

@@ -44,7 +44,7 @@ func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 		return
 	}
 
-	_, Emailerr := u.UserService.FindUserByEmail(user.Email)
+	_, Emailerr := u.UserService.FindFoodBenefactorByEmail(user.Email)
 	if Emailerr == nil {
 		helpers.JSON(c, "Email already exists", 400, nil, []string{"email exists"})
 		return
@@ -53,7 +53,7 @@ func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 		helpers.JSON(c, "Unable to hash password", 400, nil, []string{err.Error()})
 		return
 	}
-	_, err = u.UserService.CreateUser(user)
+	_, err = u.UserService.CreateFoodBenefactor(user)
 	if err != nil {
 		helpers.JSON(c, "Unable to create user", 400, nil, []string{"unable to create user"})
 		return
@@ -76,7 +76,7 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 		return
 	}
 
-	_, err = u.UserService.FindStaffByEmail(staff.Email)
+	_, err = u.UserService.FindKitchenStaffByEmail(staff.Email)
 	if err == nil {
 		helpers.JSON(c, "Email exist", 400, nil, []string{"email exists"})
 		return
@@ -86,7 +86,7 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 		helpers.JSON(c, "Unable to hash password", 400, nil, []string{err.Error()})
 		return
 	}
-	_, err = u.UserService.CreateStaff(staff)
+	_, err = u.UserService.CreateKitchenStaff(staff)
 	if err != nil {
 		helpers.JSON(c, "Unable to create user", 400, nil, []string{err.Error()})
 		return
