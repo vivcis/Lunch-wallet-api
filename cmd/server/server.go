@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/decadevs/lunch-api/internal/adapters/repository"
@@ -13,7 +12,6 @@ import (
 func Run() (*gorm.DB, error) {
 	err := helpers.Load()
 	if err != nil {
-		fmt.Println("1")
 		log.Fatal(err)
 		return nil, err
 	}

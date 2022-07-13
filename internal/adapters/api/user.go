@@ -39,11 +39,6 @@ func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 		return
 	}
 
-	if user.FullName == "" || user.Password == "" || user.Email == "" || user.Location == "" || user.Stack == "" {
-		helpers.JSON(c, "Enter all fields", 400, nil, []string{err.Error()})
-		return
-	}
-
 	validDecagonEmail := user.ValidateDecagonEmail()
 	if !validDecagonEmail {
 		helpers.JSON(c, "Enter valid decagon email", 400, nil, []string{err.Error()})
@@ -73,10 +68,6 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 	err := c.ShouldBindJSON(staff)
 	if err != nil {
 		helpers.JSON(c, "Unable to bind request", 400, nil, []string{err.Error()})
-		return
-	}
-	if staff.FullName == "" || staff.Password == "" || staff.Email == "" || staff.Location == "" {
-		helpers.JSON(c, "Enter all fields", 400, nil, []string{err.Error()})
 		return
 	}
 
