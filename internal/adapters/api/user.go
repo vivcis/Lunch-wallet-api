@@ -31,7 +31,6 @@ func (u HTTPHandler) GetByID(c *gin.Context) {
 }
 
 func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
-	//user := &models.FoodBeneficiary{}
 	var user *models.FoodBeneficiary
 	err := c.ShouldBindJSON(&user)
 	if err != nil {
