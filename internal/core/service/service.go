@@ -50,3 +50,11 @@ func (u *userService) CreateKitchenStaff(user *models.KitchenStaff) (*models.Kit
 func (u *userService) FindAdminByEmail(email string) (*models.Admin, error) {
 	return u.userRepository.FindAdminByEmail(email)
 }
+
+func (u *userService) TokenInBlacklist(token *string) bool {
+	return u.userRepository.TokenInBlacklist(token)
+}
+
+func (u *userService) AddTokenToBlacklist(email string, token string) error {
+	return u.userRepository.AddTokenToBlacklist(email, token)
+}

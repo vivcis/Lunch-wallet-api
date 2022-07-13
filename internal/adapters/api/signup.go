@@ -1,35 +1,12 @@
 package api
 
 import (
-	"errors"
-	"net/http"
-
 	"github.com/decadevs/lunch-api/internal/core/helpers"
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
-func (u HTTPHandler) GetByID(c *gin.Context) {
-	id := c.Param("id")
-	if err := c.ShouldBindUri(id); err != nil {
-		helpers.JSON(c, "", http.StatusBadRequest, nil, []string{err.Error()})
-		return
-	}
-
-	user, err := u.UserService.GetByID(id)
-	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			helpers.JSON(c, "User with the id does not exist", http.StatusNotFound, nil, []string{err.Error()})
-			return
-		}
-		helpers.JSON(c, "Error getting user", http.StatusInternalServerError, nil, []string{err.Error()})
-		return
-	}
-
-	helpers.JSON(c, "User found successfully", http.StatusOK, user, nil)
-}
-
+// FoodBeneficiarySignUp creates a new food benefactor
 func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 	var user *models.FoodBeneficiary
 	err := c.ShouldBindJSON(&user)
@@ -62,6 +39,7 @@ func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 
 }
 
+// KitchenStaffSignUp creates a new kitchen staff
 func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 	staff := &models.KitchenStaff{}
 	err := c.ShouldBindJSON(staff)

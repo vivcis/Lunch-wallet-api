@@ -14,4 +14,6 @@ type UserRepository interface {
 	FindKitchenStaffByLocation(location string) (*models.KitchenStaff, error)
 	CreateKitchenStaff(user *models.KitchenStaff) (*models.KitchenStaff, error)
 	FindAdminByEmail(email string) (*models.Admin, error)
+	TokenInBlacklist(token *string) bool
+	AddTokenToBlacklist(email string, token string) error
 }
