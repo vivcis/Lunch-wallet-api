@@ -22,7 +22,7 @@ func TestFoodBeneficiarySignUpEmailExists(t *testing.T) {
 		UserService: mockDb,
 	}
 
-	router := server.SetupRouter("8081", "http://localhost", r, mockDb)
+	router := server.SetupRouter(r, mockDb)
 
 	user := models.User{
 		FullName:     "Orji Cecilia",
@@ -59,7 +59,7 @@ func TestFoodBeneficiarySignUpBadRequest(t *testing.T) {
 	r := &api.HTTPHandler{
 		UserService: mockDb,
 	}
-	router := server.SetupRouter("8081", "http://localhost", r, mockDb)
+	router := server.SetupRouter(r, mockDb)
 	user := []models.User{
 		{
 			FullName:     "",

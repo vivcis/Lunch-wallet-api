@@ -134,7 +134,7 @@ func (u HTTPHandler) LoginAdminHandler(c *gin.Context) {
 		c.JSON(400, gin.H{"message": "bad request"})
 		return
 	}
-	
+
 	admin, sqlErr := u.UserService.FindAdminByEmail(adminLoginRequest.Email)
 
 	if sqlErr != nil {

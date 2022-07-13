@@ -24,7 +24,7 @@ func TestLoginKitchenStaffHandler(t *testing.T) {
 		UserService: mockDb,
 	}
 
-	router := server.SetupRouter("8081", "http://localhost", r, mockDb)
+	router := server.SetupRouter(r, mockDb)
 
 	t.Run("testing bad request", func(t *testing.T) {
 		KitchenStaffLoginRequest := &struct {
@@ -81,7 +81,7 @@ func TestLoginFoodBenefactorHandler(t *testing.T) {
 		UserService: mockDb,
 	}
 
-	router := server.SetupRouter("8081", "http://localhost", r, mockDb)
+	router := server.SetupRouter(r, mockDb)
 
 	t.Run("testing bad request", func(t *testing.T) {
 
@@ -139,7 +139,7 @@ func TestLoginAdminHandler(t *testing.T) {
 		UserService: mockDb,
 	}
 
-	router := server.SetupRouter("8081", "http://localhost", r, mockDb)
+	router := server.SetupRouter(r, mockDb)
 
 	t.Run("testing bad request", func(t *testing.T) {
 

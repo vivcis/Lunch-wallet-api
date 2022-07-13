@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func SetupRouter(appPort, address string, handler *api.HTTPHandler, userService ports.UserService) *gin.Engine {
+func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.Engine {
 	router := gin.Default()
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},

@@ -14,7 +14,7 @@ func Injection(db *gorm.DB) {
 	userService := service.NewUserService(userRepository)
 
 	Handler := api.NewHTTPHandler(userService)
-	router := SetupRouter(helpers.Instance.ServiceAddress, helpers.Instance.Port, Handler, userService)
+	router := SetupRouter(Handler, userService)
 
 	_ = router.Run(":" + helpers.Instance.Port)
 }
