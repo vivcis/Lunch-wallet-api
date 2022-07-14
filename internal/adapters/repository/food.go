@@ -6,6 +6,5 @@ import (
 
 // CreateFoodTimetable creates food in timetable
 func (p *Postgres) CreateFoodTimetable(food models.Food) error {
-	return p.DB.Create(food).Error
-
+	return p.DB.Create(&food).Error
 }

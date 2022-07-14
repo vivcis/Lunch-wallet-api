@@ -21,11 +21,19 @@ func (u HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 		Month int    `json:"month" binding:"required"`
 		Year  int    `json:"year" binding:"required"`
 	}{}
-	//today,_,_:=time.Now().Date()
-	food.CreatedAt = time.Now()
-	food.Date = time.Now().AddDate(foodTimetable.Year, foodTimetable.Month, foodTimetable.Date)
-	food.AdminName = admin.FullName
 
+	err = c.ShouldBindJSON(&foodTimetable)
+	if err != nil {
+		c.JSON(400, gin.H{"message": "bad request"})
+		return
+	}
+
+	food.CreatedAt = time.Now()
+	var location time.Location
+	food.Date = time.Date(foodTimetable.Year, time.Month(foodTimetable.Month), foodTimetable.Date, 0, 0, 0, 0, &location)
+	food.AdminName = admin.FullName
+	food.Name = foodTimetable.Name
+	food.Type = foodTimetable.Type
 	err = u.UserService.CreateFoodTimetable(food)
 	if err != nil {
 		c.JSON(400, gin.H{"message": "bad request"})
