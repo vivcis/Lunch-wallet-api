@@ -20,4 +20,5 @@ type UserService interface {
 	CreateFoodTimetable(food models.Food) error
 	CreateAdmin(user *models.Admin) (*models.Admin, error)
 	FindBrunchByDate(year int, month time.Month, day int) (*models.Food, error)
+	FindDinnerByDate(year int, month time.Month, day int) (*models.Food, error)
 }

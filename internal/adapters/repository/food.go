@@ -21,3 +21,14 @@ func (p *Postgres) FindBrunchByDate(year int, month time.Month, day int) (*model
 	}
 	return food, nil
 }
+
+// FindDinnerByDate finds dinner by date
+func (p *Postgres) FindDinnerByDate(year int, month time.Month, day int) (*models.Food, error) {
+	var err error
+	var food *models.Food
+	if err = p.DB.Where("year = ?", year).Where("month = ?", month).Where("day = ?", day).
+		Where("type = ?", "dinner").First(&food).Error; err != nil {
+		return nil, errors.New(" food not found")
+	}
+	return food, nil
+}

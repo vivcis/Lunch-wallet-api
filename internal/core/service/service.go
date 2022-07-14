@@ -71,3 +71,7 @@ func (u *userService) CreateAdmin(user *models.Admin) (*models.Admin, error) {
 func (u *userService) FindBrunchByDate(year int, month time.Month, day int) (*models.Food, error) {
 	return u.userRepository.FindBrunchByDate(year, month, day)
 }
+
+func (u *userService) FindDinnerByDate(year int, month time.Month, day int) (*models.Food, error) {
+	return u.userRepository.FindDinnerByDate(year, month, day)
+}

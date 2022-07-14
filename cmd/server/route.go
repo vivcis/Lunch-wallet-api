@@ -47,6 +47,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 	authorizeBenefactor.Use(middleware.AuthorizeFoodBenefactor(userService.FindFoodBenefactorByEmail, userService.TokenInBlacklist))
 	{
 		authorizeBenefactor.GET("/brunch", handler.GetBrunchHandle)
+		authorizeBenefactor.GET("/dinner", handler.GetDinnerHandle)
 	}
 
 	// authorizeAdmin authorizes all authorized admin handler
