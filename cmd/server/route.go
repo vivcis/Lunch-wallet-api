@@ -29,6 +29,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 	{
 		r.POST("/user/beneficiarysignup", handler.FoodBeneficiarySignUp)
 		r.POST("/user/kitchenstaffsignup", handler.KitchenStaffSignUp)
+		r.POST("/user/adminsignup", handler.AdminSignUp)
 		r.POST("/user/kitchenstafflogin", handler.LoginKitchenStaffHandler)
 		r.POST("/user/benefactorlogin", handler.LoginFoodBenefactorHandler)
 		r.POST("/user/adminlogin", handler.LoginAdminHandler)
