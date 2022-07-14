@@ -4,9 +4,18 @@ import (
 	"fmt"
 	"github.com/decadevs/lunch-api/internal/core/helpers"
 	"github.com/decadevs/lunch-api/internal/core/models"
+	"github.com/decadevs/lunch-api/internal/ports"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
+
+type Postgres struct {
+	DB *gorm.DB
+}
+
+func NewUser(DB *gorm.DB) ports.UserRepository {
+	return &Postgres{DB}
+}
 
 func ConnectDb(config *helpers.Config) (*gorm.DB, error) {
 	dsn := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v sslmode=%v TimeZone=%v", config.DBHost, config.DBUser, config.DBPass, config.DBName, config.DBPort, config.DBMode, config.DBTimeZone)

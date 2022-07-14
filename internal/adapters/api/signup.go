@@ -1,35 +1,12 @@
 package api
 
 import (
-	"errors"
-	"net/http"
-
 	"github.com/decadevs/lunch-api/internal/core/helpers"
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
-func (u HTTPHandler) GetByID(c *gin.Context) {
-	id := c.Param("id")
-	if err := c.ShouldBindUri(id); err != nil {
-		helpers.JSON(c, "", http.StatusBadRequest, nil, []string{err.Error()})
-		return
-	}
-
-	user, err := u.UserService.GetByID(id)
-	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			helpers.JSON(c, "User with the id does not exist", http.StatusNotFound, nil, []string{err.Error()})
-			return
-		}
-		helpers.JSON(c, "Error getting user", http.StatusInternalServerError, nil, []string{err.Error()})
-		return
-	}
-
-	helpers.JSON(c, "User found successfully", http.StatusOK, user, nil)
-}
-
+// FoodBeneficiarySignUp creates a new food benefactor
 func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 	var user *models.FoodBeneficiary
 	err := c.ShouldBindJSON(&user)
@@ -44,7 +21,7 @@ func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 		return
 	}
 
-	_, Emailerr := u.UserService.FindUserByEmail(user.Email)
+	_, Emailerr := u.UserService.FindFoodBenefactorByEmail(user.Email)
 	if Emailerr == nil {
 		helpers.JSON(c, "Email already exists", 400, nil, []string{"email exists"})
 		return
@@ -53,7 +30,7 @@ func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 		helpers.JSON(c, "Unable to hash password", 400, nil, []string{err.Error()})
 		return
 	}
-	_, err = u.UserService.CreateUser(user)
+	_, err = u.UserService.CreateFoodBenefactor(user)
 	if err != nil {
 		helpers.JSON(c, "Unable to create user", 400, nil, []string{"unable to create user"})
 		return
@@ -62,6 +39,7 @@ func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 
 }
 
+// KitchenStaffSignUp creates a new kitchen staff
 func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 	staff := &models.KitchenStaff{}
 	err := c.ShouldBindJSON(staff)
@@ -76,7 +54,7 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 		return
 	}
 
-	_, err = u.UserService.FindStaffByEmail(staff.Email)
+	_, err = u.UserService.FindKitchenStaffByEmail(staff.Email)
 	if err == nil {
 		helpers.JSON(c, "Email exist", 400, nil, []string{"email exists"})
 		return
@@ -86,7 +64,7 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 		helpers.JSON(c, "Unable to hash password", 400, nil, []string{err.Error()})
 		return
 	}
-	_, err = u.UserService.CreateStaff(staff)
+	_, err = u.UserService.CreateKitchenStaff(staff)
 	if err != nil {
 		helpers.JSON(c, "Unable to create user", 400, nil, []string{err.Error()})
 		return

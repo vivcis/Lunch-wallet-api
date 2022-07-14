@@ -1,6 +1,0 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory `/Users/decagon/Desktop/lunch-api'
-gofmt -w .
-go run ./cmd/main.go
-make: Leaving directory `/Users/decagon/Desktop/lunch-api'
- 
