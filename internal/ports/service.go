@@ -1,6 +1,9 @@
 package ports
 
-import "github.com/decadevs/lunch-api/internal/core/models"
+import (
+	"github.com/decadevs/lunch-api/internal/core/models"
+	"time"
+)
 
 type UserService interface {
 	FindFoodBenefactorByFullName(fullname string) (*models.FoodBeneficiary, error)
@@ -16,4 +19,5 @@ type UserService interface {
 	AddTokenToBlacklist(email string, token string) error
 	CreateFoodTimetable(food models.Food) error
 	CreateAdmin(user *models.Admin) (*models.Admin, error)
+	FindBrunchByDate(year int, month time.Month, day int) (*models.Food, error)
 }
