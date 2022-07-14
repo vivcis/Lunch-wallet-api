@@ -14,4 +14,6 @@ type UserService interface {
 	FindAdminByEmail(email string) (*models.Admin, error)
 	TokenInBlacklist(token *string) bool
 	AddTokenToBlacklist(email string, token string) error
+	CreateFoodTimetable(food models.Food) error
+	CreateAdmin(user *models.Admin) (*models.Admin, error)
 }

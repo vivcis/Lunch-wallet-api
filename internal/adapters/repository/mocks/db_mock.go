@@ -63,6 +63,20 @@ func (mr *MockUserRepositoryMockRecorder) CreateFoodBenefactor(user interface{})
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFoodBenefactor", reflect.TypeOf((*MockUserRepository)(nil).CreateFoodBenefactor), user)
 }
 
+// CreateFoodTimetable mocks base method.
+func (m *MockUserRepository) CreateFoodTimetable(food models.Food) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateFoodTimetable", food)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateFoodTimetable indicates an expected call of CreateFoodTimetable.
+func (mr *MockUserRepositoryMockRecorder) CreateFoodTimetable(food interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFoodTimetable", reflect.TypeOf((*MockUserRepository)(nil).CreateFoodTimetable), food)
+}
+
 // CreateKitchenStaff mocks base method.
 func (m *MockUserRepository) CreateKitchenStaff(user *models.KitchenStaff) (*models.KitchenStaff, error) {
 	m.ctrl.T.Helper()

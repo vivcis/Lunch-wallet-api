@@ -58,3 +58,11 @@ func (u *userService) TokenInBlacklist(token *string) bool {
 func (u *userService) AddTokenToBlacklist(email string, token string) error {
 	return u.userRepository.AddTokenToBlacklist(email, token)
 }
+
+func (u *userService) CreateFoodTimetable(food models.Food) error {
+	return u.userRepository.CreateFoodTimetable(food)
+}
+
+func (u *userService) CreateAdmin(user *models.Admin) (*models.Admin, error) {
+	return u.userRepository.CreateAdmin(user)
+}
