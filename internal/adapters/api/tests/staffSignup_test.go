@@ -22,7 +22,7 @@ func TestStaffSignUpEmailExists(t *testing.T) {
 		UserService: mockDb,
 	}
 
-	router := server.SetupRouter("8081", "http://localhost", r)
+	router := server.SetupRouter(r, mockDb)
 
 	user := models.User{
 		FullName:     "Orji Cecilia",
@@ -39,7 +39,7 @@ func TestStaffSignUpEmailExists(t *testing.T) {
 	if err != nil {
 		t.Fail()
 	}
-	mockDb.EXPECT().FindStaffByEmail(staff.Email).Return(&staff, nil)
+	mockDb.EXPECT().FindKitchenStaffByEmail(staff.Email).Return(&staff, nil)
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/api/v1/user/kitchenstaffsignup", strings.NewReader(string(newUser)))
@@ -58,7 +58,7 @@ func TestStaffSignUpBadRequest(t *testing.T) {
 	r := &api.HTTPHandler{
 		UserService: mockDb,
 	}
-	router := server.SetupRouter("8081", "http://localhost", r)
+	router := server.SetupRouter(r, mockDb)
 	user := []models.User{
 		{
 			FullName:     "",
@@ -103,7 +103,7 @@ func TestStaffSignUpBadRequest(t *testing.T) {
 	})
 
 	t.Run("Correct details", func(t *testing.T) {
-		mockDb.EXPECT().FindStaffByEmail(kitchenStaff.Email).Return(&kitchenStaff, nil)
+		mockDb.EXPECT().FindKitchenStaffByEmail(kitchenStaff.Email).Return(&kitchenStaff, nil)
 		w := httptest.NewRecorder()
 		req, _ := http.NewRequest("POST", "/api/v1/user/kitchenstaffsignup", strings.NewReader(string(newUse)))
 		router.ServeHTTP(w, req)
