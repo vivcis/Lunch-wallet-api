@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
 	"os"
@@ -55,6 +56,8 @@ func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
 	user, userErr := u.UserService.FindUserById(id)
 	if userErr != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "user not found"})
+		return
 	}
+	newPasswordHash, passErr := bcrypt.GenerateFromPassword([]byte(reset.NewPassword), 14)
 
 }
