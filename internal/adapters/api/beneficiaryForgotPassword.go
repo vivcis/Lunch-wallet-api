@@ -14,5 +14,5 @@ func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "please fill all fields"})
 		return
 	}
-
+	beneficiary, berr := u.UserService.FindFoodBenefactorByEmail(forgotPassword.Email)
 }
