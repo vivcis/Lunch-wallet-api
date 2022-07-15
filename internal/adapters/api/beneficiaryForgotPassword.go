@@ -43,6 +43,10 @@ func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
 	var reset models.ResetPassword
 	err := c.ShouldBindJSON(&reset)
 	if err != nil {
-
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "unable to bind json"})
+		return
+	}
+	if reset.NewPassword != reset.ConfirmNewPassword {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": ""})
 	}
 }
