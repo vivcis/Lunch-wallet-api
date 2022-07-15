@@ -79,36 +79,3 @@ func (s *Mail) SendMail(subject, body, recipient, Private, Domain string) error 
 
 	return err
 }
-
-//func (s *Mail) GenerateNonAuthToken(UserEmail string, secret string) (*string, error) {
-//
-//	// Define expiration time
-//	expirationTime := time.Now().Add(60 * time.Minute)
-//	// define the payload with the expiration time
-//	claims := &Claims{
-//		UserEmail: UserEmail,
-//		StandardClaims: jwt.StandardClaims{
-//			ExpiresAt: expirationTime.Unix(),
-//		},
-//	}
-//	// generate token
-//	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-//	// sign token with secret key
-//	tokenString, err := token.SignedString([]byte(secret))
-//	log.Println(tokenString)
-//	return &tokenString, err
-//
-//}
-//func (s *Mail) DecodeToken(token, secret string) (string, error) {
-//	claims := &Claims{}
-//	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
-//		return []byte(secret), nil
-//
-//	})
-//	if err != nil {
-//		log.Println(err)
-//		return "", err
-//	}
-//
-//	return claims.UserEmail, err
-//}

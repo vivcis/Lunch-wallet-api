@@ -12,7 +12,7 @@ func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 	err := c.ShouldBindJSON(&forgotPassword)
 	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "please fill all fields"})
-
 		return
 	}
+
 }
