@@ -21,17 +21,20 @@ func (u HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 		Password string `json:"password" binding:"required"`
 	}{}
 
+	fmt.Println("here", kitchenStaff)
 	err := c.ShouldBindJSON(KitchenStaffLoginRequest)
 	if err != nil {
 		c.JSON(400, gin.H{"message": "bad request"})
 		return
 	}
 
+	fmt.Println("Here 2", kitchenStaff)
 	kitchenStaff, sqlErr := u.UserService.FindKitchenStaffByEmail(KitchenStaffLoginRequest.Email)
 
 	if sqlErr != nil {
 		fmt.Println(sqlErr)
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "internal server error"})
+		return
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(kitchenStaff.PasswordHash), []byte(KitchenStaffLoginRequest.Password)); err != nil {
@@ -85,7 +88,8 @@ func (u HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
 
 	if sqlErr != nil {
 		fmt.Println(sqlErr)
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "user not found, sign up"})
+		return
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(benefactor.PasswordHash), []byte(benefactorLoginRequest.Password)); err != nil {
