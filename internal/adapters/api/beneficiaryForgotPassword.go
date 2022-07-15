@@ -15,4 +15,7 @@ func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 		return
 	}
 	beneficiary, berr := u.UserService.FindFoodBenefactorByEmail(forgotPassword.Email)
+	if berr != nil {
+
+	}
 }
