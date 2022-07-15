@@ -59,5 +59,7 @@ func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
 		return
 	}
 	newPasswordHash, passErr := bcrypt.GenerateFromPassword([]byte(reset.NewPassword), 14)
+	if passErr != nil {
 
+	}
 }
