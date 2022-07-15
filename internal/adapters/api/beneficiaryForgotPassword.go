@@ -60,6 +60,7 @@ func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
 	}
 	newPasswordHash, passErr := bcrypt.GenerateFromPassword([]byte(reset.NewPassword), 14)
 	if passErr != nil {
-
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		return
 	}
 }
