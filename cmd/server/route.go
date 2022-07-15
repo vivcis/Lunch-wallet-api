@@ -33,7 +33,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 		r.POST("/user/benefactorlogin", handler.LoginFoodBenefactorHandler)
 		r.POST("/user/adminlogin", handler.LoginAdminHandler)
 		r.POST("/user/beneficiaryforgotpassword", handler.FoodBeneficiaryForgotPassword)
-		r.PATCH("/user/beneficiaryresetpassword", handler.FoodBeneficiaryResetPassword)
+		r.PATCH("/user/beneficiaryresetpassword/:id", handler.FoodBeneficiaryResetPassword)
 	}
 
 	// authorizeKitchenStaff authorizes all authorized kitchen staff handler

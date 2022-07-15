@@ -50,4 +50,6 @@ func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "password mismatch"})
 		return
 	}
+	id := c.Param("id")
+
 }
