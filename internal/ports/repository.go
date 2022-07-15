@@ -16,6 +16,7 @@ type UserRepository interface {
 	FindAdminByEmail(email string) (*models.Admin, error)
 	TokenInBlacklist(token *string) bool
 	AddTokenToBlacklist(email string, token string) error
+	FindUserById(id string) (*models.FoodBeneficiary, error)
 }
 
 // MailerRepository interface to implement mailing service

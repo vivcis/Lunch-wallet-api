@@ -52,4 +52,9 @@ func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
 	}
 	id := c.Param("id")
 
+	user, userErr := u.UserService.FindUserById(id)
+	if userErr != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "user not found"})
+	}
+
 }

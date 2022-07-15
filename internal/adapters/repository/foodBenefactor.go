@@ -39,6 +39,15 @@ func (p *Postgres) FindFoodBenefactorByLocation(location string) (*models.FoodBe
 	return user, nil
 }
 
+// FindUserById finds a benefactor by location
+func (p *Postgres) FindUserById(id string) (*models.FoodBeneficiary, error) {
+	user := &models.FoodBeneficiary{}
+	if err := p.DB.Where("id =?", id).First(user).Error; err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
 // CreateFoodBenefactor creates a benefactor in the database
 func (p *Postgres) CreateFoodBenefactor(user *models.FoodBeneficiary) (*models.FoodBeneficiary, error) {
 	var err error

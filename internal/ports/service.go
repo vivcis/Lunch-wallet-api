@@ -14,6 +14,7 @@ type UserService interface {
 	FindAdminByEmail(email string) (*models.Admin, error)
 	TokenInBlacklist(token *string) bool
 	AddTokenToBlacklist(email string, token string) error
+	FindUserById(id string) (*models.FoodBeneficiary, error)
 }
 
 // MailerService interface to implement mailing service
