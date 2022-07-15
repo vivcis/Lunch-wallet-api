@@ -33,8 +33,13 @@ type Admin struct {
 	User
 }
 
-type ResetPasswordRequest struct {
+type ForgotPassword struct {
 	Email string `json:"email"`
+}
+
+type ResetPassword struct {
+	NewPassword        string `json:"new_password"`
+	ConfirmNewPassword string `json:"confirm_new_password"`
 }
 
 func (user *User) ValidMailAddress() bool {

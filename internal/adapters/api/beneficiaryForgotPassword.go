@@ -9,7 +9,7 @@ import (
 )
 
 func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
-	var forgotPassword models.ResetPasswordRequest
+	var forgotPassword models.ForgotPassword
 
 	err := c.ShouldBindJSON(&forgotPassword)
 	if err != nil {
@@ -43,4 +43,6 @@ func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 	}
 }
 
-func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {}
+func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
+
+}
