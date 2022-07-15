@@ -30,18 +30,19 @@ func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 	yourDomain := os.Getenv("DOMAIN_STRING")
 
 	sendErr := u.MailerService.SendMail("forgot password", html, beneficiary.Email, privateAPIKey, yourDomain)
-
-	//if email was sent return 200 status code
-	if sendErr == nil {
-		c.JSON(http.StatusOK, gin.H{"message": "please check your email for password reset link"})
-		return
-	} else {
+	if sendErr != nil {
 		log.Println(sendErr)
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "something went wrong while trying to send you a mail, please try again"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error, please try again"})
 		return
 	}
+
+	c.IndentedJSON(http.StatusOK, gin.H{"message": "please check your email for password reset link"})
 }
 
 func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
+	var reset models.ResetPassword
+	err := c.ShouldBindJSON(&reset)
+	if err != nil {
 
+	}
 }
