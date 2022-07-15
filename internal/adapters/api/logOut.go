@@ -8,27 +8,24 @@ import (
 
 	"github.com/decadevs/lunch-api/internal/core/helpers"
 	"github.com/decadevs/lunch-api/internal/core/middleware"
-	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
 func (u HTTPHandler) FoodBeneficiaryLogout(c *gin.Context) {
-	//create token blacklist struct
-	tokenI, exists := c.Get("access_token")
-	if !exists {
-		helpers.JSON(c, "error getting access token", http.StatusBadRequest, nil, []string{"error getting access token"})
+	tokenstr, err := u.GetTokenFromContext(c)
+	if err != nil {
+		helpers.JSON(c, "error getting access token", http.StatusBadRequest, nil, []string{"bad request"})
+		return
 	}
 
-	foodBeneficiary, exists := c.Get("user")
-	if !exists {
-		helpers.JSON(c, "error getting user from context",
-			http.StatusBadRequest, nil, []string{"error getting user from context"})
+	foodBeneficiary, err := u.GetBenefactorFromContext(c)
+	if err != nil {
+		helpers.JSON(c, "error getting access token", http.StatusBadRequest, nil, []string{"bad request"})
+		return
 	}
-	beneficiary := foodBeneficiary.(*models.FoodBeneficiary)
-	tokenStr := tokenI.(string)
 
-	token, err := jwt.ParseWithClaims(tokenStr, &middleware.Claims{}, func(t *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(tokenstr, &middleware.Claims{}, func(t *jwt.Token) (interface{}, error) {
 
 		if t.Method.Alg() != jwt.SigningMethodHS256.Alg() {
 			return nil, fmt.Errorf("invalid signing algorithm")
@@ -36,17 +33,17 @@ func (u HTTPHandler) FoodBeneficiaryLogout(c *gin.Context) {
 		return os.Getenv("JWT_SECRET"), nil
 	})
 	if claims, ok := token.Claims.(*middleware.Claims); !ok && !token.Valid {
-		helpers.JSON(c, "error inserting claims",
-			http.StatusBadRequest, nil, []string{"Claims not valid type"})
+		helpers.JSON(c, "error inserting claims", http.StatusBadRequest, nil, []string{"bad request"})
+		return
 
 	} else {
 		claims.StandardClaims.ExpiresAt = time.Now().Add(-time.Hour).Unix()
 	}
 
-	err = u.UserService.AddTokenToBlacklist(beneficiary.Email, tokenStr)
+	err = u.UserService.AddTokenToBlacklist(foodBeneficiary.Email, tokenstr)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error inserting Token into database", "Error": err})
-
+		helpers.JSON(c, "error inserting token into database", http.StatusInternalServerError, nil, []string{"Claims not valid type"})
+		return
 	}
 
 	helpers.JSON(c, "signed out successfully", 200, nil, nil)
@@ -54,21 +51,18 @@ func (u HTTPHandler) FoodBeneficiaryLogout(c *gin.Context) {
 }
 
 func (u HTTPHandler) KitchenStaffLogout(c *gin.Context) {
-	//create token blacklist struct
-	tokenI, exists := c.Get("access_token")
-	if !exists {
-		helpers.JSON(c, "error getting access token", http.StatusBadRequest, nil, []string{"error getting access token"})
+	tokenstr, err := u.GetTokenFromContext(c)
+	if err != nil {
+		helpers.JSON(c, "error getting access token", http.StatusBadRequest, nil, []string{"bad request"})
+		return
 	}
 
-	kitchenStaff, exists := c.Get("user")
-	if !exists {
-		helpers.JSON(c, "error getting user from context",
-			http.StatusBadRequest, nil, []string{"error getting user from context"})
+	kitchenStaff, err := u.GetKitchenStaffFromContext(c)
+	if err != nil {
+		helpers.JSON(c, "error getting access token", http.StatusBadRequest, nil, []string{"bad request"})
+		return
 	}
-	staff := kitchenStaff.(*models.KitchenStaff)
-	tokenStr := tokenI.(string)
-
-	token, err := jwt.ParseWithClaims(tokenStr, &middleware.Claims{}, func(t *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(tokenstr, &middleware.Claims{}, func(t *jwt.Token) (interface{}, error) {
 
 		if t.Method.Alg() != jwt.SigningMethodHS256.Alg() {
 			return nil, fmt.Errorf("invalid signing algorithm")
@@ -76,17 +70,17 @@ func (u HTTPHandler) KitchenStaffLogout(c *gin.Context) {
 		return os.Getenv("JWT_SECRET"), nil
 	})
 	if claims, ok := token.Claims.(*middleware.Claims); !ok && !token.Valid {
-		helpers.JSON(c, "error inserting claims",
-			http.StatusBadRequest, nil, []string{"Claims not valid type"})
+		helpers.JSON(c, "error inserting claims", http.StatusBadRequest, nil, []string{"Claims not valid type"})
+		return
 
 	} else {
 		claims.StandardClaims.ExpiresAt = time.Now().Add(-time.Hour).Unix()
 	}
 
-	err = u.UserService.AddTokenToBlacklist(staff.Email, tokenStr)
+	err = u.UserService.AddTokenToBlacklist(kitchenStaff.Email, tokenstr)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error inserting Token into database", "Error": err})
-
+		helpers.JSON(c, "error inserting token into database", http.StatusInternalServerError, nil, []string{"Claims not valid type"})
+		return
 	}
 
 	helpers.JSON(c, "signed out successfully", 200, nil, nil)
