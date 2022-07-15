@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"github.com/decadevs/lunch-api/internal/core/helpers"
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/gin-gonic/gin"
@@ -43,20 +44,17 @@ func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 	staff := &models.KitchenStaff{}
 	err := c.ShouldBindJSON(staff)
+	fmt.Println("HERE", staff)
 	if err != nil {
 		helpers.JSON(c, "Unable to bind request", 400, nil, []string{"unable to bind request: validation error"})
 		return
 	}
 
-	validDecagonEmail := staff.ValidateDecagonEmail()
-	if !validDecagonEmail {
-		helpers.JSON(c, "Enter valid decagon email", 400, nil, []string{err.Error()})
-		return
-	}
-
-	_, err = u.UserService.FindKitchenStaffByEmail(staff.Email)
+	fmt.Println("HERE 2", staff)
+	_, err = u.UserService.FindKitchenStaffByFullName(staff.FullName)
+	fmt.Println("HERE 3", staff)
 	if err == nil {
-		helpers.JSON(c, "Email exist", 400, nil, []string{"email exists"})
+		helpers.JSON(c, "Fullname exist", 400, nil, []string{"fullname exists"})
 		return
 	}
 
