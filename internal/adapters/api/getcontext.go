@@ -41,3 +41,12 @@ func (u HTTPHandler) GetKitchenStaffFromContext(c *gin.Context) (*models.Kitchen
 	}
 	return user, nil
 }
+
+func (u HTTPHandler) GetTokenFromContext(c *gin.Context) (string, error) {
+	tokenI, exists := c.Get("access_token")
+	if !exists {
+		return "", fmt.Errorf("error getting access token")
+	}
+	tokenstr := tokenI.(string)
+	return tokenstr, nil
+}
