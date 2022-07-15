@@ -11,4 +11,5 @@ type Food struct {
 	Month     time.Month `json:"month"`
 	Day       int        `json:"day"`
 	Weekday   string     `json:"weekday"`
+	Status    string     `json:"status"`
 }

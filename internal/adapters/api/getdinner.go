@@ -1,15 +1,15 @@
 package api
 
 import (
+	"github.com/decadevs/lunch-api/internal/core/helpers"
 	"github.com/gin-gonic/gin"
-	"net/http"
 	"time"
 )
 
 func (u *HTTPHandler) GetDinnerHandle(c *gin.Context) {
 	_, err := u.GetBenefactorFromContext(c)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, []string{"internal server error"})
+		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
 		return
 	}
 
@@ -17,10 +17,10 @@ func (u *HTTPHandler) GetDinnerHandle(c *gin.Context) {
 
 	food, err := u.UserService.FindDinnerByDate(year, month, day)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, err)
+		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
 		return
 	}
 
-	c.JSON(http.StatusOK, food)
+	helpers.JSON(c, "Dinner found", 200, food, nil)
 
 }

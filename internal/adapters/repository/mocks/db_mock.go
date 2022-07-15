@@ -6,6 +6,7 @@ package mocks
 
 import (
 	reflect "reflect"
+	time "time"
 
 	models "github.com/decadevs/lunch-api/internal/core/models"
 	gomock "github.com/golang/mock/gomock"
@@ -46,6 +47,21 @@ func (m *MockUserRepository) AddTokenToBlacklist(email, token string) error {
 func (mr *MockUserRepositoryMockRecorder) AddTokenToBlacklist(email, token interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddTokenToBlacklist", reflect.TypeOf((*MockUserRepository)(nil).AddTokenToBlacklist), email, token)
+}
+
+// CreateAdmin mocks base method.
+func (m *MockUserRepository) CreateAdmin(user *models.Admin) (*models.Admin, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateAdmin", user)
+	ret0, _ := ret[0].(*models.Admin)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateAdmin indicates an expected call of CreateAdmin.
+func (mr *MockUserRepositoryMockRecorder) CreateAdmin(user interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateAdmin", reflect.TypeOf((*MockUserRepository)(nil).CreateAdmin), user)
 }
 
 // CreateFoodBenefactor mocks base method.
@@ -105,6 +121,36 @@ func (m *MockUserRepository) FindAdminByEmail(email string) (*models.Admin, erro
 func (mr *MockUserRepositoryMockRecorder) FindAdminByEmail(email interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAdminByEmail", reflect.TypeOf((*MockUserRepository)(nil).FindAdminByEmail), email)
+}
+
+// FindBrunchByDate mocks base method.
+func (m *MockUserRepository) FindBrunchByDate(year int, month time.Month, day int) (*models.Food, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindBrunchByDate", year, month, day)
+	ret0, _ := ret[0].(*models.Food)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindBrunchByDate indicates an expected call of FindBrunchByDate.
+func (mr *MockUserRepositoryMockRecorder) FindBrunchByDate(year, month, day interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindBrunchByDate", reflect.TypeOf((*MockUserRepository)(nil).FindBrunchByDate), year, month, day)
+}
+
+// FindDinnerByDate mocks base method.
+func (m *MockUserRepository) FindDinnerByDate(year int, month time.Month, day int) (*models.Food, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindDinnerByDate", year, month, day)
+	ret0, _ := ret[0].(*models.Food)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindDinnerByDate indicates an expected call of FindDinnerByDate.
+func (mr *MockUserRepositoryMockRecorder) FindDinnerByDate(year, month, day interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindDinnerByDate", reflect.TypeOf((*MockUserRepository)(nil).FindDinnerByDate), year, month, day)
 }
 
 // FindFoodBenefactorByEmail mocks base method.

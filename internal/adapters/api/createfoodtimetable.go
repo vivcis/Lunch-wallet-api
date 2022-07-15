@@ -1,9 +1,9 @@
 package api
 
 import (
+	"github.com/decadevs/lunch-api/internal/core/helpers"
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/gin-gonic/gin"
-	"net/http"
 	"strings"
 	"time"
 )
@@ -11,7 +11,7 @@ import (
 func (u HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 	admin, err := u.GetAdminFromContext(c)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, []string{"internal server error"})
+		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
 		return
 	}
 	var food models.Food
@@ -26,11 +26,11 @@ func (u HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 
 	err = c.ShouldBindJSON(&foodTimetable)
 	if err != nil {
-		c.JSON(400, gin.H{"message": "bad request"})
+		helpers.JSON(c, "bad request", 400, nil, []string{"bad request"})
 		return
 	}
 
-	foodType := strings.ToLower(foodTimetable.Type)
+	foodType := strings.ToUpper(foodTimetable.Type)
 	food.CreatedAt = time.Now()
 	food.Name = foodTimetable.Name
 	food.Type = foodType
@@ -39,10 +39,11 @@ func (u HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 	food.Month = time.Month(foodTimetable.Month)
 	food.Day = foodTimetable.Date
 	food.Weekday = foodTimetable.Weekday
+	food.Status = "Not serving"
 	err = u.UserService.CreateFoodTimetable(food)
 	if err != nil {
 		c.JSON(400, gin.H{"message": "bad request"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Successfully Created"})
+	helpers.JSON(c, "Successfully Created", 201, nil, nil)
 }
