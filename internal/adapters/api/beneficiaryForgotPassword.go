@@ -58,9 +58,10 @@ func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "user not found"})
 		return
 	}
-	newPasswordHash, passErr := bcrypt.GenerateFromPassword([]byte(reset.NewPassword), 14)
+	newPasswordHash, passErr := bcrypt.GenerateFromPassword([]byte(reset.NewPassword), bcrypt.DefaultCost)
 	if passErr != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
 		return
 	}
+	_, Rerr := u.UserService.UserResetPassword(id, string(newPasswordHash))
 }
