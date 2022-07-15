@@ -115,10 +115,6 @@ func AuthorizeAdmin(findAdminByEmail func(string) (*models.Admin, error), tokenI
 
 		if email, ok := accessClaims["user_email"].(string); ok {
 			if admin, errors = findAdminByEmail(email); errors != nil {
-				if inactiveErr, ok := err.(helpers.InActiveUserError); ok {
-					RespondAndAbort(c, "", http.StatusBadRequest, nil, []string{inactiveErr.Error()})
-					return
-				}
 				log.Printf("find user by email errors: %v\n", err)
 				RespondAndAbort(c, "", http.StatusNotFound, nil, []string{"user not found"})
 				return
