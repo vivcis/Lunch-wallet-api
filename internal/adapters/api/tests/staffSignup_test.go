@@ -2,16 +2,17 @@ package tests
 
 import (
 	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"strings"
+	"testing"
+
 	"github.com/decadevs/lunch-api/cmd/server"
 	"github.com/decadevs/lunch-api/internal/adapters/api"
 	"github.com/decadevs/lunch-api/internal/adapters/repository/mocks"
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"net/http"
-	"net/http/httptest"
-	"strings"
-	"testing"
 )
 
 func TestStaffSignUpEmailExists(t *testing.T) {
