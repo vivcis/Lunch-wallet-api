@@ -17,3 +17,10 @@ type UserRepository interface {
 	TokenInBlacklist(token *string) bool
 	AddTokenToBlacklist(email string, token string) error
 }
+
+// MailerRepository interface to implement mailing service
+type MailerRepository interface {
+	SendMail(subject, body, to, Private, Domain string) error
+	//GenerateNonAuthToken(UserEmail string, secret string) (*string, error)
+	//DecodeToken(token, secret string) (string, error)
+}

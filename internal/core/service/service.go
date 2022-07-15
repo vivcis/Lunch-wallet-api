@@ -9,10 +9,31 @@ type userService struct {
 	userRepository ports.UserRepository
 }
 
+type mailerService struct {
+	mailerRepository ports.MailerRepository
+}
+
 func NewUserService(userRepository ports.UserRepository) ports.UserService {
 	return &userService{
 		userRepository: userRepository,
 	}
+}
+func NewMailerService(mailerRepository ports.MailerRepository) ports.MailerService {
+	return &mailerService{
+		mailerRepository: mailerRepository,
+	}
+}
+
+func (m *mailerService) SendMail(subject, body, to, Private, Domain string) error {
+	return m.mailerRepository.SendMail(subject, body, to, Private, Domain)
+}
+
+func (m *mailerService) GenerateNonAuthToken(UserEmail string, secret string) (*string, error) {
+	return m.mailerRepository.GenerateNonAuthToken(UserEmail, secret)
+}
+
+func (m *mailerService) DecodeToken(token, secret string) (string, error) {
+	return m.mailerRepository.DecodeToken(token, secret)
 }
 
 func (u *userService) FindFoodBenefactorByFullName(fullname string) (*models.FoodBeneficiary, error) {
