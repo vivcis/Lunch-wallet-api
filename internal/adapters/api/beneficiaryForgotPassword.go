@@ -47,6 +47,6 @@ func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
 		return
 	}
 	if reset.NewPassword != reset.ConfirmNewPassword {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": ""})
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "password mismatch"})
 	}
 }
