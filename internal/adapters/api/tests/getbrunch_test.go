@@ -57,10 +57,9 @@ func TestGetBrunchHandle(t *testing.T) {
 	accessClaims, _ := middleware.GenerateClaims(benefactor.Email)
 	accToken, _ := middleware.GenerateToken(jwt.SigningMethodHS256, accessClaims, &secret)
 
-	mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false).Times(2)
-	mockDb.EXPECT().FindFoodBenefactorByEmail(benefactor.Email).Return(&benefactor, nil).Times(2)
 	t.Run("testing bad request", func(t *testing.T) {
-
+		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
+		mockDb.EXPECT().FindFoodBenefactorByEmail(benefactor.Email).Return(&benefactor, nil)
 		mockDb.EXPECT().FindBrunchByDate(year, month, day).Return(nil, errors.New("internal server error"))
 		rw := httptest.NewRecorder()
 		req, _ := http.NewRequest(http.MethodGet, "/api/v1/benefactor/brunch", strings.NewReader(string(bytes)))
@@ -71,7 +70,8 @@ func TestGetBrunchHandle(t *testing.T) {
 	})
 
 	t.Run("testing Successful request", func(t *testing.T) {
-
+		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
+		mockDb.EXPECT().FindFoodBenefactorByEmail(benefactor.Email).Return(&benefactor, nil)
 		mockDb.EXPECT().FindBrunchByDate(year, month, day).Return(food, nil)
 		rw := httptest.NewRecorder()
 		req, _ := http.NewRequest(http.MethodGet, "/api/v1/benefactor/brunch", strings.NewReader(string(bytes)))

@@ -41,9 +41,9 @@ func TestCreateFoodTimetableHandle(t *testing.T) {
 	accessClaims, _ := middleware.GenerateClaims(admin.Email)
 	accToken, _ := middleware.GenerateToken(jwt.SigningMethodHS256, accessClaims, &secret)
 
-	mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false).Times(2)
-	mockDb.EXPECT().FindAdminByEmail(admin.Email).Return(&admin, nil).Times(2)
 	t.Run("testing bad request", func(t *testing.T) {
+		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
+		mockDb.EXPECT().FindAdminByEmail(admin.Email).Return(&admin, nil)
 		foodTimetable := &struct {
 			Name    string `json:"name" binding:"required"`
 			Type    string `json:"type" binding:"required"`
@@ -65,6 +65,8 @@ func TestCreateFoodTimetableHandle(t *testing.T) {
 	})
 
 	t.Run("Successfully Created", func(t *testing.T) {
+		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
+		mockDb.EXPECT().FindAdminByEmail(admin.Email).Return(&admin, nil)
 		foodTimetable := &struct {
 			Name    string `json:"name" binding:"required"`
 			Type    string `json:"type" binding:"required"`
