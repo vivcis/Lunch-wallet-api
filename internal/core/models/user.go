@@ -33,6 +33,10 @@ type Admin struct {
 	User
 }
 
+type ResetPasswordRequest struct {
+	Email string `json:"email"`
+}
+
 func (user *User) ValidMailAddress() bool {
 	_, err := mail.ParseAddress(user.Email)
 	if err != nil {
