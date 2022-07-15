@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 	"os"
 )
@@ -27,9 +28,19 @@ func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 	//initialize email sent out
 	privateAPIKey := os.Getenv("MAILGUN_API_KEY")
 	yourDomain := os.Getenv("DOMAIN_STRING")
-	//err = h.Mail.SendMail("forgot Password", html, buyer.Email, privateAPIKey, yourDomain)
+
 	sendErr := u.MailerService.SendMail("forgot password", html, beneficiary.Email, privateAPIKey, yourDomain)
 
+	//if email was sent return 200 status code
+	if sendErr == nil {
+		c.JSON(200, gin.H{"message": "please check your email for password reset link"})
+		return
+	} else {
+		log.Println(sendErr)
+		c.JSON(500, gin.H{"message": "something went wrong while trying to send you a mail, please try again"})
+		c.Abort()
+		return
+	}
 }
 
 func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {}
