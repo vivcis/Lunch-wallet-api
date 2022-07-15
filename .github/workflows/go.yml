@@ -34,6 +34,6 @@ jobs:
         run: |
           go install github.com/golang/mock/mockgen
           touch .env
-          echo JWT_SECRET: ${{secrets.JWT_SECRET}} >> .env
+          echo JWT_SECRET: secret >> .env
           mockgen -source=internal/ports/repository.go -destination=internal/adapters/repository/mocks/db_mock.go -package=mocks
           go test -v ./...
