@@ -16,6 +16,6 @@ func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 	}
 	beneficiary, berr := u.UserService.FindFoodBenefactorByEmail(forgotPassword.Email)
 	if berr != nil {
-
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "user not found"})
 	}
 }
