@@ -33,7 +33,6 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 		r.POST("/user/kitchenstafflogin", handler.LoginKitchenStaffHandler)
 		r.POST("/user/benefactorlogin", handler.LoginFoodBenefactorHandler)
 		r.POST("/user/adminlogin", handler.LoginAdminHandler)
-		r.POST("user/createtimetable", handler.CreateFoodTimetableHandle)
 	}
 
 	// authorizeKitchenStaff authorizes all authorized kitchen staff handler
@@ -55,7 +54,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 	authorizeAdmin := r.Group("/admin")
 	authorizeAdmin.Use(middleware.AuthorizeAdmin(userService.FindAdminByEmail, userService.TokenInBlacklist))
 	{
-		//authorizeAdmin.POST("/createtimetable", handler.CreateFoodTimetableHandle)
+		authorizeAdmin.POST("/createtimetable", handler.CreateFoodTimetableHandle)
 	}
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
