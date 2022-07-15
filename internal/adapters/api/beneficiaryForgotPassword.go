@@ -33,12 +33,11 @@ func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 
 	//if email was sent return 200 status code
 	if sendErr == nil {
-		c.JSON(200, gin.H{"message": "please check your email for password reset link"})
+		c.JSON(http.StatusOK, gin.H{"message": "please check your email for password reset link"})
 		return
 	} else {
 		log.Println(sendErr)
-		c.JSON(500, gin.H{"message": "something went wrong while trying to send you a mail, please try again"})
-		c.Abort()
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "something went wrong while trying to send you a mail, please try again"})
 		return
 	}
 }
