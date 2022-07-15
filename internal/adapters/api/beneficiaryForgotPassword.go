@@ -64,4 +64,6 @@ func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
 		return
 	}
 	_, Rerr := u.UserService.UserResetPassword(id, string(newPasswordHash))
+
+	c.JSON(http.StatusOK, gin.H{"message": "password reset successful"})
 }
