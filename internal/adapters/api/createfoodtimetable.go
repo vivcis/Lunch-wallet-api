@@ -9,11 +9,11 @@ import (
 )
 
 func (u HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
-	admin, err := u.GetAdminFromContext(c)
-	if err != nil {
-		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
-		return
-	}
+	//admin, err := u.GetAdminFromContext(c)
+	//if err != nil {
+	//	helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
+	//	return
+	//}
 	var food models.Food
 	foodTimetable := &struct {
 		Name    string `json:"name" binding:"required"`
@@ -24,7 +24,7 @@ func (u HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 		Weekday string `json:"weekday" binding:"required"`
 	}{}
 
-	err = c.ShouldBindJSON(&foodTimetable)
+	err := c.ShouldBindJSON(&foodTimetable)
 	if err != nil {
 		helpers.JSON(c, "bad request", 400, nil, []string{"bad request"})
 		return
@@ -34,7 +34,8 @@ func (u HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 	food.CreatedAt = time.Now()
 	food.Name = foodTimetable.Name
 	food.Type = foodType
-	food.AdminName = admin.FullName
+	//food.AdminName = admin.FullName
+	food.AdminName = "Auba"
 	food.Year = foodTimetable.Year
 	food.Month = time.Month(foodTimetable.Month)
 	food.Day = foodTimetable.Date

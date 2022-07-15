@@ -2,18 +2,13 @@ package tests
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/decadevs/lunch-api/cmd/server"
 	"github.com/decadevs/lunch-api/internal/adapters/api"
 	"github.com/decadevs/lunch-api/internal/adapters/repository/mocks"
-	"github.com/decadevs/lunch-api/internal/core/middleware"
-	"github.com/decadevs/lunch-api/internal/core/models"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"strings"
 	"testing"
 )
@@ -27,23 +22,23 @@ func TestCreateFoodTimetableHandle(t *testing.T) {
 	}
 	router := server.SetupRouter(r, mockDb)
 
-	user := models.User{
-		FullName: "Joseph A",
-		Email:    "joseph@decagon.dev",
-		IsActive: true,
-	}
+	//user := models.User{
+	//	FullName: "Joseph A",
+	//	Email:    "joseph@decagon.dev",
+	//	IsActive: true,
+	//}
 
-	admin := models.Admin{
-		User: user,
-	}
+	//admin := models.Admin{
+	//	User: user,
+	//}
 
-	secret := os.Getenv("JWT_SECRET")
-	accessClaims, _ := middleware.GenerateClaims(admin.Email)
-	accToken, _ := middleware.GenerateToken(jwt.SigningMethodHS256, accessClaims, &secret)
+	//secret := os.Getenv("JWT_SECRET")
+	//accessClaims, _ := middleware.GenerateClaims(admin.Email)
+	//accToken, _ := middleware.GenerateToken(jwt.SigningMethodHS256, accessClaims, &secret)
 
 	t.Run("testing bad request", func(t *testing.T) {
-		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
-		mockDb.EXPECT().FindAdminByEmail(admin.Email).Return(&admin, nil)
+		//mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
+		//mockDb.EXPECT().FindAdminByEmail(admin.Email).Return(&admin, nil)
 		foodTimetable := &struct {
 			Name    string `json:"name" binding:"required"`
 			Type    string `json:"type" binding:"required"`
@@ -57,16 +52,17 @@ func TestCreateFoodTimetableHandle(t *testing.T) {
 		}
 		bytes, _ := json.Marshal(foodTimetable)
 		rw := httptest.NewRecorder()
-		req, _ := http.NewRequest(http.MethodPost, "/api/v1/admin/createtimetable", strings.NewReader(string(bytes)))
-		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))
+		//req, _ := http.NewRequest(http.MethodPost, "/api/v1/admin/createtimetable", strings.NewReader(string(bytes)))
+		req, _ := http.NewRequest(http.MethodPost, "/api/v1/user/createtimetable", strings.NewReader(string(bytes)))
+		//req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))
 		router.ServeHTTP(rw, req)
 		assert.Equal(t, http.StatusBadRequest, rw.Code)
 		assert.Contains(t, rw.Body.String(), "bad request")
 	})
 
 	t.Run("Successfully Created", func(t *testing.T) {
-		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
-		mockDb.EXPECT().FindAdminByEmail(admin.Email).Return(&admin, nil)
+		//mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
+		//mockDb.EXPECT().FindAdminByEmail(admin.Email).Return(&admin, nil)
 		foodTimetable := &struct {
 			Name    string `json:"name" binding:"required"`
 			Type    string `json:"type" binding:"required"`
@@ -87,8 +83,8 @@ func TestCreateFoodTimetableHandle(t *testing.T) {
 
 		mockDb.EXPECT().CreateFoodTimetable(gomock.Any()).Return(nil)
 		rw := httptest.NewRecorder()
-		req, _ := http.NewRequest(http.MethodPost, "/api/v1/admin/createtimetable", strings.NewReader(string(bytes)))
-		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))
+		req, _ := http.NewRequest(http.MethodPost, "/api/v1/user/createtimetable", strings.NewReader(string(bytes)))
+		//req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))
 		router.ServeHTTP(rw, req)
 		assert.Equal(t, http.StatusCreated, rw.Code)
 		assert.Contains(t, rw.Body.String(), "Successfully Created")
