@@ -15,6 +15,7 @@ type UserService interface {
 	TokenInBlacklist(token *string) bool
 	AddTokenToBlacklist(email string, token string) error
 	FindUserById(id string) (*models.FoodBeneficiary, error)
+	UserResetPassword(id, newPassword string) (*models.FoodBeneficiary, error)
 }
 
 // MailerService interface to implement mailing service

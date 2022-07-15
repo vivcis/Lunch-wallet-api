@@ -49,9 +49,9 @@ func (p *Postgres) FindUserById(id string) (*models.FoodBeneficiary, error) {
 }
 
 // UserResetPassword finds a benefactor by location
-func (p *Postgres) UserResetPassword(email, newPassword string) (*models.FoodBeneficiary, error) {
+func (p *Postgres) UserResetPassword(id, newPassword string) (*models.FoodBeneficiary, error) {
 	user := &models.FoodBeneficiary{}
-	if err := p.DB.Model(user).Where("email =?", email).Update("password_hash", newPassword).Error; err != nil {
+	if err := p.DB.Model(user).Where("id =?", id).Update("password_hash", newPassword).Error; err != nil {
 		return nil, err
 	}
 	return user, nil
