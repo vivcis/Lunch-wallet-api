@@ -14,7 +14,7 @@ import (
 	"testing"
 )
 
-func TestStaffSignUpFullnameExists(t *testing.T) {
+func TestStaffSignUpEmailExists(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	mockDb := mocks.NewMockUserRepository(ctrl)
 
@@ -26,6 +26,7 @@ func TestStaffSignUpFullnameExists(t *testing.T) {
 
 	user := models.User{
 		FullName:     "Orji Cecilia",
+		Email:        "cece@decagon.dev",
 		Password:     "password",
 		PasswordHash: "",
 		Location:     "ETP",
@@ -38,14 +39,14 @@ func TestStaffSignUpFullnameExists(t *testing.T) {
 	if err != nil {
 		t.Fail()
 	}
-	mockDb.EXPECT().FindKitchenStaffByFullName(staff.FullName).Return(&staff, nil)
+	mockDb.EXPECT().FindKitchenStaffByEmail(staff.Email).Return(&staff, nil)
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/api/v1/user/kitchenstaffsignup", strings.NewReader(string(newUser)))
 	router.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
-	assert.Contains(t, w.Body.String(), "fullname exists")
+	assert.Contains(t, w.Body.String(), "email exists")
 }
 
 func TestStaffSignUpBadRequest(t *testing.T) {
@@ -61,12 +62,14 @@ func TestStaffSignUpBadRequest(t *testing.T) {
 	user := []models.User{
 		{
 			FullName:     "",
+			Email:        "cece",
 			Password:     "password",
 			PasswordHash: "",
 			Location:     "ETP",
 		},
 		{
-			FullName:     "Dede Opara",
+			FullName:     "Dede",
+			Email:        "cece@decagon.dev",
 			Password:     "password",
 			PasswordHash: "",
 			Location:     "ETP",
@@ -100,14 +103,13 @@ func TestStaffSignUpBadRequest(t *testing.T) {
 	})
 
 	t.Run("Correct details", func(t *testing.T) {
-		//mockDb.EXPECT().FindKitchenStaffByFullName(kitchenStaff.FullName).Return(&kitchenStaff, nil)
-		mockDb.EXPECT().CreateKitchenStaff(kitchenStaff.FullName).Return(&kitchenStaff, nil)
+		mockDb.EXPECT().FindKitchenStaffByEmail(kitchenStaff.Email).Return(&kitchenStaff, nil)
 		w := httptest.NewRecorder()
 		req, _ := http.NewRequest("POST", "/api/v1/user/kitchenstaffsignup", strings.NewReader(string(newUse)))
 		router.ServeHTTP(w, req)
 
 		assert.Equal(t, http.StatusBadRequest, w.Code)
-		assert.Contains(t, w.Body.String(), "Signup Successful")
+		assert.Contains(t, w.Body.String(), "email exist")
 	})
 
 }
