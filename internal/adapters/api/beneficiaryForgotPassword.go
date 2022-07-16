@@ -20,9 +20,7 @@ func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 	}
 	beneficiary, berr := u.UserService.FindFoodBenefactorByEmail(forgotPassword.Email)
 	if berr != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "user not found"})
-
-		helpers.JSON(c, "user not found", 404, nil, []string{"message: user not found"})
+		helpers.JSON(c, "user not found", 404, nil, []string{"error: user not found"})
 		return
 	}
 	link := "http://localhost:8080/api/v1/user/beneficiaryresetpassword/" + beneficiary.ID
@@ -36,7 +34,7 @@ func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 	sendErr := u.MailerService.SendMail("forgot password", html, beneficiary.Email, privateAPIKey, yourDomain)
 	if sendErr != nil {
 		log.Println(sendErr)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error, please try again"})
+		helpers.JSON(c, "internal server error, please try again", 500, nil, []string{"error: internal server error, please try again"})
 		return
 	}
 
