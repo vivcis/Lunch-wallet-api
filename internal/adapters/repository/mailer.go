@@ -31,7 +31,7 @@ func (s *Mail) SendMail(subject, body, recipient, Private, Domain string) error 
 
 	mg := mailgun.NewMailgun(Domain, Private)
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*60)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	defer cancel()
 
 	// Create a new message with template
@@ -54,7 +54,7 @@ func (s *Mail) SendMail(subject, body, recipient, Private, Domain string) error 
 		return err
 	}
 
-	// Send the message with a 10 second timeout
+	// Send the message with a 10-second timeout
 	_, _, err = mg.Send(ctx, m)
 	if err != nil {
 		log.Println(err)
