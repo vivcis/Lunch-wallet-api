@@ -43,11 +43,11 @@ func (u *userService) UserResetPassword(id, newPassword string) (*models.FoodBen
 	return u.userRepository.UserResetPassword(id, newPassword)
 }
 
-func (u *userService) AdminResetPassword(id, newPassword string) (*models.FoodBeneficiary, error) {
+func (u *userService) AdminResetPassword(id, newPassword string) (*models.Admin, error) {
 	return u.userRepository.AdminResetPassword(id, newPassword)
 }
 
-func (u *userService) KitchenStaffResetPassword(id, newPassword string) (*models.FoodBeneficiary, error) {
+func (u *userService) KitchenStaffResetPassword(id, newPassword string) (*models.KitchenStaff, error) {
 	return u.userRepository.KitchenStaffResetPassword(id, newPassword)
 }
 
