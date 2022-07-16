@@ -63,7 +63,7 @@ func (u HTTPHandler) KitchenStaffResetPassword(c *gin.Context) {
 			[]string{"error: internal server error, please try again"})
 		return
 	}
-	_, Rerr := u.UserService.UserResetPassword(id, string(newPasswordHash))
+	_, Rerr := u.UserService.KitchenStaffResetPassword(id, string(newPasswordHash))
 	if Rerr != nil {
 		helpers.JSON(c, "internal server error, please try again", 500, nil,
 			[]string{"error: internal server error, please try again"})

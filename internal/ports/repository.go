@@ -18,6 +18,7 @@ type UserRepository interface {
 	AddTokenToBlacklist(email string, token string) error
 	FindUserById(id string) (*models.FoodBeneficiary, error)
 	UserResetPassword(id, newPassword string) (*models.FoodBeneficiary, error)
+	KitchenStaffResetPassword(id, newPassword string) (*models.KitchenStaff, error)
 }
 
 // MailerRepository interface to implement mailing service
