@@ -18,12 +18,12 @@ func (u HTTPHandler) KitchenStaffForgotPassword(c *gin.Context) {
 			[]string{"unable to bind request: validation error"})
 		return
 	}
-	kitchenStaff, berr := u.UserService.FindFoodBenefactorByEmail(forgotPassword.Email)
+	kitchenStaff, berr := u.UserService.FindKitchenStaffByEmail(forgotPassword.Email)
 	if berr != nil {
 		helpers.JSON(c, "user not found", 404, nil, []string{"error: user not found"})
 		return
 	}
-	link := "http://localhost:8080/api/v1/user/beneficiaryresetpassword/" + kitchenStaff.ID
+	link := "http://localhost:8080/api/v1/user/kitchenstaffresetpassword/" + kitchenStaff.ID
 	body := "Here is your reset <a href='" + link + "'>link</a>"
 	html := "<strong>" + body + "</strong>"
 
@@ -42,7 +42,7 @@ func (u HTTPHandler) KitchenStaffForgotPassword(c *gin.Context) {
 		[]string{"message: please check your email for password reset link"})
 }
 
-func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
+func (u HTTPHandler) KitchenStaffResetPassword(c *gin.Context) {
 	var reset models.ResetPassword
 	err := c.ShouldBindJSON(&reset)
 	if err != nil {
