@@ -15,7 +15,8 @@ func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 
 	err := c.ShouldBindJSON(&forgotPassword)
 	if err != nil {
-		helpers.JSON(c, "please fill all fields", 400, nil, []string{"unable to bind request: validation error"})
+		helpers.JSON(c, "please fill all fields", 400, nil,
+			[]string{"unable to bind request: validation error"})
 		return
 	}
 	beneficiary, berr := u.UserService.FindFoodBenefactorByEmail(forgotPassword.Email)
@@ -34,18 +35,20 @@ func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 	sendErr := u.MailerService.SendMail("forgot password", html, beneficiary.Email, privateAPIKey, yourDomain)
 	if sendErr != nil {
 		log.Println(sendErr)
-		helpers.JSON(c, "internal server error, please try again", 500, nil, []string{"error: internal server error, please try again"})
+		helpers.JSON(c, "internal server error, please try again", 500, nil,
+			[]string{"error: internal server error, please try again"})
 		return
 	}
-
-	c.IndentedJSON(http.StatusOK, gin.H{"message": "please check your email for password reset link"})
+	helpers.JSON(c, "message: please check your email for password reset link", 200, nil,
+		[]string{"message: please check your email for password reset link"})
 }
 
 func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
 	var reset models.ResetPassword
 	err := c.ShouldBindJSON(&reset)
 	if err != nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "unable to bind json"})
+		helpers.JSON(c, "unable to bind json", 400, nil,
+			[]string{"unable to bind request: validation error"})
 		return
 	}
 	if reset.NewPassword != reset.ConfirmNewPassword {
