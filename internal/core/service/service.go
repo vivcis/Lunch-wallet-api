@@ -43,6 +43,14 @@ func (u *userService) UserResetPassword(id, newPassword string) (*models.FoodBen
 	return u.userRepository.UserResetPassword(id, newPassword)
 }
 
+func (u *userService) AdminResetPassword(id, newPassword string) (*models.FoodBeneficiary, error) {
+	return u.userRepository.AdminResetPassword(id, newPassword)
+}
+
+func (u *userService) KitchenStaffResetPassword(id, newPassword string) (*models.FoodBeneficiary, error) {
+	return u.userRepository.KitchenStaffResetPassword(id, newPassword)
+}
+
 func (u *userService) FindFoodBenefactorByFullName(fullname string) (*models.FoodBeneficiary, error) {
 	return u.userRepository.FindFoodBenefactorByFullName(fullname)
 }
