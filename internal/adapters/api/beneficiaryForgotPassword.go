@@ -66,7 +66,9 @@ func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
 	}
 	_, Rerr := u.UserService.UserResetPassword(id, string(newPasswordHash))
 	if Rerr != nil {
-		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		helpers.JSON(c, "internal server error, please try again", 500, nil,
+			[]string{"error: internal server error, please try again"})
+		return
 	}
 
 	c.IndentedJSON(http.StatusOK, gin.H{"message": "password reset successful"})
