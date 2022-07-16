@@ -20,31 +20,16 @@ type Mail struct {
 	//Client *mailgun.MailgunImpl
 }
 
-//func (m Mail) SendgMail(subject, body, to, Private, Domain string) error {
-//	//TODO implement me
-//	panic("implement me")
-//}
-//
-//func (m Mail) GenerateNonAuthToken(UserEmail string, secret string) (*string, error) {
-//	//TODO implement me
-//	panic("implement me")
-//}
-//
-//func (m Mail) DecodeToken(token, secret string) (string, error) {
-//	//TODO implement me
-//	panic("implement me")
-//}
-
 func NewMail() ports.MailerRepository {
 	return &Mail{}
 }
 
 // SendMail  METHOD THAT  WILL BE USED TO SEND EMAILS TO USERS
 func (s *Mail) SendMail(subject, body, recipient, Private, Domain string) error {
-	privateAPIKey := Private
-	yourDomain := Domain
+	//privateAPIKey := Private
+	//yourDomain := Domain
 
-	mg := mailgun.NewMailgun(yourDomain, privateAPIKey)
+	mg := mailgun.NewMailgun(Domain, Private)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*60)
 	defer cancel()
