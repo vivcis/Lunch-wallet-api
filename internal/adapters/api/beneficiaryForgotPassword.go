@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 	"log"
-	"net/http"
 	"os"
 )
 
@@ -71,5 +70,6 @@ func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, gin.H{"message": "password reset successful"})
+	helpers.JSON(c, "message: password reset successful", 200, nil,
+		[]string{"message: password reset successful"})
 }
