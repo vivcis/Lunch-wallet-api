@@ -18,12 +18,12 @@ func (u HTTPHandler) AdminForgotPassword(c *gin.Context) {
 			[]string{"unable to bind request: validation error"})
 		return
 	}
-	kitchenStaff, berr := u.UserService.FindAdminByEmail(forgotPassword.Email)
+	admin, berr := u.UserService.FindAdminByEmail(forgotPassword.Email)
 	if berr != nil {
 		helpers.JSON(c, "user not found", 404, nil, []string{"error: user not found"})
 		return
 	}
-	link := "http://localhost:8080/api/v1/user/adminresetpassword/" + kitchenStaff.ID
+	link := "http://localhost:8080/api/v1/user/adminresetpassword/" + admin.ID
 	body := "Here is your reset <a href='" + link + "'>link</a>"
 	html := "<strong>" + body + "</strong>"
 
@@ -31,7 +31,7 @@ func (u HTTPHandler) AdminForgotPassword(c *gin.Context) {
 	privateAPIKey := os.Getenv("MAILGUN_API_KEY")
 	yourDomain := os.Getenv("DOMAIN_STRING")
 
-	sendErr := u.MailerService.SendMail("forgot password", html, kitchenStaff.Email, privateAPIKey, yourDomain)
+	sendErr := u.MailerService.SendMail("forgot password", html, admin.Email, privateAPIKey, yourDomain)
 	if sendErr != nil {
 		log.Println(sendErr)
 		helpers.JSON(c, "internal server error, please try again", 500, nil,
@@ -63,7 +63,7 @@ func (u HTTPHandler) AdminResetPassword(c *gin.Context) {
 			[]string{"error: internal server error, please try again"})
 		return
 	}
-	_, Rerr := u.UserService.KitchenStaffResetPassword(id, string(newPasswordHash))
+	_, Rerr := u.UserService.AdminResetPassword(id, string(newPasswordHash))
 	if Rerr != nil {
 		helpers.JSON(c, "internal server error, please try again", 500, nil,
 			[]string{"error: internal server error, please try again"})
