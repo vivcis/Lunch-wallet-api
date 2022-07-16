@@ -21,6 +21,4 @@ type UserService interface {
 // MailerService interface to implement mailing service
 type MailerService interface {
 	SendMail(subject, body, to, Private, Domain string) error
-	//GenerateNonAuthToken(UserEmail string, secret string) (*string, error)
-	//DecodeToken(token, secret string) (string, error)
 }

@@ -1,6 +1,7 @@
 package api
 
 import (
+	"github.com/decadevs/lunch-api/internal/core/helpers"
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
@@ -14,12 +15,14 @@ func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 
 	err := c.ShouldBindJSON(&forgotPassword)
 	if err != nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "please fill all fields"})
+		helpers.JSON(c, "please fill all fields", 400, nil, []string{"unable to bind request: validation error"})
 		return
 	}
 	beneficiary, berr := u.UserService.FindFoodBenefactorByEmail(forgotPassword.Email)
 	if berr != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "user not found"})
+
+		helpers.JSON(c, "user not found", 404, nil, []string{"message: user not found"})
 		return
 	}
 	link := "http://localhost:8080/api/v1/user/beneficiaryresetpassword/" + beneficiary.ID
@@ -53,11 +56,11 @@ func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
 	}
 	id := c.Param("id")
 
-	user, userErr := u.UserService.FindUserById(id)
-	if userErr != nil {
-		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "user not found"})
-		return
-	}
+	//user, userErr := u.UserService.FindUserById(id)
+	//if userErr != nil {
+	//	c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "user not found"})
+	//	return
+	//}
 	newPasswordHash, passErr := bcrypt.GenerateFromPassword([]byte(reset.NewPassword), bcrypt.DefaultCost)
 	if passErr != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
