@@ -19,6 +19,7 @@ type UserRepository interface {
 	FindUserById(id string) (*models.FoodBeneficiary, error)
 	UserResetPassword(id, newPassword string) (*models.FoodBeneficiary, error)
 	KitchenStaffResetPassword(id, newPassword string) (*models.KitchenStaff, error)
+	AdminResetPassword(id, newPassword string) (*models.Admin, error)
 }
 
 // MailerRepository interface to implement mailing service
