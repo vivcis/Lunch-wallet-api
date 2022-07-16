@@ -3,22 +3,21 @@ package repository
 import (
 	"context"
 	"github.com/decadevs/lunch-api/internal/ports"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/mailgun/mailgun-go/v4"
 	"log"
 	"time"
 )
 
-type Claims struct {
-	UserEmail string `json:"email"`
-	jwt.StandardClaims
-}
+//type Claims struct {
+//	UserEmail string `json:"email"`
+//	jwt.StandardClaims
+//}
 
 //
 //type Service struct{}
 
 type Mail struct {
-	Client *mailgun.MailgunImpl
+	//Client *mailgun.MailgunImpl
 }
 
 //func (m Mail) SendgMail(subject, body, to, Private, Domain string) error {
@@ -47,11 +46,11 @@ func (s *Mail) SendMail(subject, body, recipient, Private, Domain string) error 
 
 	mg := mailgun.NewMailgun(yourDomain, privateAPIKey)
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*60)
 	defer cancel()
 
 	// Create a new message with template
-	m := mg.NewMessage("Oja Ecommerce <Oja@Decadev.gon>", subject, "")
+	m := mg.NewMessage("Lunch Wallet <Lunch@Decadev.com>", subject, "")
 	m.SetTemplate("i_template")
 
 	// Add recipients
