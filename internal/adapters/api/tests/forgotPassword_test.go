@@ -79,7 +79,7 @@ func TestBuyerForgotPasswordResetHandler(t *testing.T) {
 	}
 
 	router := server.SetupRouter(r, mockDb)
-	passwordHash, err := bcrypt.GenerateFromPassword([]byte("12345678"), bcrypt.DefaultCost)
+	passwordHash, _ := bcrypt.GenerateFromPassword([]byte("12345678"), bcrypt.DefaultCost)
 	resetPassword := struct {
 		NewPassword        string `json:"new_password"`
 		ConfirmNewPassword string `json:"confirm_new_password"`
