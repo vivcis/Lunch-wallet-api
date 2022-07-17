@@ -18,4 +18,10 @@ func TestBuyerSendForgotPasswordEMailHandler(t *testing.T) {
 
 	router := server.SetupRouter(r, mockDb)
 
+	resetPassword := struct {
+		Email string `json:"email"`
+	}{
+		Email: "test@testmail.com",
+	}
+
 }
