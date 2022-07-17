@@ -28,14 +28,6 @@ func (m *mailerService) SendMail(subject, body, to, Private, Domain string) erro
 	return m.mailerRepository.SendMail(subject, body, to, Private, Domain)
 }
 
-//func (m *mailerService) GenerateNonAuthToken(UserEmail string, secret string) (*string, error) {
-//	return m.mailerRepository.GenerateNonAuthToken(UserEmail, secret)
-//}
-//
-//func (m *mailerService) DecodeToken(token, secret string) (string, error) {
-//	return m.mailerRepository.DecodeToken(token, secret)
-//}
-
 func (u *userService) FindUserById(id string) (*models.FoodBeneficiary, error) {
 	return u.userRepository.FindUserById(id)
 }
