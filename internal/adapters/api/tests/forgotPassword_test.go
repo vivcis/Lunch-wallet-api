@@ -13,9 +13,11 @@ import (
 func TestBuyerSendForgotPasswordEMailHandler(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	mockDb := mocks.NewMockUserRepository(ctrl)
+	mockMail := mocks.NewMockMailerRepository(ctrl)
 
 	r := &api.HTTPHandler{
-		UserService: mockDb,
+		UserService:   mockDb,
+		MailerService: mockMail,
 	}
 
 	router := server.SetupRouter(r, mockDb)
@@ -36,5 +38,7 @@ func TestBuyerSendForgotPasswordEMailHandler(t *testing.T) {
 	yourDomain := os.Getenv("DOMAIN_STRING")
 
 	mockDb.EXPECT().FindFoodBenefactorByEmail(resetPassword.Email).Return(beneficiary, nil)
+	Link := "<strong>Here is your reset <a href='http://localhost:8080/api/v1/user/beneficiaryresetpassword/cad4fc7b-b819-4ec0-aff4-5cefefd7f8ee'>link</a></strong>"
+	mockMail.EXPECT().SendMail("forgot Password", Link, "test@gmail.com", privateAPIKey, yourDomain).Return(nil)
 
 }
