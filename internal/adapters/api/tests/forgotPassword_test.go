@@ -68,5 +68,15 @@ func TestBuyerSendForgotPasswordEMailHandler(t *testing.T) {
 }
 
 func TestBuyerForgotPasswordResetHandler(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	mockDb := mocks.NewMockUserRepository(ctrl)
+	mockMail := mocks.NewMockMailerRepository(ctrl)
+
+	r := &api.HTTPHandler{
+		UserService:   mockDb,
+		MailerService: mockMail,
+	}
+
+	router := server.SetupRouter(r, mockDb)
 
 }
