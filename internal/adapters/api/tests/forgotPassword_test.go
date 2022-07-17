@@ -8,6 +8,7 @@ import (
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"log"
 	"net/http"
@@ -78,5 +79,13 @@ func TestBuyerForgotPasswordResetHandler(t *testing.T) {
 	}
 
 	router := server.SetupRouter(r, mockDb)
+	passwordHash, err := bcrypt.GenerateFromPassword([]byte("12345678"), bcrypt.DefaultCost)
+	resetPassword := struct {
+		NewPassword        string `json:"new_password"`
+		ConfirmNewPassword string `json:"confirm_new_password"`
+	}{
+		NewPassword:        "123456789",
+		ConfirmNewPassword: "123456789",
+	}
 
 }
