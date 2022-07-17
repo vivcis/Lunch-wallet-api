@@ -53,5 +53,5 @@ func TestBuyerSendForgotPasswordEMailHandler(t *testing.T) {
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/api/v1/buyer/forgotpassword",
 		strings.NewReader(string(resetPasswordPayload)))
-
+	route.ServeHTTP(w, req)
 }
