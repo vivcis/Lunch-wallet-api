@@ -5,7 +5,6 @@ import (
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
-	"log"
 	"os"
 )
 
@@ -35,7 +34,7 @@ func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 			[]string{"error: internal server error, please try again"})
 		return
 	}
-	log.Println(".......kkk", sendErr)
+
 	helpers.JSON(c, "message: please check your email for password reset link", 200, nil,
 		[]string{"message: please check your email for password reset link"})
 }
