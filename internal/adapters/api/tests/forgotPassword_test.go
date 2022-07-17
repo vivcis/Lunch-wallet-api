@@ -95,7 +95,7 @@ func TestBuyerForgotPasswordResetHandler(t *testing.T) {
 				UpdatedAt: time.Time{},
 				DeletedAt: gorm.DeletedAt{},
 			},
-			Email:        resetPassword.Email,
+			Email:        resetPassword.NewPassword,
 			PasswordHash: "passwordHash",
 		},
 		Stack: "golang",
