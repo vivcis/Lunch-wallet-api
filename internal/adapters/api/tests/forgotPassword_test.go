@@ -96,9 +96,21 @@ func TestBuyerForgotPasswordResetHandler(t *testing.T) {
 				DeletedAt: gorm.DeletedAt{},
 			},
 			Email:        resetPassword.NewPassword,
-			PasswordHash: "passwordHash",
+			PasswordHash: string(passwordHash),
 		},
 		Stack: "golang",
 	}
+	mockDb.EXPECT().UserResetPassword(beneficiary.ID, beneficiary.PasswordHash).Return(&beneficiary, nil)
+	resetPasswordPayload, err := json.Marshal(resetPassword)
+	if err != nil {
+		log.Println(err)
+		t.Fail()
+	}
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest("PATCH", "/api/v1/user/beneficiaryresetpassword/"+beneficiary.ID,
+		strings.NewReader(string(resetPasswordPayload)))
+	router.ServeHTTP(w, req)
+	assert.Contains(t, w.Body.String(), "please", "check")
+	assert.Equal(t, w.Code, http.StatusOK)
 
 }
