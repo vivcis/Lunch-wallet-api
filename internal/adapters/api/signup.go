@@ -44,7 +44,7 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 	staff := &models.KitchenStaff{}
 	err := c.ShouldBindJSON(staff)
 	if err != nil {
-		helpers.JSON(c, "Unable to bind request", 400, nil, []string{err.Error()})
+		helpers.JSON(c, "Unable to bind request", 400, nil, []string{"unable to bind request: validation error"})
 		return
 	}
 
