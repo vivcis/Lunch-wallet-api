@@ -29,6 +29,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 	{
 		r.POST("/user/beneficiarysignup", handler.FoodBeneficiarySignUp)
 		r.POST("/user/kitchenstaffsignup", handler.KitchenStaffSignUp)
+		r.POST("/user/adminsignup", handler.AdminSignUp)
 		r.POST("/user/kitchenstafflogin", handler.LoginKitchenStaffHandler)
 		r.POST("/user/benefactorlogin", handler.LoginFoodBenefactorHandler)
 		r.POST("/user/adminlogin", handler.LoginAdminHandler)
@@ -41,24 +42,27 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 	}
 
 	// authorizeKitchenStaff authorizes all authorized kitchen staff handler
-	authorizeKitchenStaff := r.Group("/")
+	authorizeKitchenStaff := r.Group("/staff")
 	authorizeKitchenStaff.Use(middleware.AuthorizeKitchenStaff(userService.FindKitchenStaffByEmail, userService.TokenInBlacklist))
 	{
-
+		authorizeKitchenStaff.POST("/kitchenstafflogout", handler.KitchenStaffLogout)
 	}
 
 	// authorizeBenefactor authorizes all authorized benefactor handler
-	authorizeBenefactor := r.Group("/")
+	authorizeBenefactor := r.Group("/benefactor")
 	authorizeBenefactor.Use(middleware.AuthorizeFoodBenefactor(userService.FindFoodBenefactorByEmail, userService.TokenInBlacklist))
 	{
+		authorizeBenefactor.POST("/beneficiarylogout", handler.FoodBeneficiaryLogout)
+		authorizeBenefactor.GET("/brunch", handler.GetBrunchHandle)
+		authorizeBenefactor.GET("/dinner", handler.GetDinnerHandle)
 
 	}
 
 	// authorizeAdmin authorizes all authorized admin handler
-	authorizeAdmin := r.Group("/")
+	authorizeAdmin := r.Group("/admin")
 	authorizeAdmin.Use(middleware.AuthorizeAdmin(userService.FindAdminByEmail, userService.TokenInBlacklist))
 	{
-
+		authorizeAdmin.POST("/createtimetable", handler.CreateFoodTimetableHandle)
 	}
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

@@ -21,9 +21,10 @@ func (u HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 		Password string `json:"password" binding:"required"`
 	}{}
 
+	fmt.Println("here", kitchenStaff)
 	err := c.ShouldBindJSON(KitchenStaffLoginRequest)
 	if err != nil {
-		c.JSON(400, gin.H{"message": "bad request"})
+		helpers.JSON(c, "bad request", 400, nil, []string{"bad request"})
 		return
 	}
 
@@ -31,11 +32,12 @@ func (u HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 
 	if sqlErr != nil {
 		fmt.Println(sqlErr)
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "internal server error"})
+		helpers.JSON(c, "user not found, sign up", http.StatusInternalServerError, nil, []string{"internal server error"})
+		return
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(kitchenStaff.PasswordHash), []byte(KitchenStaffLoginRequest.Password)); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "invalid Password"})
+		helpers.JSON(c, "invalid Password", http.StatusInternalServerError, nil, []string{"interval server error"})
 		return
 	}
 
@@ -77,7 +79,7 @@ func (u HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
 
 	err := c.ShouldBindJSON(&benefactorLoginRequest)
 	if err != nil {
-		c.JSON(400, gin.H{"message": "bad request"})
+		helpers.JSON(c, "bad request", 400, nil, []string{"bad request"})
 		return
 	}
 
@@ -85,11 +87,12 @@ func (u HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
 
 	if sqlErr != nil {
 		fmt.Println(sqlErr)
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "internal server error"})
+		helpers.JSON(c, "email exists", http.StatusInternalServerError, nil, []string{"internal server error"})
+		return
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(benefactor.PasswordHash), []byte(benefactorLoginRequest.Password)); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "invalid Password"})
+		helpers.JSON(c, "invalid Password", http.StatusInternalServerError, nil, []string{"interval server error"})
 		return
 	}
 
@@ -131,7 +134,7 @@ func (u HTTPHandler) LoginAdminHandler(c *gin.Context) {
 
 	err := c.ShouldBindJSON(&adminLoginRequest)
 	if err != nil {
-		c.JSON(400, gin.H{"message": "bad request"})
+		helpers.JSON(c, "bad request", 400, nil, []string{"bad request"})
 		return
 	}
 
@@ -139,11 +142,11 @@ func (u HTTPHandler) LoginAdminHandler(c *gin.Context) {
 
 	if sqlErr != nil {
 		fmt.Println(sqlErr)
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "internal server error"})
+		helpers.JSON(c, "email exists", http.StatusInternalServerError, nil, []string{"internal server error"})
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(admin.PasswordHash), []byte(adminLoginRequest.Password)); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "invalid Password"})
+		helpers.JSON(c, "invalid Password", http.StatusInternalServerError, nil, []string{"interval server error"})
 		return
 	}
 

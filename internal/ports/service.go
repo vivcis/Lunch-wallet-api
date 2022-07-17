@@ -1,6 +1,9 @@
 package ports
 
-import "github.com/decadevs/lunch-api/internal/core/models"
+import (
+	"github.com/decadevs/lunch-api/internal/core/models"
+	"time"
+)
 
 type UserService interface {
 	FindFoodBenefactorByFullName(fullname string) (*models.FoodBeneficiary, error)
@@ -18,6 +21,10 @@ type UserService interface {
 	UserResetPassword(id, newPassword string) (*models.FoodBeneficiary, error)
 	KitchenStaffResetPassword(id, newPassword string) (*models.KitchenStaff, error)
 	AdminResetPassword(id, newPassword string) (*models.Admin, error)
+	CreateFoodTimetable(food models.Food) error
+	CreateAdmin(user *models.Admin) (*models.Admin, error)
+	FindBrunchByDate(year int, month time.Month, day int) (*models.Food, error)
+	FindDinnerByDate(year int, month time.Month, day int) (*models.Food, error)
 }
 
 // MailerService interface to implement mailing service

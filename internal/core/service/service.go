@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/decadevs/lunch-api/internal/ports"
+	"time"
 )
 
 type userService struct {
@@ -85,4 +86,20 @@ func (u *userService) TokenInBlacklist(token *string) bool {
 
 func (u *userService) AddTokenToBlacklist(email string, token string) error {
 	return u.userRepository.AddTokenToBlacklist(email, token)
+}
+
+func (u *userService) CreateFoodTimetable(food models.Food) error {
+	return u.userRepository.CreateFoodTimetable(food)
+}
+
+func (u *userService) CreateAdmin(user *models.Admin) (*models.Admin, error) {
+	return u.userRepository.CreateAdmin(user)
+}
+
+func (u *userService) FindBrunchByDate(year int, month time.Month, day int) (*models.Food, error) {
+	return u.userRepository.FindBrunchByDate(year, month, day)
+}
+
+func (u *userService) FindDinnerByDate(year int, month time.Month, day int) (*models.Food, error) {
+	return u.userRepository.FindDinnerByDate(year, month, day)
 }
