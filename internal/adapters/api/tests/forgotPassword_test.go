@@ -87,5 +87,18 @@ func TestBuyerForgotPasswordResetHandler(t *testing.T) {
 		NewPassword:        "123456789",
 		ConfirmNewPassword: "123456789",
 	}
+	beneficiary := models.FoodBeneficiary{
+		User: models.User{
+			Model: models.Model{
+				ID:        "cad4fc7b-b819-4ec0-aff4-5cefefd7f8ee",
+				CreatedAt: time.Time{},
+				UpdatedAt: time.Time{},
+				DeletedAt: gorm.DeletedAt{},
+			},
+			Email:        resetPassword.Email,
+			PasswordHash: "passwordHash",
+		},
+		Stack: "golang",
+	}
 
 }
