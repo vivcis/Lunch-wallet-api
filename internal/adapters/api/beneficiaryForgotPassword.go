@@ -11,7 +11,6 @@ import (
 
 func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 	var forgotPassword models.ForgotPassword
-
 	err := c.ShouldBindJSON(&forgotPassword)
 	if err != nil {
 		helpers.JSON(c, "please fill all fields", 400, nil,
@@ -30,14 +29,13 @@ func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 	//initialize email sent out
 	privateAPIKey := os.Getenv("MAILGUN_API_KEY")
 	yourDomain := os.Getenv("DOMAIN_STRING")
-
 	sendErr := u.MailerService.SendMail("forgot password", html, beneficiary.Email, privateAPIKey, yourDomain)
 	if sendErr != nil {
-		log.Println(sendErr)
 		helpers.JSON(c, "internal server error, please try again", 500, nil,
 			[]string{"error: internal server error, please try again"})
 		return
 	}
+	log.Println(".......kkk", sendErr)
 	helpers.JSON(c, "message: please check your email for password reset link", 200, nil,
 		[]string{"message: please check your email for password reset link"})
 }
