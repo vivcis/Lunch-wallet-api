@@ -18,7 +18,7 @@ import (
 	"time"
 )
 
-func TestBuyerSendForgotPasswordEMailHandler(t *testing.T) {
+func TestBeneficiarySendForgotPasswordEMailHandler(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	mockDb := mocks.NewMockUserRepository(ctrl)
 	mockMail := mocks.NewMockMailerRepository(ctrl)
