@@ -24,3 +24,12 @@ func (p *Postgres) FindAdminByEmail(email string) (*models.Admin, error) {
 
 	return admin, nil
 }
+
+// AdminResetPassword resets a benefactor's password
+func (p *Postgres) AdminResetPassword(id, newPassword string) (*models.Admin, error) {
+	user := &models.Admin{}
+	if err := p.DB.Model(user).Where("id =?", id).Update("password_hash", newPassword).Error; err != nil {
+		return nil, err
+	}
+	return user, nil
+}

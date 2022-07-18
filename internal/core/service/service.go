@@ -10,10 +10,38 @@ type userService struct {
 	userRepository ports.UserRepository
 }
 
+type mailerService struct {
+	mailerRepository ports.MailerRepository
+}
+
 func NewUserService(userRepository ports.UserRepository) ports.UserService {
 	return &userService{
 		userRepository: userRepository,
 	}
+}
+func NewMailerService(mailerRepository ports.MailerRepository) ports.MailerService {
+	return &mailerService{
+		mailerRepository: mailerRepository,
+	}
+}
+
+func (m *mailerService) SendMail(subject, body, to, Private, Domain string) error {
+	return m.mailerRepository.SendMail(subject, body, to, Private, Domain)
+}
+
+func (u *userService) FindUserById(id string) (*models.FoodBeneficiary, error) {
+	return u.userRepository.FindUserById(id)
+}
+func (u *userService) UserResetPassword(id, newPassword string) (*models.FoodBeneficiary, error) {
+	return u.userRepository.UserResetPassword(id, newPassword)
+}
+
+func (u *userService) AdminResetPassword(id, newPassword string) (*models.Admin, error) {
+	return u.userRepository.AdminResetPassword(id, newPassword)
+}
+
+func (u *userService) KitchenStaffResetPassword(id, newPassword string) (*models.KitchenStaff, error) {
+	return u.userRepository.KitchenStaffResetPassword(id, newPassword)
 }
 
 func (u *userService) FindFoodBenefactorByFullName(fullname string) (*models.FoodBeneficiary, error) {

@@ -49,6 +49,21 @@ func (mr *MockUserRepositoryMockRecorder) AddTokenToBlacklist(email, token inter
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddTokenToBlacklist", reflect.TypeOf((*MockUserRepository)(nil).AddTokenToBlacklist), email, token)
 }
 
+// AdminResetPassword mocks base method.
+func (m *MockUserRepository) AdminResetPassword(id, newPassword string) (*models.Admin, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AdminResetPassword", id, newPassword)
+	ret0, _ := ret[0].(*models.Admin)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AdminResetPassword indicates an expected call of AdminResetPassword.
+func (mr *MockUserRepositoryMockRecorder) AdminResetPassword(id, newPassword interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AdminResetPassword", reflect.TypeOf((*MockUserRepository)(nil).AdminResetPassword), id, newPassword)
+}
+
 // CreateAdmin mocks base method.
 func (m *MockUserRepository) CreateAdmin(user *models.Admin) (*models.Admin, error) {
 	m.ctrl.T.Helper()
@@ -243,6 +258,36 @@ func (mr *MockUserRepositoryMockRecorder) FindKitchenStaffByLocation(location in
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindKitchenStaffByLocation", reflect.TypeOf((*MockUserRepository)(nil).FindKitchenStaffByLocation), location)
 }
 
+// FindUserById mocks base method.
+func (m *MockUserRepository) FindUserById(id string) (*models.FoodBeneficiary, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindUserById", id)
+	ret0, _ := ret[0].(*models.FoodBeneficiary)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindUserById indicates an expected call of FindUserById.
+func (mr *MockUserRepositoryMockRecorder) FindUserById(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserById", reflect.TypeOf((*MockUserRepository)(nil).FindUserById), id)
+}
+
+// KitchenStaffResetPassword mocks base method.
+func (m *MockUserRepository) KitchenStaffResetPassword(id, newPassword string) (*models.KitchenStaff, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "KitchenStaffResetPassword", id, newPassword)
+	ret0, _ := ret[0].(*models.KitchenStaff)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// KitchenStaffResetPassword indicates an expected call of KitchenStaffResetPassword.
+func (mr *MockUserRepositoryMockRecorder) KitchenStaffResetPassword(id, newPassword interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KitchenStaffResetPassword", reflect.TypeOf((*MockUserRepository)(nil).KitchenStaffResetPassword), id, newPassword)
+}
+
 // TokenInBlacklist mocks base method.
 func (m *MockUserRepository) TokenInBlacklist(token *string) bool {
 	m.ctrl.T.Helper()
@@ -255,4 +300,56 @@ func (m *MockUserRepository) TokenInBlacklist(token *string) bool {
 func (mr *MockUserRepositoryMockRecorder) TokenInBlacklist(token interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TokenInBlacklist", reflect.TypeOf((*MockUserRepository)(nil).TokenInBlacklist), token)
+}
+
+// UserResetPassword mocks base method.
+func (m *MockUserRepository) UserResetPassword(id, newPassword string) (*models.FoodBeneficiary, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UserResetPassword", id, newPassword)
+	ret0, _ := ret[0].(*models.FoodBeneficiary)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UserResetPassword indicates an expected call of UserResetPassword.
+func (mr *MockUserRepositoryMockRecorder) UserResetPassword(id, newPassword interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserResetPassword", reflect.TypeOf((*MockUserRepository)(nil).UserResetPassword), id, newPassword)
+}
+
+// MockMailerRepository is a mock of MailerRepository interface.
+type MockMailerRepository struct {
+	ctrl     *gomock.Controller
+	recorder *MockMailerRepositoryMockRecorder
+}
+
+// MockMailerRepositoryMockRecorder is the mock recorder for MockMailerRepository.
+type MockMailerRepositoryMockRecorder struct {
+	mock *MockMailerRepository
+}
+
+// NewMockMailerRepository creates a new mock instance.
+func NewMockMailerRepository(ctrl *gomock.Controller) *MockMailerRepository {
+	mock := &MockMailerRepository{ctrl: ctrl}
+	mock.recorder = &MockMailerRepositoryMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMailerRepository) EXPECT() *MockMailerRepositoryMockRecorder {
+	return m.recorder
+}
+
+// SendMail mocks base method.
+func (m *MockMailerRepository) SendMail(subject, body, to, Private, Domain string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SendMail", subject, body, to, Private, Domain)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// SendMail indicates an expected call of SendMail.
+func (mr *MockMailerRepositoryMockRecorder) SendMail(subject, body, to, Private, Domain interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendMail", reflect.TypeOf((*MockMailerRepository)(nil).SendMail), subject, body, to, Private, Domain)
 }

@@ -17,8 +17,17 @@ type UserService interface {
 	FindAdminByEmail(email string) (*models.Admin, error)
 	TokenInBlacklist(token *string) bool
 	AddTokenToBlacklist(email string, token string) error
+	FindUserById(id string) (*models.FoodBeneficiary, error)
+	UserResetPassword(id, newPassword string) (*models.FoodBeneficiary, error)
+	KitchenStaffResetPassword(id, newPassword string) (*models.KitchenStaff, error)
+	AdminResetPassword(id, newPassword string) (*models.Admin, error)
 	CreateFoodTimetable(food models.Food) error
 	CreateAdmin(user *models.Admin) (*models.Admin, error)
 	FindBrunchByDate(year int, month time.Month, day int) (*models.Food, error)
 	FindDinnerByDate(year int, month time.Month, day int) (*models.Food, error)
+}
+
+// MailerService interface to implement mailing service
+type MailerService interface {
+	SendMail(subject, body, to, Private, Domain string) error
 }
