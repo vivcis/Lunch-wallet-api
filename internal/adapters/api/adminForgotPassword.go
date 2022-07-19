@@ -75,7 +75,7 @@ func (u HTTPHandler) AdminResetPassword(c *gin.Context) {
 			[]string{"error: internal server error, please try again"})
 		return
 	}
-	_, Rerr := u.UserService.AdminResetPassword(id, string(newPasswordHash))
+	_, Rerr := u.UserService.AdminResetPassword(admin.ID, string(newPasswordHash))
 	if Rerr != nil {
 		helpers.JSON(c, "internal server error, please try again", 500, nil,
 			[]string{"error: internal server error, please try again"})
