@@ -54,7 +54,8 @@ func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
 			[]string{"password mismatch"})
 		return
 	}
-	id := c.Param("id")
+	id := c.Param("token")
+	userEmail, err := u.MailerService.DecodeToken(resetToken, secretString)
 
 	newPasswordHash, passErr := bcrypt.GenerateFromPassword([]byte(reset.NewPassword), bcrypt.DefaultCost)
 	if passErr != nil {
