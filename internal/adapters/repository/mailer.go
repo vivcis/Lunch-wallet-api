@@ -80,7 +80,7 @@ func (s *Mail) GenerateNonAuthToken(UserEmail string, secret string) (*string, e
 	return &tokenString, err
 
 }
-func (s *Service) DecodeToken(token, secret string) (string, error) {
+func (s *Mail) DecodeToken(token, secret string) (string, error) {
 	claims := &Claims{}
 	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
 		return []byte(secret), nil
