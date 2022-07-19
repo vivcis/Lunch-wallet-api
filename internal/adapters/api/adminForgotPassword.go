@@ -24,7 +24,7 @@ func (u HTTPHandler) AdminForgotPassword(c *gin.Context) {
 		return
 	}
 	secretString := os.Getenv("JWT_SECRET")
-	resetToken, _ := u.MailerService.GenerateNonAuthToken(beneficiary.Email, secretString)
+	resetToken, _ := u.MailerService.GenerateNonAuthToken(admin.Email, secretString)
 	link := "http://localhost:8080/api/v1/user/adminresetpassword/" + admin.ID
 	body := "Here is your reset <a href='" + link + "'>link</a>"
 	html := "<strong>" + body + "</strong>"
