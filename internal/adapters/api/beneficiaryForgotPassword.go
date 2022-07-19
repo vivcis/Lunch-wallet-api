@@ -23,7 +23,8 @@ func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 	}
 	secretString := os.Getenv("JWT_SECRET")
 	resetToken, _ := u.MailerService.GenerateNonAuthToken(beneficiary.Email, secretString)
-	link := "http://localhost:8080/api/v1/user/beneficiaryresetpassword/" + *resetToken
+	resetLink := os.Getenv("beneficiaryLink")
+	link := resetLink + *resetToken
 	body := "Here is your reset <a href='" + link + "'>link</a>"
 	html := "<strong>" + body + "</strong>"
 
