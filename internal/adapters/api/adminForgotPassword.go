@@ -63,7 +63,7 @@ func (u HTTPHandler) AdminResetPassword(c *gin.Context) {
 			[]string{"error: internal server error, please try again"})
 		return
 	}
-	beneficiary, berr := u.UserService.FindFoodBenefactorByEmail(userEmail)
+	admin, berr := u.UserService.FindAdminByEmail(adminEmail)
 	if berr != nil {
 		helpers.JSON(c, "internal server error, please try again", 500, nil,
 			[]string{"error: internal server error, please try again"})
