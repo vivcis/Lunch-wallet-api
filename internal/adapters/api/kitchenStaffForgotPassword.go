@@ -55,7 +55,7 @@ func (u HTTPHandler) KitchenStaffResetPassword(c *gin.Context) {
 			[]string{"password mismatch"})
 		return
 	}
-	id := c.Param("id")
+	resetToken := c.Param("token")
 
 	newPasswordHash, passErr := bcrypt.GenerateFromPassword([]byte(reset.NewPassword), bcrypt.DefaultCost)
 	if passErr != nil {
