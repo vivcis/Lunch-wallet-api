@@ -59,7 +59,18 @@ func (u HTTPHandler) AdminResetPassword(c *gin.Context) {
 	}
 	secretString := os.Getenv("JWT_SECRET")
 	resetToken := c.Param("token")
-
+	adminEmail, aerr := u.MailerService.DecodeToken(resetToken, secretString)
+	if aerr != nil {
+		helpers.JSON(c, "internal server error, please try again", 500, nil,
+			[]string{"error: internal server error, please try again"})
+		return
+	}
+	beneficiary, berr := u.UserService.FindFoodBenefactorByEmail(userEmail)
+	if berr != nil {
+		helpers.JSON(c, "internal server error, please try again", 500, nil,
+			[]string{"error: internal server error, please try again"})
+		return
+	}
 	newPasswordHash, passErr := bcrypt.GenerateFromPassword([]byte(reset.NewPassword), bcrypt.DefaultCost)
 	if passErr != nil {
 		helpers.JSON(c, "internal server error, please try again", 500, nil,
