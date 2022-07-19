@@ -30,4 +30,6 @@ type UserRepository interface {
 // MailerRepository interface to implement mailing service
 type MailerRepository interface {
 	SendMail(subject, body, to, Private, Domain string) error
+	GenerateNonAuthToken(UserEmail string, secret string) (*string, error)
+	DecodeToken(token, secret string) (string, error)
 }

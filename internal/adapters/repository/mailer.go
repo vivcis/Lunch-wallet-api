@@ -17,7 +17,6 @@ import (
 //type Service struct{}
 
 type Mail struct {
-	//Client *mailgun.MailgunImpl
 }
 
 func NewMail() ports.MailerRepository {

@@ -35,6 +35,7 @@ func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 		helpers.JSON(c, "Unable to create user", 400, nil, []string{"unable to create user"})
 		return
 	}
+
 	helpers.JSON(c, "Signup Successful", 201, nil, nil)
 
 }
