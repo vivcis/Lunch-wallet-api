@@ -58,13 +58,13 @@ func (u HTTPHandler) KitchenStaffResetPassword(c *gin.Context) {
 	secretString := os.Getenv("JWT_SECRET")
 	resetToken := c.Param("token")
 
-	adminEmail, uerr := u.MailerService.DecodeToken(resetToken, secretString)
+	kitchenStaffEmail, uerr := u.MailerService.DecodeToken(resetToken, secretString)
 	if uerr != nil {
 		helpers.JSON(c, "internal server error, please try again", 500, nil,
 			[]string{"error: internal server error, please try again"})
 		return
 	}
-	admin, berr := u.UserService.FindKitchenStaffByEmail(adminEmail)
+	kitchenStaff, berr := u.UserService.FindKitchenStaffByEmail(kitchenStaffEmail)
 	if berr != nil {
 		helpers.JSON(c, "internal server error, please try again", 500, nil,
 			[]string{"error: internal server error, please try again"})
@@ -77,7 +77,7 @@ func (u HTTPHandler) KitchenStaffResetPassword(c *gin.Context) {
 			[]string{"error: internal server error, please try again"})
 		return
 	}
-	_, Rerr := u.UserService.KitchenStaffResetPassword(id, string(newPasswordHash))
+	_, Rerr := u.UserService.KitchenStaffResetPassword(kitchenStaff.ID, string(newPasswordHash))
 	if Rerr != nil {
 		helpers.JSON(c, "internal server error, please try again", 500, nil,
 			[]string{"error: internal server error, please try again"})
