@@ -5,7 +5,6 @@ import (
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
-	"log"
 	"os"
 )
 
@@ -35,7 +34,6 @@ func (u HTTPHandler) AdminForgotPassword(c *gin.Context) {
 
 	sendErr := u.MailerService.SendMail("forgot password", html, admin.Email, privateAPIKey, yourDomain)
 	if sendErr != nil {
-		log.Println(sendErr)
 		helpers.JSON(c, "internal server error, please try again", 500, nil,
 			[]string{"error: internal server error, please try again"})
 		return
