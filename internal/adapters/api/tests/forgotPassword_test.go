@@ -50,6 +50,7 @@ func TestBeneficiarySendForgotPasswordEMailHandler(t *testing.T) {
 	}
 	privateAPIKey := os.Getenv("MAILGUN_API_KEY")
 	yourDomain := os.Getenv("DOMAIN_STRING")
+	secretString := os.Getenv("JWT_SECRET")
 
 	mockDb.EXPECT().FindFoodBenefactorByEmail(resetPassword.Email).Return(&beneficiary, nil)
 	Link := "<strong>Here is your reset <a href='http://localhost:8080/api/v1/user/beneficiaryresetpassword/cad4fc7b-b819-4ec0-aff4-5cefefd7f8ee'>link</a></strong>"
