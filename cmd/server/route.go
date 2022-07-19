@@ -34,7 +34,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 		r.POST("/user/benefactorlogin", handler.LoginFoodBenefactorHandler)
 		r.POST("/user/adminlogin", handler.LoginAdminHandler)
 		r.POST("/user/beneficiaryforgotpassword", handler.FoodBeneficiaryForgotPassword)
-		r.PATCH("/user/beneficiaryresetpassword/:id", handler.FoodBeneficiaryResetPassword)
+		r.PATCH("/user/beneficiaryresetpassword/:token", handler.FoodBeneficiaryResetPassword)
 		r.POST("/user/kitchenstaffforgotpassword", handler.KitchenStaffForgotPassword)
 		r.PATCH("/user/kitchenstaffresetpassword/:id", handler.KitchenStaffResetPassword)
 		r.POST("/user/adminforgotpassword", handler.AdminForgotPassword)
