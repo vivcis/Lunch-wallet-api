@@ -23,6 +23,8 @@ func (u HTTPHandler) AdminForgotPassword(c *gin.Context) {
 		helpers.JSON(c, "user not found", 404, nil, []string{"error: user not found"})
 		return
 	}
+	secretString := os.Getenv("JWT_SECRET")
+	resetToken, _ := u.MailerService.GenerateNonAuthToken(beneficiary.Email, secretString)
 	link := "http://localhost:8080/api/v1/user/adminresetpassword/" + admin.ID
 	body := "Here is your reset <a href='" + link + "'>link</a>"
 	html := "<strong>" + body + "</strong>"
