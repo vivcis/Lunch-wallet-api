@@ -29,10 +29,10 @@ func (m *mailerService) SendMail(subject, body, to, Private, Domain string) erro
 	return m.mailerRepository.SendMail(subject, body, to, Private, Domain)
 }
 func (m *mailerService) GenerateNonAuthToken(UserEmail string, secret string) (*string, error) {
-	return m.mailerRepository.SendMail(subject, body, to, Private, Domain)
+	return m.mailerRepository.GenerateNonAuthToken(subject, body, to, Private, Domain)
 }
 func (m *mailerService) DecodeToken(token, secret string) (string, error) {
-	return m.mailerRepository.SendMail(subject, body, to, Private, Domain)
+	return m.mailerRepository.DecodeToken(subject, body, to, Private, Domain)
 }
 
 func (u *userService) FindUserById(id string) (*models.FoodBeneficiary, error) {
