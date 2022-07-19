@@ -57,7 +57,7 @@ func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
 	secretString := os.Getenv("JWT_SECRET")
 	resetToken := c.Param("token")
 	userEmail, err := u.MailerService.DecodeToken(resetToken, secretString)
-	beneficiary, err := FindFoodBenefactorByEmail(userEmail)
+	beneficiary, err := u.UserService.FindFoodBenefactorByEmail(userEmail)
 
 	newPasswordHash, passErr := bcrypt.GenerateFromPassword([]byte(reset.NewPassword), bcrypt.DefaultCost)
 	if passErr != nil {
