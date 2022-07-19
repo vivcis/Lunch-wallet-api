@@ -55,7 +55,21 @@ func (u HTTPHandler) KitchenStaffResetPassword(c *gin.Context) {
 			[]string{"password mismatch"})
 		return
 	}
+	secretString := os.Getenv("JWT_SECRET")
 	resetToken := c.Param("token")
+
+	adminEmail, uerr := u.MailerService.DecodeToken(resetToken, secretString)
+	if uerr != nil {
+		helpers.JSON(c, "internal server error, please try again", 500, nil,
+			[]string{"error: internal server error, please try again"})
+		return
+	}
+	beneficiary, berr := u.UserService.FindFoodBenefactorByEmail(userEmail)
+	if berr != nil {
+		helpers.JSON(c, "internal server error, please try again", 500, nil,
+			[]string{"error: internal server error, please try again"})
+		return
+	}
 
 	newPasswordHash, passErr := bcrypt.GenerateFromPassword([]byte(reset.NewPassword), bcrypt.DefaultCost)
 	if passErr != nil {
