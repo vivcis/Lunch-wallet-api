@@ -5,7 +5,6 @@ import (
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
-	"log"
 	"os"
 )
 
@@ -23,7 +22,10 @@ func (u HTTPHandler) AdminForgotPassword(c *gin.Context) {
 		helpers.JSON(c, "user not found", 404, nil, []string{"error: user not found"})
 		return
 	}
-	link := "http://localhost:8080/api/v1/user/adminresetpassword/" + admin.ID
+	secretString := os.Getenv("JWT_SECRET")
+	resetToken, _ := u.MailerService.GenerateNonAuthToken(admin.Email, secretString)
+	resetLink := os.Getenv("adminLink")
+	link := resetLink + *resetToken
 	body := "Here is your reset <a href='" + link + "'>link</a>"
 	html := "<strong>" + body + "</strong>"
 
@@ -33,7 +35,6 @@ func (u HTTPHandler) AdminForgotPassword(c *gin.Context) {
 
 	sendErr := u.MailerService.SendMail("forgot password", html, admin.Email, privateAPIKey, yourDomain)
 	if sendErr != nil {
-		log.Println(sendErr)
 		helpers.JSON(c, "internal server error, please try again", 500, nil,
 			[]string{"error: internal server error, please try again"})
 		return
@@ -55,15 +56,27 @@ func (u HTTPHandler) AdminResetPassword(c *gin.Context) {
 			[]string{"password mismatch"})
 		return
 	}
-	id := c.Param("id")
-
+	secretString := os.Getenv("JWT_SECRET")
+	resetToken := c.Param("token")
+	adminEmail, aerr := u.MailerService.DecodeToken(resetToken, secretString)
+	if aerr != nil {
+		helpers.JSON(c, "internal server error, please try again", 500, nil,
+			[]string{"error: internal server error, please try again"})
+		return
+	}
+	admin, berr := u.UserService.FindAdminByEmail(adminEmail)
+	if berr != nil {
+		helpers.JSON(c, "internal server error, please try again", 500, nil,
+			[]string{"error: internal server error, please try again"})
+		return
+	}
 	newPasswordHash, passErr := bcrypt.GenerateFromPassword([]byte(reset.NewPassword), bcrypt.DefaultCost)
 	if passErr != nil {
 		helpers.JSON(c, "internal server error, please try again", 500, nil,
 			[]string{"error: internal server error, please try again"})
 		return
 	}
-	_, Rerr := u.UserService.AdminResetPassword(id, string(newPasswordHash))
+	_, Rerr := u.UserService.AdminResetPassword(admin.ID, string(newPasswordHash))
 	if Rerr != nil {
 		helpers.JSON(c, "internal server error, please try again", 500, nil,
 			[]string{"error: internal server error, please try again"})

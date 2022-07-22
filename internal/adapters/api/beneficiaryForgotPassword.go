@@ -21,7 +21,10 @@ func (u HTTPHandler) FoodBeneficiaryForgotPassword(c *gin.Context) {
 		helpers.JSON(c, "user not found", 404, nil, []string{"error: user not found"})
 		return
 	}
-	link := "http://localhost:8080/api/v1/user/beneficiaryresetpassword/" + beneficiary.ID
+	secretString := os.Getenv("JWT_SECRET")
+	resetToken, _ := u.MailerService.GenerateNonAuthToken(beneficiary.Email, secretString)
+	resetLink := os.Getenv("beneficiaryLink")
+	link := resetLink + *resetToken
 	body := "Here is your reset <a href='" + link + "'>link</a>"
 	html := "<strong>" + body + "</strong>"
 
@@ -52,7 +55,20 @@ func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
 			[]string{"password mismatch"})
 		return
 	}
-	id := c.Param("id")
+	secretString := os.Getenv("JWT_SECRET")
+	resetToken := c.Param("token")
+	userEmail, uerr := u.MailerService.DecodeToken(resetToken, secretString)
+	if uerr != nil {
+		helpers.JSON(c, "internal server error, please try again", 500, nil,
+			[]string{"error: internal server error, please try again"})
+		return
+	}
+	beneficiary, berr := u.UserService.FindFoodBenefactorByEmail(userEmail)
+	if berr != nil {
+		helpers.JSON(c, "internal server error, please try again", 500, nil,
+			[]string{"error: internal server error, please try again"})
+		return
+	}
 
 	newPasswordHash, passErr := bcrypt.GenerateFromPassword([]byte(reset.NewPassword), bcrypt.DefaultCost)
 	if passErr != nil {
@@ -60,7 +76,7 @@ func (u HTTPHandler) FoodBeneficiaryResetPassword(c *gin.Context) {
 			[]string{"error: internal server error, please try again"})
 		return
 	}
-	_, Rerr := u.UserService.UserResetPassword(id, string(newPasswordHash))
+	_, Rerr := u.UserService.UserResetPassword(beneficiary.ID, string(newPasswordHash))
 	if Rerr != nil {
 		helpers.JSON(c, "internal server error, please try again", 500, nil,
 			[]string{"error: internal server error, please try again"})
