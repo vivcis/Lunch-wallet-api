@@ -51,11 +51,15 @@ func TestBeneficiarySendForgotPasswordEMailHandler(t *testing.T) {
 	privateAPIKey := os.Getenv("MAILGUN_API_KEY")
 	yourDomain := os.Getenv("DOMAIN_STRING")
 	secretString := os.Getenv("JWT_SECRET")
+	resetLink := os.Getenv("beneficiaryLink")
+	link := resetLink
+	body := "Here is your reset <a href='" + link + beneficiary.Email + "'>link</a>"
+	html := "<strong>" + body + "</strong>"
 
 	mockDb.EXPECT().FindFoodBenefactorByEmail(resetPassword.Email).Return(&beneficiary, nil)
 	mockMail.EXPECT().GenerateNonAuthToken(beneficiary.Email, secretString).Return(&beneficiary.Email, nil)
-	Link := "<strong>Here is your reset <a href='http://localhost:8080/api/v1/user/beneficiaryresetpassword/test@testmail.com'>link</a></strong>"
-	mockMail.EXPECT().SendMail("forgot password", Link, beneficiary.Email, privateAPIKey, yourDomain).Return(nil)
+	//Link := "<strong>Here is your reset <a href='http://localhost:8080/api/v1/user/beneficiaryresetpassword/test@testmail.com'>link</a></strong>"
+	mockMail.EXPECT().SendMail("forgot password", html, beneficiary.Email, privateAPIKey, yourDomain).Return(nil)
 	resetPasswordPayload, err := json.Marshal(resetPassword)
 	if err != nil {
 		log.Println(err)
