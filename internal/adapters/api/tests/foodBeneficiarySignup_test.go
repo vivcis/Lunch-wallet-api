@@ -17,16 +17,18 @@ import (
 func TestFoodBeneficiarySignUpEmailExists(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	mockDb := mocks.NewMockUserRepository(ctrl)
+	mockMail := mocks.NewMockMailerRepository(ctrl)
 
 	r := &api.HTTPHandler{
-		UserService: mockDb,
+		UserService:   mockDb,
+		MailerService: mockMail,
 	}
 
 	router := server.SetupRouter(r, mockDb)
 
 	user := models.User{
 		FullName:     "Orji Cecilia",
-		Email:        "cece@decagon.dev",
+		Email:        "cecilia.orji@decagon.dev",
 		Password:     "password",
 		PasswordHash: "",
 		Location:     "ETP",
@@ -35,13 +37,16 @@ func TestFoodBeneficiarySignUpEmailExists(t *testing.T) {
 		User:  user,
 		Stack: "Golang",
 	}
+	//privateAPIKey := os.Getenv("MAILGUN_API_KEY")
+	//yourDomain := os.Getenv("DOMAIN_STRING")
 
 	newUser, err := json.Marshal(beneficiary)
 	if err != nil {
 		t.Fail()
 	}
 	mockDb.EXPECT().FindFoodBenefactorByEmail(beneficiary.Email).Return(&beneficiary, nil)
-
+	//Link := "Click this <a href='http://localhost:8081/api/v1/user/beneficiaryverifyemail/687c9df6-e2a8-47f6-be2f-a15bd474c43e'>link</a> to verify your email."
+	//mockMail.EXPECT().SendMail("Email verification", Link, beneficiary.Email, privateAPIKey, yourDomain).Return(nil)
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/api/v1/user/beneficiarysignup", strings.NewReader(string(newUser)))
 	router.ServeHTTP(w, req)
@@ -49,6 +54,48 @@ func TestFoodBeneficiarySignUpEmailExists(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.Contains(t, w.Body.String(), "email exists")
 }
+
+//func TestFoodBeneficiaryEmailSending(t *testing.T) {
+//	ctrl := gomock.NewController(t)
+//	mockDb := mocks.NewMockUserRepository(ctrl)
+//	mockMail := mocks.NewMockMailerRepository(ctrl)
+//
+//	r := &api.HTTPHandler{
+//		UserService:   mockDb,
+//		MailerService: mockMail,
+//	}
+//
+//	router := server.SetupRouter(r, mockDb)
+//
+//	user := models.User{
+//		FullName:     "Orji Cecilia",
+//		Email:        "cecilia.orji@decagon.dev",
+//		Password:     "password",
+//		PasswordHash: "",
+//		Location:     "ETP",
+//	}
+//	beneficiary := models.FoodBeneficiary{
+//		User:  user,
+//		Stack: "Golang",
+//	}
+//	privateAPIKey := os.Getenv("MAILGUN_API_KEY")
+//	yourDomain := os.Getenv("DOMAIN_STRING")
+//
+//	newUser, err := json.Marshal(beneficiary)
+//	if err != nil {
+//		t.Fail()
+//	}
+//	mockDb.EXPECT().FindFoodBenefactorByEmail(gomock.Any()).Return(&beneficiary, nil)
+//	mockDb.EXPECT().CreateFoodBenefactor(beneficiary).Return(&beneficiary, nil)
+//	Link := "Click this <a href='http://localhost:8081/api/v1/user/beneficiaryverifyemail/687c9df6-e2a8-47f6-be2f-a15bd474c43e'>link</a> to verify your email."
+//	mockMail.EXPECT().SendMail("Email verification", Link, beneficiary.Email, privateAPIKey, yourDomain).Return(errors.New("an error"))
+//	w := httptest.NewRecorder()
+//	req, _ := http.NewRequest("POST", "/api/v1/user/beneficiarysignup", strings.NewReader(string(newUser)))
+//	router.ServeHTTP(w, req)
+//
+//	assert.Equal(t, http.StatusInternalServerError, w.Code)
+//	assert.Contains(t, w.Body.String(), "error: internal server error,please try again")
+//}
 
 func TestFoodBeneficiarySignUpBadRequest(t *testing.T) {
 	ctrl := gomock.NewController(t)

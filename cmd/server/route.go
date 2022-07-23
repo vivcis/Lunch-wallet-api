@@ -27,9 +27,13 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 
 	r := router.Group("/api/v1")
 	{
+
 		r.POST("/user/beneficiarysignup", handler.FoodBeneficiarySignUp)
+		r.PATCH("/user/beneficiaryverifyemail/:id", handler.BeneficiaryVerifyEmail)
 		r.POST("/user/kitchenstaffsignup", handler.KitchenStaffSignUp)
+		r.PATCH("/user/kitchenstaffverifyemail/:id", handler.KitchenStaffVerifyEmail)
 		r.POST("/user/adminsignup", handler.AdminSignUp)
+		r.PATCH("/user/adminverifyemail/:id", handler.AdminVerifyEmail)
 		r.POST("/user/kitchenstafflogin", handler.LoginKitchenStaffHandler)
 		r.POST("/user/benefactorlogin", handler.LoginFoodBenefactorHandler)
 		r.POST("/user/adminlogin", handler.LoginAdminHandler)
