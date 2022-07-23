@@ -61,7 +61,16 @@ func (p *Postgres) UserResetPassword(id, newPassword string) (*models.FoodBenefi
 func (p *Postgres) CreateFoodBenefactor(user *models.FoodBeneficiary) (*models.FoodBeneficiary, error) {
 	var err error
 	user.CreatedAt = time.Now()
-	user.IsActive = true
+	user.IsActive = false
 	err = p.DB.Create(user).Error
 	return user, err
+}
+
+//FoodBeneficiaryEmailVerification verifies the beneficiary email address
+func (p *Postgres) FoodBeneficiaryEmailVerification(id string) (*models.FoodBeneficiary, error) {
+	user := &models.FoodBeneficiary{}
+	if err := p.DB.Model(user).Where("id =?", id).Update("is_active", true).Error; err != nil {
+		return nil, err
+	}
+	return user, nil
 }

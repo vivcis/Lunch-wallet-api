@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"github.com/decadevs/lunch-api/internal/ports"
-	"github.com/mailgun/mailgun-go/v4"
 	"log"
 	"time"
 )

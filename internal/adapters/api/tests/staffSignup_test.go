@@ -18,9 +18,11 @@ import (
 func TestStaffSignUpEmailExists(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	mockDb := mocks.NewMockUserRepository(ctrl)
+	mockMail := mocks.NewMockMailerRepository(ctrl)
 
 	r := &api.HTTPHandler{
-		UserService: mockDb,
+		UserService:   mockDb,
+		MailerService: mockMail,
 	}
 
 	router := server.SetupRouter(r, mockDb)
