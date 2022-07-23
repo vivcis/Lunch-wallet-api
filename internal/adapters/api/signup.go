@@ -37,6 +37,7 @@ func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 		helpers.JSON(c, "Unable to create user", 400, nil, []string{"unable to create user"})
 		return
 	}
+
 	privateAPIKey := os.Getenv("MAILGUN_API_KEY")
 	yourDomain := os.Getenv("DOMAIN_STRING")
 	link := "http://localhost:8081/api/v1/user/beneficiaryverifyemail/" + user.Token
@@ -49,6 +50,8 @@ func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 		return
 	}
 	helpers.JSON(c, "Please check your email to verify your account", 201, nil, nil)
+
+	helpers.JSON(c, "Signup Successful", 201, nil, nil)
 
 }
 

@@ -385,6 +385,36 @@ func (m *MockMailerRepository) EXPECT() *MockMailerRepositoryMockRecorder {
 	return m.recorder
 }
 
+// DecodeToken mocks base method.
+func (m *MockMailerRepository) DecodeToken(token, secret string) (string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DecodeToken", token, secret)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DecodeToken indicates an expected call of DecodeToken.
+func (mr *MockMailerRepositoryMockRecorder) DecodeToken(token, secret interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DecodeToken", reflect.TypeOf((*MockMailerRepository)(nil).DecodeToken), token, secret)
+}
+
+// GenerateNonAuthToken mocks base method.
+func (m *MockMailerRepository) GenerateNonAuthToken(UserEmail, secret string) (*string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GenerateNonAuthToken", UserEmail, secret)
+	ret0, _ := ret[0].(*string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GenerateNonAuthToken indicates an expected call of GenerateNonAuthToken.
+func (mr *MockMailerRepositoryMockRecorder) GenerateNonAuthToken(UserEmail, secret interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenerateNonAuthToken", reflect.TypeOf((*MockMailerRepository)(nil).GenerateNonAuthToken), UserEmail, secret)
+}
+
 // SendMail mocks base method.
 func (m *MockMailerRepository) SendMail(subject, body, to, Private, Domain string) error {
 	m.ctrl.T.Helper()
