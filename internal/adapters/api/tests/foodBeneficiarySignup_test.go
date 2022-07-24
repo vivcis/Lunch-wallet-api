@@ -80,6 +80,10 @@ func TestFoodBeneficiarySignUpEmailExists(t *testing.T) {
 //	}
 //	privateAPIKey := os.Getenv("MAILGUN_API_KEY")
 //	yourDomain := os.Getenv("DOMAIN_STRING")
+//	emailLink := os.Getenv("beneficiaryEmailLink")
+//	link := emailLink
+//	body := "Click this <a href='" + link + "'>link</a> to verify your email."
+//	html := "<strong>" + body + "</strong>"
 //
 //	newUser, err := json.Marshal(beneficiary)
 //	if err != nil {
@@ -87,14 +91,14 @@ func TestFoodBeneficiarySignUpEmailExists(t *testing.T) {
 //	}
 //	mockDb.EXPECT().FindFoodBenefactorByEmail(gomock.Any()).Return(&beneficiary, nil)
 //	mockDb.EXPECT().CreateFoodBenefactor(beneficiary).Return(&beneficiary, nil)
-//	Link := "Click this <a href='http://localhost:8081/api/v1/user/beneficiaryverifyemail/687c9df6-e2a8-47f6-be2f-a15bd474c43e'>link</a> to verify your email."
-//	mockMail.EXPECT().SendMail("Email verification", Link, beneficiary.Email, privateAPIKey, yourDomain).Return(errors.New("an error"))
+//	//Link := "Click this <a href='http://localhost:8081/api/v1/user/beneficiaryverifyemail/687c9df6-e2a8-47f6-be2f-a15bd474c43e'>link</a> to verify your email."
+//	mockMail.EXPECT().SendMail("Email verification", html, beneficiary.Email, privateAPIKey, yourDomain).Return(nil)
 //	w := httptest.NewRecorder()
 //	req, _ := http.NewRequest("POST", "/api/v1/user/beneficiarysignup", strings.NewReader(string(newUser)))
 //	router.ServeHTTP(w, req)
 //
-//	assert.Equal(t, http.StatusInternalServerError, w.Code)
-//	assert.Contains(t, w.Body.String(), "error: internal server error,please try again")
+//	assert.Contains(t, w.Body.String(), "please check")
+//	assert.Equal(t, w.Code, http.StatusOK)
 //}
 
 func TestFoodBeneficiarySignUpBadRequest(t *testing.T) {
