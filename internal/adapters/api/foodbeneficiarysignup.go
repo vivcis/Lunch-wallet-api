@@ -38,26 +38,46 @@ func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 		return
 	}
 
+	secretString := os.Getenv("JWT_SECRET")
+	emailToken, _ := u.MailerService.GenerateNonAuthToken(user.Email, secretString)
+	emailLink := os.Getenv("beneficiaryEmailLink")
+	link := emailLink + *emailToken
+	body := "Click this <a href='" + link + "'>link</a> to verify your email."
+	html := "<strong>" + body + "</strong>"
+
+	//initialize email sent out
 	privateAPIKey := os.Getenv("MAILGUN_API_KEY")
 	yourDomain := os.Getenv("DOMAIN_STRING")
-	link := "http://localhost:8081/api/v1/user/beneficiaryverifyemail/" + user.Token
-	body := "Click this <a href='" + link + "'>link</a> to verify your email."
-
-	sendErr := u.MailerService.SendMail("Email verification", body, user.Email, privateAPIKey, yourDomain)
+	sendErr := u.MailerService.SendMail("Email verification", html, user.Email, privateAPIKey, yourDomain)
 	if sendErr != nil {
 		helpers.JSON(c, "internal server error, please try again", 500, nil,
-			[]string{"error: internal server error,please try again"})
+			[]string{"error: internal server error, please try again"})
 		return
 	}
-	helpers.JSON(c, "Please check your email to verify your account", 201, nil, nil)
 
 	helpers.JSON(c, "Signup Successful", 201, nil, nil)
+
+	helpers.JSON(c, "Please check your email to verify your account", 201, nil, nil)
 
 }
 
 func (u *HTTPHandler) BeneficiaryVerifyEmail(c *gin.Context) {
-	id := c.Param("id")
-	_, foodErr := u.UserService.FoodBeneficiaryEmailVerification(id)
+	token := c.Param("token")
+	secretString := os.Getenv("JWT_SECRET")
+	userEmail, uerr := u.MailerService.DecodeToken(token, secretString)
+	if uerr != nil {
+		helpers.JSON(c, "internal server error, please try again", 500, nil,
+			[]string{"error: internal server error, please try again"})
+		return
+	}
+	beneficiary, err := u.UserService.FindFoodBenefactorByEmail(userEmail)
+	if err != nil {
+		helpers.JSON(c, "internal server error, please try again", 500, nil,
+			[]string{"error: internal server error, please try again"})
+		return
+	}
+
+	_, foodErr := u.UserService.FoodBeneficiaryEmailVerification(beneficiary.ID)
 	if foodErr != nil {
 		helpers.JSON(c, "internal server error, please try again", 500, nil,
 			[]string{"error: internal server error,please try again"})
