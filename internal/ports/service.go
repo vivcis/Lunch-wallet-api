@@ -1,7 +1,9 @@
 package ports
 
 import (
+	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/decadevs/lunch-api/internal/core/models"
+	"mime/multipart"
 	"time"
 )
 
@@ -23,8 +25,8 @@ type UserService interface {
 	AdminResetPassword(id, newPassword string) (*models.Admin, error)
 	CreateFoodTimetable(food models.Food) error
 	CreateAdmin(user *models.Admin) (*models.Admin, error)
-	FindBrunchByDate(year int, month time.Month, day int) (*models.Food, error)
-	FindDinnerByDate(year int, month time.Month, day int) (*models.Food, error)
+	FindBrunchByDate(year int, month time.Month, day int) ([]models.Food, error)
+	FindDinnerByDate(year int, month time.Month, day int) ([]models.Food, error)
 }
 
 // MailerService interface to implement mailing service
@@ -32,4 +34,9 @@ type MailerService interface {
 	SendMail(subject, body, to, Private, Domain string) error
 	GenerateNonAuthToken(UserEmail string, secret string) (*string, error)
 	DecodeToken(token, secret string) (string, error)
+}
+
+// AWSService interface to implement AWS
+type AWSService interface {
+	UploadFileToS3(h *session.Session, file multipart.File, fileName string, size int64) (string, error)
 }

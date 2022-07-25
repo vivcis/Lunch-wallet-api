@@ -1,6 +1,8 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type Food struct {
 	Model
@@ -12,4 +14,16 @@ type Food struct {
 	Day       int        `json:"day"`
 	Weekday   string     `json:"weekday"`
 	Status    string     `json:"status"`
+	Images    []Image    `json:"images" gorm:"oneToMany"`
+	Kitchen
+}
+
+type Image struct {
+	Model
+	ProductId uint   `json:"product_id"`
+	Url       string `json:"url"`
+}
+
+type Kitchen struct {
+	Name string `json:"name"`
 }
