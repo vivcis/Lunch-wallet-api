@@ -16,9 +16,9 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 		return
 	}
 
-	validDecagonEmail := staff.ValidateDecagonEmail()
-	if !validDecagonEmail {
-		helpers.JSON(c, "Enter valid decagon email", 400, nil, []string{err.Error()})
+	validateEmail := staff.ValidateEmail()
+	if !validateEmail {
+		helpers.JSON(c, "Enter valid email", 400, nil, []string{err.Error()})
 		return
 	}
 
@@ -40,7 +40,7 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 
 	secretString := os.Getenv("JWT_SECRET")
 	emailToken, _ := u.MailerService.GenerateNonAuthToken(staff.Email, secretString)
-	emailLink := os.Getenv("kitchenStaffEmailLink")
+	emailLink := os.Getenv("KITCHEN_STAFF_EMAIL")
 	link := emailLink + *emailToken
 	body := "Click this <a href='" + link + "'>link</a> to verify your email."
 	html := "<strong>" + body + "</strong>"
@@ -54,8 +54,6 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 			[]string{"error: It is an internal server error, please try again"})
 		return
 	}
-
-	helpers.JSON(c, "Signup Successful", 201, nil, nil)
 
 	helpers.JSON(c, "Please check your email to verify your account", 201, nil, nil)
 }
