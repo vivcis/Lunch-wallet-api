@@ -80,7 +80,7 @@ func TestFoodBeneficiarySignUpEmailExists(t *testing.T) {
 //	}
 //	privateAPIKey := os.Getenv("MAILGUN_API_KEY")
 //	yourDomain := os.Getenv("DOMAIN_STRING")
-//	emailLink := os.Getenv("beneficiaryEmailLink")
+//	emailLink := os.Getenv("BENEFICIARY_EMAIL")
 //	link := emailLink
 //	body := "Click this <a href='" + link + "'>link</a> to verify your email."
 //	html := "<strong>" + body + "</strong>"
