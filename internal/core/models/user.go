@@ -12,7 +12,7 @@ import (
 type User struct {
 	Model
 	FullName     string `json:"full_name" binding:"required"`
-	Email        string `json:"email" binding:"required,email" gorm:"unique"`
+	Email        string `json:"email" binding:"required" gorm:"unique"`
 	Location     string `json:"location" binding:"required"`
 	Password     string `json:"password,omitempty" gorm:"-"`
 	PasswordHash string `json:"password_hash"`
