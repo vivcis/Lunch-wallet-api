@@ -15,9 +15,9 @@ func (u HTTPHandler) AdminSignUp(c *gin.Context) {
 		return
 	}
 
-	validDecagonEmail := user.ValidateDecagonEmail()
+	validDecagonEmail := user.ValidAdminDecagonEmail()
 	if !validDecagonEmail {
-		helpers.JSON(c, "Enter valid decagon email", 400, nil, []string{err.Error()})
+		helpers.JSON(c, "Enter valid decagon email", 400, nil, []string{"enter valid decagon email"})
 		return
 	}
 
@@ -27,7 +27,7 @@ func (u HTTPHandler) AdminSignUp(c *gin.Context) {
 		return
 	}
 	if err = user.HashPassword(); err != nil {
-		helpers.JSON(c, "Unable to hash password", 400, nil, []string{err.Error()})
+		helpers.JSON(c, "Unable to hash password", 400, nil, []string{"unable to hash password"})
 		return
 	}
 	_, err = u.UserService.CreateAdmin(user)
@@ -37,7 +37,7 @@ func (u HTTPHandler) AdminSignUp(c *gin.Context) {
 	}
 	secretString := os.Getenv("JWT_SECRET")
 	emailToken, _ := u.MailerService.GenerateNonAuthToken(user.Email, secretString)
-	emailLink := os.Getenv("adminEmailLink")
+	emailLink := os.Getenv("ADMIN_EMAIL")
 	link := emailLink + *emailToken
 	body := "Click this <a href='" + link + "'>link</a> to verify your email."
 	html := "<strong>" + body + "</strong>"
