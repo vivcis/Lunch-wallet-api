@@ -49,6 +49,21 @@ func (mr *MockUserRepositoryMockRecorder) AddTokenToBlacklist(email, token inter
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddTokenToBlacklist", reflect.TypeOf((*MockUserRepository)(nil).AddTokenToBlacklist), email, token)
 }
 
+// AdminEmailVerification mocks base method.
+func (m *MockUserRepository) AdminEmailVerification(id string) (*models.Admin, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AdminEmailVerification", id)
+	ret0, _ := ret[0].(*models.Admin)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AdminEmailVerification indicates an expected call of AdminEmailVerification.
+func (mr *MockUserRepositoryMockRecorder) AdminEmailVerification(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AdminEmailVerification", reflect.TypeOf((*MockUserRepository)(nil).AdminEmailVerification), id)
+}
+
 // AdminResetPassword mocks base method.
 func (m *MockUserRepository) AdminResetPassword(id, newPassword string) (*models.Admin, error) {
 	m.ctrl.T.Helper()
@@ -271,6 +286,36 @@ func (m *MockUserRepository) FindUserById(id string) (*models.FoodBeneficiary, e
 func (mr *MockUserRepositoryMockRecorder) FindUserById(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserById", reflect.TypeOf((*MockUserRepository)(nil).FindUserById), id)
+}
+
+// FoodBeneficiaryEmailVerification mocks base method.
+func (m *MockUserRepository) FoodBeneficiaryEmailVerification(id string) (*models.FoodBeneficiary, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FoodBeneficiaryEmailVerification", id)
+	ret0, _ := ret[0].(*models.FoodBeneficiary)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FoodBeneficiaryEmailVerification indicates an expected call of FoodBeneficiaryEmailVerification.
+func (mr *MockUserRepositoryMockRecorder) FoodBeneficiaryEmailVerification(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FoodBeneficiaryEmailVerification", reflect.TypeOf((*MockUserRepository)(nil).FoodBeneficiaryEmailVerification), id)
+}
+
+// KitchenStaffEmailVerification mocks base method.
+func (m *MockUserRepository) KitchenStaffEmailVerification(id string) (*models.KitchenStaff, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "KitchenStaffEmailVerification", id)
+	ret0, _ := ret[0].(*models.KitchenStaff)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// KitchenStaffEmailVerification indicates an expected call of KitchenStaffEmailVerification.
+func (mr *MockUserRepositoryMockRecorder) KitchenStaffEmailVerification(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KitchenStaffEmailVerification", reflect.TypeOf((*MockUserRepository)(nil).KitchenStaffEmailVerification), id)
 }
 
 // KitchenStaffResetPassword mocks base method.

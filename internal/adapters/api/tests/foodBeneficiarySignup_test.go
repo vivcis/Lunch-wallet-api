@@ -14,19 +14,58 @@ import (
 	"testing"
 )
 
-func TestFoodBeneficiarySignUpEmailExists(t *testing.T) {
+func TestFoodBeneficiaryValidEmail(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	mockDb := mocks.NewMockUserRepository(ctrl)
+	mockMail := mocks.NewMockMailerRepository(ctrl)
 
 	r := &api.HTTPHandler{
-		UserService: mockDb,
+		UserService:   mockDb,
+		MailerService: mockMail,
 	}
 
 	router := server.SetupRouter(r, mockDb)
 
 	user := models.User{
 		FullName:     "Orji Cecilia",
-		Email:        "cece@decagon.dev",
+		Email:        "cecilia.orji@decago.dev",
+		Password:     "password",
+		PasswordHash: "",
+		Location:     "ETP",
+	}
+	beneficiary := models.FoodBeneficiary{
+		User:  user,
+		Stack: "Golang",
+	}
+
+	newUser, err := json.Marshal(beneficiary)
+	if err != nil {
+		t.Fail()
+	}
+
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest("POST", "/api/v1/user/beneficiarysignup", strings.NewReader(string(newUser)))
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.Contains(t, w.Body.String(), "enter valid decagon email")
+}
+
+func TestFoodBeneficiarySignUpEmailExists(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	mockDb := mocks.NewMockUserRepository(ctrl)
+	mockMail := mocks.NewMockMailerRepository(ctrl)
+
+	r := &api.HTTPHandler{
+		UserService:   mockDb,
+		MailerService: mockMail,
+	}
+
+	router := server.SetupRouter(r, mockDb)
+
+	user := models.User{
+		FullName:     "Orji Cecilia",
+		Email:        "cecilia.orji@decagon.dev",
 		Password:     "password",
 		PasswordHash: "",
 		Location:     "ETP",
@@ -41,7 +80,6 @@ func TestFoodBeneficiarySignUpEmailExists(t *testing.T) {
 		t.Fail()
 	}
 	mockDb.EXPECT().FindFoodBenefactorByEmail(beneficiary.Email).Return(&beneficiary, nil)
-
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/api/v1/user/beneficiarysignup", strings.NewReader(string(newUser)))
 	router.ServeHTTP(w, req)
