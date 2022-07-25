@@ -19,7 +19,7 @@ func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 
 	validDecagonEmail := user.ValidateDecagonEmail()
 	if !validDecagonEmail {
-		helpers.JSON(c, "Enter valid decagon email", 400, nil, []string{err.Error()})
+		helpers.JSON(c, "Enter valid decagon email", 400, nil, []string{"enter valid decagon email"})
 		return
 	}
 
