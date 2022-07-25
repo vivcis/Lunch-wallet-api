@@ -58,7 +58,7 @@ func TestBeneficiarySendForgotPasswordEMailHandler(t *testing.T) {
 
 	mockDb.EXPECT().FindFoodBenefactorByEmail(resetPassword.Email).Return(&beneficiary, nil)
 	mockMail.EXPECT().GenerateNonAuthToken(beneficiary.Email, secretString).Return(&beneficiary.Email, nil)
-	//Link := "<strong>Here is your reset <a href='http://localhost:8080/api/v1/user/beneficiaryresetpassword/test@testmail.com'>link</a></strong>"
+
 	mockMail.EXPECT().SendMail("forgot password", html, beneficiary.Email, privateAPIKey, yourDomain).Return(nil)
 	resetPasswordPayload, err := json.Marshal(resetPassword)
 	if err != nil {
