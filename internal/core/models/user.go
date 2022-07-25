@@ -2,6 +2,7 @@ package models
 
 import (
 	"net/mail"
+	"os"
 	"regexp"
 	"strings"
 
@@ -68,7 +69,15 @@ func (user *User) ValidateEmail() bool {
 
 func (user *User) ValidateDecagonEmail() bool {
 	decagon := strings.Split(user.Email, "@")
-	if decagon[1] == "decagon.dev" {
+	if decagon[1] == os.Getenv("DECADEV_EMAIL") {
+		return true
+	}
+	return false
+}
+
+func (user *User) ValidAdminDecagonEmail() bool {
+	decagonEmail := strings.Split(user.Email, "@")
+	if decagonEmail[1] == os.Getenv("ADMIN_EMAIL") {
 		return true
 	}
 	return false
