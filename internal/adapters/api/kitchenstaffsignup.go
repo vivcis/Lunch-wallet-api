@@ -18,7 +18,7 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 
 	validateEmail := staff.ValidateEmail()
 	if !validateEmail {
-		helpers.JSON(c, "Enter valid email", 400, nil, []string{err.Error()})
+		helpers.JSON(c, "Enter valid email", 400, nil, []string{"enter valid email"})
 		return
 	}
 
