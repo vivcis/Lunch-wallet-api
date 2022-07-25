@@ -41,7 +41,7 @@ func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 
 	secretString := os.Getenv("JWT_SECRET")
 	emailToken, _ := u.MailerService.GenerateNonAuthToken(user.Email, secretString)
-	emailLink := os.Getenv("beneficiaryEmailLink")
+	emailLink := os.Getenv("BENEFICIARY_EMAIL")
 	link := emailLink + *emailToken
 	body := "Click this <a href='" + link + "'>link</a> to verify your email."
 	html := "<strong>" + body + "</strong>"
@@ -55,8 +55,6 @@ func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 			[]string{"error: internal server error, please try again"})
 		return
 	}
-
-	helpers.JSON(c, "Signup Successful", 201, nil, nil)
 
 	helpers.JSON(c, "Please check your email to verify your account", 201, nil, nil)
 
