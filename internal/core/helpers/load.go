@@ -14,7 +14,7 @@ const tagName = "env"
 
 // Load loads the environment variables into the struct
 func Load() error {
-	if os.Getenv("ENV") != "production" {
+	if os.Getenv("GIN_MODE") != "production" {
 		err := godotenv.Load()
 		if err != nil {
 			return err
