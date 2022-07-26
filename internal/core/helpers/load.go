@@ -13,7 +13,7 @@ import (
 
 const tagName = "env"
 
-//The function Load, loads the environment variables into the struct
+//Load loads the environment variables into the struct
 func Load() error {
 	env := os.Getenv("GIN_MODE")
 	if env != "release" {
