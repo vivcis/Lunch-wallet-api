@@ -18,18 +18,23 @@ func (u HTTPHandler) BeneficiaryQRBrunch(c *gin.Context) {
 		helpers.JSON(c, "you are not logged in", http.StatusBadRequest, nil, []string{"bad request"})
 		return
 	}
+
 	mealRecords, mealErr := u.UserService.FindFoodBenefactorMealRecord(foodBeneficiary.Email)
 	if mealErr != nil {
 		helpers.JSON(c, "internal server error", http.StatusInternalServerError, nil, []string{"internal server error"})
 		return
 	}
+
 	if mealRecords.UserEmail == "" {
 		Cerr := u.UserService.CreateFoodBenefactorBrunchMealRecord(foodBeneficiary)
 		if Cerr != nil {
 			helpers.JSON(c, "internal server error", http.StatusInternalServerError, nil, []string{"internal server error"})
 			return
 		}
+		helpers.JSON(c, "success", http.StatusOK, nil, []string{"success"})
+		return
 	}
+	if mealRecords
 
 }
 
