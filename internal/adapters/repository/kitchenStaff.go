@@ -42,7 +42,7 @@ func (p *Postgres) FindKitchenStaffByLocation(location string) (*models.KitchenS
 func (p *Postgres) CreateKitchenStaff(user *models.KitchenStaff) (*models.KitchenStaff, error) {
 	var err error
 	user.CreatedAt = time.Now()
-	user.IsActive = true
+	user.IsActive = false
 	err = p.DB.Create(user).Error
 	return user, err
 }
@@ -51,6 +51,15 @@ func (p *Postgres) CreateKitchenStaff(user *models.KitchenStaff) (*models.Kitche
 func (p *Postgres) KitchenStaffResetPassword(id, newPassword string) (*models.KitchenStaff, error) {
 	user := &models.KitchenStaff{}
 	if err := p.DB.Model(user).Where("id =?", id).Update("password_hash", newPassword).Error; err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
+//KitchenStaffEmailVerification verifies the kitchen staff email address
+func (p *Postgres) KitchenStaffEmailVerification(id string) (*models.KitchenStaff, error) {
+	user := &models.KitchenStaff{}
+	if err := p.DB.Model(user).Where("id =?", id).Update("is_active", true).Error; err != nil {
 		return nil, err
 	}
 	return user, nil

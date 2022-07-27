@@ -27,6 +27,9 @@ type UserService interface {
 	CreateAdmin(user *models.Admin) (*models.Admin, error)
 	FindBrunchByDate(year int, month time.Month, day int) ([]models.Food, error)
 	FindDinnerByDate(year int, month time.Month, day int) ([]models.Food, error)
+	FoodBeneficiaryEmailVerification(id string) (*models.FoodBeneficiary, error)
+	KitchenStaffEmailVerification(id string) (*models.KitchenStaff, error)
+	AdminEmailVerification(id string) (*models.Admin, error)
 }
 
 // MailerService interface to implement mailing service

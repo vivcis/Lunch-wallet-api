@@ -10,7 +10,7 @@ import (
 func (p *Postgres) CreateAdmin(user *models.Admin) (*models.Admin, error) {
 	var err error
 	user.CreatedAt = time.Now()
-	user.IsActive = true
+	user.IsActive = false
 	err = p.DB.Create(user).Error
 	return user, err
 }
@@ -29,6 +29,15 @@ func (p *Postgres) FindAdminByEmail(email string) (*models.Admin, error) {
 func (p *Postgres) AdminResetPassword(id, newPassword string) (*models.Admin, error) {
 	user := &models.Admin{}
 	if err := p.DB.Model(user).Where("id =?", id).Update("password_hash", newPassword).Error; err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
+//AdminEmailVerification verifies the admin email address
+func (p *Postgres) AdminEmailVerification(id string) (*models.Admin, error) {
+	user := &models.Admin{}
+	if err := p.DB.Model(user).Where("id =?", id).Update("is_active", true).Error; err != nil {
 		return nil, err
 	}
 	return user, nil

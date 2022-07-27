@@ -125,3 +125,14 @@ func (u *userService) FindBrunchByDate(year int, month time.Month, day int) ([]m
 func (u *userService) FindDinnerByDate(year int, month time.Month, day int) ([]models.Food, error) {
 	return u.userRepository.FindDinnerByDate(year, month, day)
 }
+func (u *userService) FoodBeneficiaryEmailVerification(id string) (*models.FoodBeneficiary, error) {
+	return u.userRepository.FoodBeneficiaryEmailVerification(id)
+}
+
+func (u *userService) KitchenStaffEmailVerification(id string) (*models.KitchenStaff, error) {
+	return u.userRepository.KitchenStaffEmailVerification(id)
+}
+
+func (u *userService) AdminEmailVerification(id string) (*models.Admin, error) {
+	return u.userRepository.AdminEmailVerification(id)
+}

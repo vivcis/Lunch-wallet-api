@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/go-openapi/swag"
 	"github.com/joho/godotenv"
+	"log"
 	"os"
 	"reflect"
 	"strings"
@@ -12,14 +13,13 @@ import (
 
 const tagName = "env"
 
-// Load loads the environment variables into the struct
+//Load loads the environment variables into the struct
 func Load() error {
-	if os.Getenv("ENV") != "production" {
-		err := godotenv.Load()
-		if err != nil {
-			return err
+	env := os.Getenv("GIN_MODE")
+	if env != "release" {
+		if err := godotenv.Load(); err != nil {
+			log.Fatalf("couldn't load env vars: %v", err)
 		}
-		fmt.Println("Loaded .env file")
 	}
 
 	var c = Config{}
