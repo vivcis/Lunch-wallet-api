@@ -46,7 +46,7 @@ func (u HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 		fmt.Println(fileExtension)
 		if ok {
 			log.Println(fileExtension)
-			helpers.JSON(c, "bad request", 400, nil, []string{fileExtension + " image file type is not supported"})
+			helpers.JSON(c, "Bad Request", 400, nil, []string{fileExtension + " image file type is not supported"})
 			return
 		}
 
@@ -58,7 +58,7 @@ func (u HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 		url, err := u.AWSService.UploadFileToS3(session, file, tempFileName, f.Size)
 		if err != nil {
 			log.Println(err)
-			helpers.JSON(c, "bad request", http.StatusInternalServerError, nil, []string{"an error occurred while uploading the image"})
+			helpers.JSON(c, "internal server error", http.StatusInternalServerError, nil, []string{"an error occurred while uploading the image"})
 			return
 		}
 		log.Printf("filename: %v", f.Filename)

@@ -14,7 +14,7 @@ type Food struct {
 	Day       int        `json:"day"`
 	Weekday   string     `json:"weekday"`
 	Status    string     `json:"status"`
-	Images    []Image    `json:"images" gorm:"oneToMany"`
+	Images    []Image    `json:"images" gorm:"many2many:image"`
 	Kitchen
 }
 

@@ -27,11 +27,10 @@ func (a *AWS) UploadFileToS3(h *session.Session, file multipart.File, fileName s
 	}
 	// config settings: this is where you choose the bucket,
 	// filename, content-type and storage class of the file you're uploading
-	url := "https://s3-eu-west-3.amazonaws.com/arp-rental/" + fileName
+	url := "https://s3-us-east-2.amazonaws.com/lunch-wallet/" + fileName
 	_, err := s3.New(h).PutObject(&s3.PutObjectInput{
 		Bucket:               aws.String(os.Getenv("S3_BUCKET_NAME")),
 		Key:                  aws.String(fileName),
-		ACL:                  aws.String("public-read"),
 		Body:                 bytes.NewReader(buffer),
 		ContentLength:        aws.Int64(int64(size)),
 		ContentType:          aws.String(http.DetectContentType(buffer)),

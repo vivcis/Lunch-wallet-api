@@ -113,7 +113,7 @@ func PreAWS(fileExtension, folder string) (*session.Session, string, error) {
 	tempFileName := folder + "/" + uuid.NewString() + fileExtension
 	sess, err := session.NewSession(&aws.Config{
 		Region:      aws.String(os.Getenv("AWS_REGION")),
-		Credentials: credentials.NewStaticCredentials(secret, id, ""),
+		Credentials: credentials.NewStaticCredentials(id, secret, ""),
 	})
 	return sess, tempFileName, err
 }
