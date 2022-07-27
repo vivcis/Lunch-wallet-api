@@ -74,3 +74,21 @@ func (p *Postgres) FoodBeneficiaryEmailVerification(id string) (*models.FoodBene
 	}
 	return user, nil
 }
+
+func (p *Postgres) FindFoodBenefactorMealRecod(email string) (*models.MealRecords, error) {
+	var err error
+	var user *models.MealRecords
+	if err = p.DB.Where("email = ?", email).First(&user).Error; err != nil {
+		return nil, errors.New(email + " does not exist" + " user not found")
+	}
+	return user, nil
+}
+
+// FindFoodBenefactorMealRecord finds a benefactor meal record
+func (p *Postgres) FindFoodBenefactorMealRecord(email string) (*models.MealRecords, error) {
+	user := &models.MealRecords{}
+	if err := p.DB.Where("email =?", email).First(user).Error; err != nil {
+		return nil, err
+	}
+	return user, nil
+}
