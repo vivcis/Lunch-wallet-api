@@ -38,6 +38,15 @@ func (u HTTPHandler) BeneficiaryQRBrunch(c *gin.Context) {
 		helpers.JSON(c, "brunch already served", http.StatusInternalServerError, nil, []string{"brunch already served"})
 		return
 	}
+	if !mealRecords.Brunch {
+		Cerr := u.UserService.CreateFoodBenefactorBrunchMealRecord(foodBeneficiary)
+		if Cerr != nil {
+			helpers.JSON(c, "internal server error", http.StatusInternalServerError, nil, []string{"internal server error"})
+			return
+		}
+		helpers.JSON(c, "success", http.StatusOK, nil, []string{"success"})
+		return
+	}
 
 }
 
