@@ -34,7 +34,10 @@ func (u HTTPHandler) BeneficiaryQRBrunch(c *gin.Context) {
 		helpers.JSON(c, "success", http.StatusOK, nil, []string{"success"})
 		return
 	}
-	if mealRecords
+	if mealRecords.Brunch {
+		helpers.JSON(c, "brunch already served", http.StatusInternalServerError, nil, []string{"brunch already served"})
+		return
+	}
 
 }
 
