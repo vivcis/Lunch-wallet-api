@@ -18,7 +18,11 @@ func (u HTTPHandler) BeneficiaryQRBrunch(c *gin.Context) {
 		helpers.JSON(c, "error getting access token", http.StatusBadRequest, nil, []string{"bad request"})
 		return
 	}
-	mealRecords, err := u.UserService.FindFoodBenefactorMealRecord(foodBeneficiary.Email)
+	mealRecords, mealErr := u.UserService.FindFoodBenefactorMealRecord(foodBeneficiary.Email)
+	if mealErr != nil {
+		helpers.JSON(c, "internal server error", http.StatusInternalServerError, nil, []string{"internal server error"})
+		return
+	}
 
 }
 
