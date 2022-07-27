@@ -1,8 +1,10 @@
 package helpers
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -16,4 +18,17 @@ func JSON(c *gin.Context, message string, status int, data interface{}, errs []s
 	}
 
 	c.JSON(status, responsedata)
+}
+
+func CheckFoodStatus(status string) (string, error) {
+	var stat string
+	switch strings.ToLower(status) {
+	case "serving":
+		stat = "Serving"
+	case "served":
+		stat = "Served"
+	default:
+		return stat, errors.New("not serving")
+	}
+	return stat, nil
 }

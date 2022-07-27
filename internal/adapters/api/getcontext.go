@@ -50,3 +50,15 @@ func (u HTTPHandler) GetTokenFromContext(c *gin.Context) (string, error) {
 	tokenstr := tokenI.(string)
 	return tokenstr, nil
 }
+
+func (u HTTPHandler) GetFoodFromContext(c *gin.Context) (*models.Food, error) {
+	user1, exists := c.Get("user")
+	if !exists {
+		return nil, fmt.Errorf("error getting user from context")
+	}
+	user, ok := user1.(*models.Food)
+	if !ok {
+		return nil, fmt.Errorf("an error occured")
+	}
+	return user, nil
+}
