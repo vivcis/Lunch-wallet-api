@@ -123,3 +123,6 @@ func (u *userService) AdminEmailVerification(id string) (*models.Admin, error) {
 func (u *userService) FindFoodBenefactorMealRecord(email string) (*models.MealRecords, error) {
 	return u.userRepository.FindFoodBenefactorMealRecord(email)
 }
+func (u *userService) CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error {
+	return u.userRepository.CreateFoodBenefactorBrunchMealRecord(user)
+}

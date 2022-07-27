@@ -29,6 +29,7 @@ type UserRepository interface {
 	KitchenStaffEmailVerification(id string) (*models.KitchenStaff, error)
 	AdminEmailVerification(id string) (*models.Admin, error)
 	FindFoodBenefactorMealRecord(email string) (*models.MealRecords, error)
+	CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error
 }
 
 // MailerRepository interface to implement mailing service

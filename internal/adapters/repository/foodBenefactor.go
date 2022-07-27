@@ -85,9 +85,16 @@ func (p *Postgres) FindFoodBenefactorMealRecord(email string) (*models.MealRecor
 }
 
 // CreateFoodBenefactorBrunchMealRecord creates a benefactor in the database
-func (p *Postgres) CreateFoodBenefactorBrunchMealRecord(user *models.MealRecords) error {
+func (p *Postgres) CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error {
 	var err error
-	user.Brunch = true
-	err = p.DB.Create(user).Error
+	record := &models.MealRecords{
+		Model:     models.Model{},
+		UserID:    user.ID,
+		UserEmail: user.Email,
+		Brunch:    true,
+		Dinner:    false,
+	}
+
+	err = p.DB.Create(record).Error
 	return err
 }

@@ -24,7 +24,11 @@ func (u HTTPHandler) BeneficiaryQRBrunch(c *gin.Context) {
 		return
 	}
 	if mealRecords.UserEmail == "" {
-
+		Cerr := u.UserService.CreateFoodBenefactorBrunchMealRecord(foodBeneficiary)
+		if Cerr != nil {
+			helpers.JSON(c, "internal server error", http.StatusInternalServerError, nil, []string{"internal server error"})
+			return
+		}
 	}
 
 }
