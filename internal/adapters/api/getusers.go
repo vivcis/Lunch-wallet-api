@@ -6,6 +6,11 @@ import (
 	"net/http"
 )
 
+func (u *HTTPHandler) PingHandler(c *gin.Context) {
+	// healthcheck
+	helpers.JSON(c, "pong", 200, nil, nil)
+}
+
 func (u *HTTPHandler) GetUsers(c *gin.Context) {
 	_, err := u.GetBenefactorFromContext(c)
 	if err != nil {
