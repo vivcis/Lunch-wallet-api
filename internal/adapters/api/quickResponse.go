@@ -28,7 +28,7 @@ func (u HTTPHandler) BeneficiaryQRBrunch(c *gin.Context) {
 	}
 
 	if mealRecord.Brunch {
-		helpers.JSON(c, "brunch already served", http.StatusInternalServerError, nil, []string{"brunch already served"})
+		helpers.JSON(c, "brunch already served", http.StatusBadRequest, nil, []string{"brunch already served"})
 		return
 	} else {
 		Cerr := u.UserService.CreateFoodBenefactorBrunchMealRecord(foodBeneficiary)
