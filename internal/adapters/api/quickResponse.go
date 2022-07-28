@@ -3,7 +3,6 @@ package api
 import (
 	"github.com/decadevs/lunch-api/internal/core/helpers"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 	"time"
 )
@@ -36,7 +35,6 @@ func (u HTTPHandler) BeneficiaryQRBrunch(c *gin.Context) {
 			helpers.JSON(c, "internal server error", http.StatusInternalServerError, nil, []string{"internal server error"})
 			return
 		}
-		log.Println("two")
 		helpers.JSON(c, "success", http.StatusOK, nil, []string{"success"})
 		return
 	}
