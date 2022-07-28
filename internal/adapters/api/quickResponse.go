@@ -9,12 +9,6 @@ import (
 )
 
 func (u HTTPHandler) BeneficiaryQRBrunch(c *gin.Context) {
-	// get user info from token
-	//query db user table with email and get user
-	// get_user.id
-	// use user.id to query db meal_record table
-	// if nil,create a meal record for the user with user.id
-	//check if meal_record.brunch is true then return error else update to true
 	foodBeneficiary, err := u.GetBenefactorFromContext(c)
 	if err != nil {
 		helpers.JSON(c, "you are not logged in", http.StatusBadRequest, nil, []string{"bad request"})
