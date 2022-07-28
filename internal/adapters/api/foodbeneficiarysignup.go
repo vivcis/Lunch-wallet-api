@@ -55,12 +55,6 @@ func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 			[]string{"error: internal server error, please try again"})
 		return
 	}
-	//Merr:= u.UserService.CreateFoodBenefactorBrunchMealRecord(user)
-	//if Merr != nil {
-	//	helpers.JSON(c, "internal server error, please try again", 500, nil,
-	//		[]string{"error: internal server error, please try again"})
-	//	return
-	//}
 
 	helpers.JSON(c, "Please check your email to verify your account", 201, nil, nil)
 
