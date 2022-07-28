@@ -120,8 +120,8 @@ func (u *userService) KitchenStaffEmailVerification(id string) (*models.KitchenS
 func (u *userService) AdminEmailVerification(id string) (*models.Admin, error) {
 	return u.userRepository.AdminEmailVerification(id)
 }
-func (u *userService) FindFoodBenefactorMealRecord(email string) (*models.MealRecords, error) {
-	return u.userRepository.FindFoodBenefactorMealRecord(email)
+func (u *userService) FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error) {
+	return u.userRepository.FindFoodBenefactorMealRecord(email, date)
 }
 func (u *userService) CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error {
 	return u.userRepository.CreateFoodBenefactorBrunchMealRecord(user)

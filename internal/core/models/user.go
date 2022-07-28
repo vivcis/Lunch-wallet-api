@@ -29,6 +29,7 @@ type FoodBeneficiary struct {
 
 type MealRecords struct {
 	Model
+	MealDate  string `json:"meal_date"`
 	UserID    string `json:"user_id" gorm:"foreignKey"`
 	UserEmail string `json:"user_email" gorm:"foreignKey"`
 	Brunch    bool   `json:"brunch"`
