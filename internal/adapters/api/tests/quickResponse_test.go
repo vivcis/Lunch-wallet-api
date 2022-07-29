@@ -36,7 +36,7 @@ func TestBeneficiaryQRBrunch(t *testing.T) {
 		IsActive: true,
 	}
 	beneficiary := models.FoodBeneficiary{
-		User:  models.User{},
+		User:  user,
 		Stack: "Golang",
 	}
 	model := models.Model{
