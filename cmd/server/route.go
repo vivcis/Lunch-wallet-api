@@ -28,6 +28,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 	r := router.Group("/api/v1")
 	{
 
+		r.GET("ping", handler.PingHandler)
 		r.POST("/user/beneficiarysignup", handler.FoodBeneficiarySignUp)
 		r.PATCH("/user/beneficiaryverifyemail/:token", handler.BeneficiaryVerifyEmail)
 		r.POST("/user/kitchenstaffsignup", handler.KitchenStaffSignUp)
@@ -50,6 +51,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 	authorizeKitchenStaff.Use(middleware.AuthorizeKitchenStaff(userService.FindKitchenStaffByEmail, userService.TokenInBlacklist))
 	{
 		authorizeKitchenStaff.POST("/kitchenstafflogout", handler.KitchenStaffLogout)
+		authorizeKitchenStaff.PUT("changefoodstatus", handler.ChangeFoodStatus)
 	}
 
 	// authorizeBenefactor authorizes all authorized benefactor handler
@@ -59,9 +61,13 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 		authorizeBenefactor.POST("/beneficiarylogout", handler.FoodBeneficiaryLogout)
 		authorizeBenefactor.GET("/brunch", handler.GetBrunchHandle)
 		authorizeBenefactor.GET("/dinner", handler.GetDinnerHandle)
+<<<<<<< HEAD
 		authorizeBenefactor.GET("/qrbrunch", handler.BeneficiaryQRBrunch)
 		authorizeBenefactor.GET("/qrdinner", handler.BeneficiaryQRDinner)
 
+=======
+		authorizeBenefactor.GET("/getusers", handler.GetUsers)
+>>>>>>> main
 	}
 
 	// authorizeAdmin authorizes all authorized admin handler

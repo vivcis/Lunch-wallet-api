@@ -134,3 +134,13 @@ func (p *Postgres) CreateFoodBenefactorDinnerMealRecord(user *models.FoodBenefic
 	err = p.DB.Create(record).Error
 	return err
 }
+
+//FindAllFoodBeneficiary finds and list all food beneficiaries
+func (p *Postgres) FindAllFoodBeneficiary(query map[string]string) ([]models.FoodBeneficiary, error) {
+	var users []models.FoodBeneficiary
+	err := p.DB.Model(&models.FoodBeneficiary{}).Where("is_active = true").Where(query).Find(&users).Error
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
+}

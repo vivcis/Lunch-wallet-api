@@ -1,7 +1,9 @@
 package ports
 
 import (
+	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/decadevs/lunch-api/internal/core/models"
+	"mime/multipart"
 	"time"
 )
 
@@ -23,8 +25,8 @@ type UserRepository interface {
 	AdminResetPassword(id, newPassword string) (*models.Admin, error)
 	CreateFoodTimetable(food models.Food) error
 	CreateAdmin(user *models.Admin) (*models.Admin, error)
-	FindBrunchByDate(year int, month time.Month, day int) (*models.Food, error)
-	FindDinnerByDate(year int, month time.Month, day int) (*models.Food, error)
+	FindBrunchByDate(year int, month time.Month, day int) ([]models.Food, error)
+	FindDinnerByDate(year int, month time.Month, day int) ([]models.Food, error)
 	FoodBeneficiaryEmailVerification(id string) (*models.FoodBeneficiary, error)
 	KitchenStaffEmailVerification(id string) (*models.KitchenStaff, error)
 	AdminEmailVerification(id string) (*models.Admin, error)
@@ -33,6 +35,9 @@ type UserRepository interface {
 	CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error
 	UpdateFoodBenefactorBrunchMealRecord(email string) error
 	UpdateFoodBenefactorDinnerMealRecord(email string) error
+	FindAllFoodBeneficiary(query map[string]string) ([]models.FoodBeneficiary, error)
+	GetFoodByID(id string) (*models.Food, error)
+	UpdateFoodStatusById(id string, status string) error
 }
 
 // MailerRepository interface to implement mailing service
@@ -40,4 +45,9 @@ type MailerRepository interface {
 	SendMail(subject, body, to, Private, Domain string) error
 	GenerateNonAuthToken(UserEmail string, secret string) (*string, error)
 	DecodeToken(token, secret string) (string, error)
+}
+
+// AWSRepository interface to implement AWS
+type AWSRepository interface {
+	UploadFileToS3(h *session.Session, file multipart.File, fileName string, size int64) (string, error)
 }

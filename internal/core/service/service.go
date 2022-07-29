@@ -1,8 +1,10 @@
 package service
 
 import (
+	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/decadevs/lunch-api/internal/ports"
+	"mime/multipart"
 	"time"
 )
 
@@ -14,6 +16,10 @@ type mailerService struct {
 	mailerRepository ports.MailerRepository
 }
 
+type AWSService struct {
+	AWSRepository ports.AWSRepository
+}
+
 func NewUserService(userRepository ports.UserRepository) ports.UserService {
 	return &userService{
 		userRepository: userRepository,
@@ -23,6 +29,16 @@ func NewMailerService(mailerRepository ports.MailerRepository) ports.MailerServi
 	return &mailerService{
 		mailerRepository: mailerRepository,
 	}
+}
+
+func NewAWSServices(AWSRepository ports.AWSRepository) ports.AWSService {
+	return &AWSService{
+		AWSRepository: AWSRepository,
+	}
+}
+
+func (a *AWSService) UploadFileToS3(h *session.Session, file multipart.File, fileName string, size int64) (string, error) {
+	return a.AWSRepository.UploadFileToS3(h, file, fileName, size)
 }
 
 func (m *mailerService) SendMail(subject, body, to, Private, Domain string) error {
@@ -102,11 +118,11 @@ func (u *userService) CreateAdmin(user *models.Admin) (*models.Admin, error) {
 	return u.userRepository.CreateAdmin(user)
 }
 
-func (u *userService) FindBrunchByDate(year int, month time.Month, day int) (*models.Food, error) {
+func (u *userService) FindBrunchByDate(year int, month time.Month, day int) ([]models.Food, error) {
 	return u.userRepository.FindBrunchByDate(year, month, day)
 }
 
-func (u *userService) FindDinnerByDate(year int, month time.Month, day int) (*models.Food, error) {
+func (u *userService) FindDinnerByDate(year int, month time.Month, day int) ([]models.Food, error) {
 	return u.userRepository.FindDinnerByDate(year, month, day)
 }
 func (u *userService) FoodBeneficiaryEmailVerification(id string) (*models.FoodBeneficiary, error) {
@@ -120,6 +136,7 @@ func (u *userService) KitchenStaffEmailVerification(id string) (*models.KitchenS
 func (u *userService) AdminEmailVerification(id string) (*models.Admin, error) {
 	return u.userRepository.AdminEmailVerification(id)
 }
+<<<<<<< HEAD
 func (u *userService) FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error) {
 	return u.userRepository.FindFoodBenefactorMealRecord(email, date)
 }
@@ -134,4 +151,17 @@ func (u *userService) UpdateFoodBenefactorBrunchMealRecord(email string) error {
 }
 func (u *userService) UpdateFoodBenefactorDinnerMealRecord(email string) error {
 	return u.userRepository.UpdateFoodBenefactorDinnerMealRecord(email)
+
+
+func (u *userService) FindAllFoodBeneficiary(query map[string]string) ([]models.FoodBeneficiary, error) {
+	return u.userRepository.FindAllFoodBeneficiary(query)
+}
+
+func (u *userService) GetFoodByID(id string) (*models.Food, error) {
+	return u.userRepository.GetFoodByID(id)
+}
+
+func (u *userService) UpdateFoodStatusById(id string, status string) error {
+	return u.userRepository.UpdateFoodStatusById(id, status)
+
 }

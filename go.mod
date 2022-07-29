@@ -3,6 +3,7 @@ module github.com/decadevs/lunch-api
 go 1.17
 
 require (
+	github.com/aws/aws-sdk-go v1.44.61
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.8.1
@@ -20,7 +21,9 @@ require (
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
-	github.com/pkg/errors v0.8.1 // indirect
+	github.com/gorilla/websocket v1.5.0 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

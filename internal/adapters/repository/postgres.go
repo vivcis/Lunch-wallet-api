@@ -7,6 +7,7 @@ import (
 	"github.com/decadevs/lunch-api/internal/ports"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"os"
 )
 
 type Postgres struct {
@@ -18,7 +19,13 @@ func NewUser(DB *gorm.DB) ports.UserRepository {
 }
 
 func ConnectDb(config *helpers.Config) (*gorm.DB, error) {
-	dsn := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v sslmode=%v TimeZone=%v", config.DBHost, config.DBUser, config.DBPass, config.DBName, config.DBPort, config.DBMode, config.DBTimeZone)
+	var dsn string
+	databaseURL := os.Getenv("DATABASE_URL")
+	if databaseURL == "" {
+		dsn = fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v sslmode=%v TimeZone=%v", config.DBHost, config.DBUser, config.DBPass, config.DBName, config.DBPort, config.DBMode, config.DBTimeZone)
+	} else {
+		dsn = databaseURL
+	}
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
