@@ -42,5 +42,11 @@ func (u HTTPHandler) BeneficiaryQRBrunch(c *gin.Context) {
 }
 
 func (u HTTPHandler) BeneficiaryQRDinner(c *gin.Context) {
+	foodBeneficiary, err := u.GetBenefactorFromContext(c)
+	if err != nil {
+		helpers.JSON(c, "you are not logged in", http.StatusBadRequest, nil, []string{"bad request"})
+		return
+	}
+	date := time.Now().Format("2006-01-02")
 
 }
