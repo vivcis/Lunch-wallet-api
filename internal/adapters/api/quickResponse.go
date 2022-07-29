@@ -60,7 +60,7 @@ func (u HTTPHandler) BeneficiaryQRDinner(c *gin.Context) {
 	}
 
 	if mealRecord.Dinner {
-		helpers.JSON(c, "brunch already served", http.StatusBadRequest, nil, []string{"brunch already served"})
+		helpers.JSON(c, "Dinner already served", http.StatusBadRequest, nil, []string{"brunch already served"})
 		return
 	} else {
 		Cerr := u.UserService.UpdateFoodBenefactorDinnerMealRecord(mealRecord.UserEmail)
