@@ -162,5 +162,4 @@ func (u *userService) GetFoodByID(id string) (*models.Food, error) {
 
 func (u *userService) UpdateFoodStatusById(id string, status string) error {
 	return u.userRepository.UpdateFoodStatusById(id, status)
-
 }
