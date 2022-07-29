@@ -151,7 +151,7 @@ func (u *userService) UpdateFoodBenefactorBrunchMealRecord(email string) error {
 }
 func (u *userService) UpdateFoodBenefactorDinnerMealRecord(email string) error {
 	return u.userRepository.UpdateFoodBenefactorDinnerMealRecord(email)
-
+}
 
 func (u *userService) FindAllFoodBeneficiary(query map[string]string) ([]models.FoodBeneficiary, error) {
 	return u.userRepository.FindAllFoodBeneficiary(query)
