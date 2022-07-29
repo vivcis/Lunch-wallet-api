@@ -109,6 +109,34 @@ func (mr *MockUserRepositoryMockRecorder) CreateFoodBenefactor(user interface{})
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFoodBenefactor", reflect.TypeOf((*MockUserRepository)(nil).CreateFoodBenefactor), user)
 }
 
+// CreateFoodBenefactorBrunchMealRecord mocks base method.
+func (m *MockUserRepository) CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateFoodBenefactorBrunchMealRecord", user)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateFoodBenefactorBrunchMealRecord indicates an expected call of CreateFoodBenefactorBrunchMealRecord.
+func (mr *MockUserRepositoryMockRecorder) CreateFoodBenefactorBrunchMealRecord(user interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFoodBenefactorBrunchMealRecord", reflect.TypeOf((*MockUserRepository)(nil).CreateFoodBenefactorBrunchMealRecord), user)
+}
+
+// CreateFoodBenefactorDinnerMealRecord mocks base method.
+func (m *MockUserRepository) CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateFoodBenefactorDinnerMealRecord", user)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateFoodBenefactorDinnerMealRecord indicates an expected call of CreateFoodBenefactorDinnerMealRecord.
+func (mr *MockUserRepositoryMockRecorder) CreateFoodBenefactorDinnerMealRecord(user interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFoodBenefactorDinnerMealRecord", reflect.TypeOf((*MockUserRepository)(nil).CreateFoodBenefactorDinnerMealRecord), user)
+}
+
 // CreateFoodTimetable mocks base method.
 func (m *MockUserRepository) CreateFoodTimetable(food models.Food) error {
 	m.ctrl.T.Helper()
@@ -228,6 +256,21 @@ func (mr *MockUserRepositoryMockRecorder) FindFoodBenefactorByLocation(location 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindFoodBenefactorByLocation", reflect.TypeOf((*MockUserRepository)(nil).FindFoodBenefactorByLocation), location)
 }
 
+// FindFoodBenefactorMealRecord mocks base method.
+func (m *MockUserRepository) FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindFoodBenefactorMealRecord", email, date)
+	ret0, _ := ret[0].(*models.MealRecords)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindFoodBenefactorMealRecord indicates an expected call of FindFoodBenefactorMealRecord.
+func (mr *MockUserRepositoryMockRecorder) FindFoodBenefactorMealRecord(email, date interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindFoodBenefactorMealRecord", reflect.TypeOf((*MockUserRepository)(nil).FindFoodBenefactorMealRecord), email, date)
+}
+
 // FindKitchenStaffByEmail mocks base method.
 func (m *MockUserRepository) FindKitchenStaffByEmail(email string) (*models.KitchenStaff, error) {
 	m.ctrl.T.Helper()
@@ -345,6 +388,34 @@ func (m *MockUserRepository) TokenInBlacklist(token *string) bool {
 func (mr *MockUserRepositoryMockRecorder) TokenInBlacklist(token interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TokenInBlacklist", reflect.TypeOf((*MockUserRepository)(nil).TokenInBlacklist), token)
+}
+
+// UpdateFoodBenefactorBrunchMealRecord mocks base method.
+func (m *MockUserRepository) UpdateFoodBenefactorBrunchMealRecord(email string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateFoodBenefactorBrunchMealRecord", email)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateFoodBenefactorBrunchMealRecord indicates an expected call of UpdateFoodBenefactorBrunchMealRecord.
+func (mr *MockUserRepositoryMockRecorder) UpdateFoodBenefactorBrunchMealRecord(email interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFoodBenefactorBrunchMealRecord", reflect.TypeOf((*MockUserRepository)(nil).UpdateFoodBenefactorBrunchMealRecord), email)
+}
+
+// UpdateFoodBenefactorDinnerMealRecord mocks base method.
+func (m *MockUserRepository) UpdateFoodBenefactorDinnerMealRecord(email string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateFoodBenefactorDinnerMealRecord", email)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateFoodBenefactorDinnerMealRecord indicates an expected call of UpdateFoodBenefactorDinnerMealRecord.
+func (mr *MockUserRepositoryMockRecorder) UpdateFoodBenefactorDinnerMealRecord(email interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFoodBenefactorDinnerMealRecord", reflect.TypeOf((*MockUserRepository)(nil).UpdateFoodBenefactorDinnerMealRecord), email)
 }
 
 // UserResetPassword mocks base method.
