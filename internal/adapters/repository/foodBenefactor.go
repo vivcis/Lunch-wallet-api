@@ -104,6 +104,15 @@ func (p *Postgres) CreateFoodBenefactorBrunchMealRecord(user *models.FoodBenefic
 //UpdateFoodBenefactorBrunchMealRecord updates the beneficiary meal record
 func (p *Postgres) UpdateFoodBenefactorBrunchMealRecord(email string) error {
 	user := &models.MealRecords{}
+	if err := p.DB.Model(user).Where("user_email =?", email).Update("brunch", true).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+//UpdateFoodBenefactorDinnerMealRecord updates the beneficiary meal record
+func (p *Postgres) UpdateFoodBenefactorDinnerMealRecord(email string) error {
+	user := &models.MealRecords{}
 	if err := p.DB.Model(user).Where("user_email =?", email).Update("dinner", true).Error; err != nil {
 		return err
 	}
