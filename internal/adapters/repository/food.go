@@ -2,6 +2,7 @@ package repository
 
 import (
 	"errors"
+	"fmt"
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"time"
 )
@@ -31,4 +32,22 @@ func (p *Postgres) FindDinnerByDate(year int, month time.Month, day int) ([]mode
 		return nil, errors.New(" food not found")
 	}
 	return food, nil
+}
+
+func (p *Postgres) GetFoodByID(id string) (*models.Food, error) {
+	food := &models.Food{}
+	if err := p.DB.Where("ID", id).First(food).Error; err != nil {
+		return nil, err
+	}
+	return food, nil
+}
+
+func (p *Postgres) UpdateFoodStatusById(id string, status string) error {
+	foodStatus := models.Food{}
+	err := p.DB.Model(&foodStatus).Where("id = ?", id).Update("status", status).Error
+	if err != nil {
+		fmt.Println("error updating status in database")
+		return err
+	}
+	return nil
 }

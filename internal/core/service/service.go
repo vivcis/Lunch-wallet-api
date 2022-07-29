@@ -136,3 +136,15 @@ func (u *userService) KitchenStaffEmailVerification(id string) (*models.KitchenS
 func (u *userService) AdminEmailVerification(id string) (*models.Admin, error) {
 	return u.userRepository.AdminEmailVerification(id)
 }
+
+func (u *userService) FindAllFoodBeneficiary(query map[string]string) ([]models.FoodBeneficiary, error) {
+	return u.userRepository.FindAllFoodBeneficiary(query)
+}
+
+func (u *userService) GetFoodByID(id string) (*models.Food, error) {
+	return u.userRepository.GetFoodByID(id)
+}
+
+func (u *userService) UpdateFoodStatusById(id string, status string) error {
+	return u.userRepository.UpdateFoodStatusById(id, status)
+}

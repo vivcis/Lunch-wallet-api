@@ -74,3 +74,13 @@ func (p *Postgres) FoodBeneficiaryEmailVerification(id string) (*models.FoodBene
 	}
 	return user, nil
 }
+
+//FindAllFoodBeneficiary finds and list all food beneficiaries
+func (p *Postgres) FindAllFoodBeneficiary(query map[string]string) ([]models.FoodBeneficiary, error) {
+	var users []models.FoodBeneficiary
+	err := p.DB.Model(&models.FoodBeneficiary{}).Where("is_active = true").Where(query).Find(&users).Error
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
+}
