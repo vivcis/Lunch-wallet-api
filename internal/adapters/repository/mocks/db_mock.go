@@ -5,9 +5,11 @@
 package mocks
 
 import (
+	multipart "mime/multipart"
 	reflect "reflect"
 	time "time"
 
+	session "github.com/aws/aws-sdk-go/aws/session"
 	models "github.com/decadevs/lunch-api/internal/core/models"
 	gomock "github.com/golang/mock/gomock"
 )
@@ -154,10 +156,10 @@ func (mr *MockUserRepositoryMockRecorder) FindAdminByEmail(email interface{}) *g
 }
 
 // FindBrunchByDate mocks base method.
-func (m *MockUserRepository) FindBrunchByDate(year int, month time.Month, day int) (*models.Food, error) {
+func (m *MockUserRepository) FindBrunchByDate(year int, month time.Month, day int) ([]models.Food, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindBrunchByDate", year, month, day)
-	ret0, _ := ret[0].(*models.Food)
+	ret0, _ := ret[0].([]models.Food)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -169,10 +171,10 @@ func (mr *MockUserRepositoryMockRecorder) FindBrunchByDate(year, month, day inte
 }
 
 // FindDinnerByDate mocks base method.
-func (m *MockUserRepository) FindDinnerByDate(year int, month time.Month, day int) (*models.Food, error) {
+func (m *MockUserRepository) FindDinnerByDate(year int, month time.Month, day int) ([]models.Food, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindDinnerByDate", year, month, day)
-	ret0, _ := ret[0].(*models.Food)
+	ret0, _ := ret[0].([]models.Food)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -427,4 +429,42 @@ func (m *MockMailerRepository) SendMail(subject, body, to, Private, Domain strin
 func (mr *MockMailerRepositoryMockRecorder) SendMail(subject, body, to, Private, Domain interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendMail", reflect.TypeOf((*MockMailerRepository)(nil).SendMail), subject, body, to, Private, Domain)
+}
+
+// MockAWSRepository is a mock of AWSRepository interface.
+type MockAWSRepository struct {
+	ctrl     *gomock.Controller
+	recorder *MockAWSRepositoryMockRecorder
+}
+
+// MockAWSRepositoryMockRecorder is the mock recorder for MockAWSRepository.
+type MockAWSRepositoryMockRecorder struct {
+	mock *MockAWSRepository
+}
+
+// NewMockAWSRepository creates a new mock instance.
+func NewMockAWSRepository(ctrl *gomock.Controller) *MockAWSRepository {
+	mock := &MockAWSRepository{ctrl: ctrl}
+	mock.recorder = &MockAWSRepositoryMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockAWSRepository) EXPECT() *MockAWSRepositoryMockRecorder {
+	return m.recorder
+}
+
+// UploadFileToS3 mocks base method.
+func (m *MockAWSRepository) UploadFileToS3(h *session.Session, file multipart.File, fileName string, size int64) (string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UploadFileToS3", h, file, fileName, size)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UploadFileToS3 indicates an expected call of UploadFileToS3.
+func (mr *MockAWSRepositoryMockRecorder) UploadFileToS3(h, file, fileName, size interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UploadFileToS3", reflect.TypeOf((*MockAWSRepository)(nil).UploadFileToS3), h, file, fileName, size)
 }

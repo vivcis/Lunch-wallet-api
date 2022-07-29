@@ -124,5 +124,6 @@ func (u HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 		c.JSON(400, gin.H{"message": "bad request"})
 		return
 	}
+
 	helpers.JSON(c, "Successfully Created", 201, nil, nil)
 }
