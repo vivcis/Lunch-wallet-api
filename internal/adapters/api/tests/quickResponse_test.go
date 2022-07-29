@@ -55,7 +55,7 @@ func TestBeneficiaryQRBrunch(t *testing.T) {
 		Dinner:    false,
 	}
 	secret := os.Getenv("JWT_SECRET")
-	accessClaims, _ := middleware.GenerateClaims(admin.Email)
+	accessClaims, _ := middleware.GenerateClaims(beneficiary.Email)
 	accToken, _ := middleware.GenerateToken(jwt.SigningMethodHS256, accessClaims, &secret)
 
 }
