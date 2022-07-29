@@ -63,7 +63,7 @@ func (u HTTPHandler) BeneficiaryQRDinner(c *gin.Context) {
 		helpers.JSON(c, "brunch already served", http.StatusBadRequest, nil, []string{"brunch already served"})
 		return
 	} else {
-		Cerr := u.UserService.CreateFoodBenefactorBrunchMealRecord(foodBeneficiary)
+		Cerr := u.UserService.UpdateFoodBenefactorDinnerMealRecord(mealRecord.UserEmail)
 		if Cerr != nil {
 			helpers.JSON(c, "internal server error", http.StatusInternalServerError, nil, []string{"internal server error"})
 			return
