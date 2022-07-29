@@ -422,22 +422,14 @@ func (mr *MockUserRepositoryMockRecorder) TokenInBlacklist(token interface{}) *g
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TokenInBlacklist", reflect.TypeOf((*MockUserRepository)(nil).TokenInBlacklist), token)
 }
 
-<<<<<<< HEAD
 // UpdateFoodBenefactorBrunchMealRecord mocks base method.
 func (m *MockUserRepository) UpdateFoodBenefactorBrunchMealRecord(email string) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "UpdateFoodBenefactorBrunchMealRecord", email)
-=======
-// UpdateFoodStatusById mocks base method.
-func (m *MockUserRepository) UpdateFoodStatusById(id, status string) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateFoodStatusById", id, status)
->>>>>>> main
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-<<<<<<< HEAD
 // UpdateFoodBenefactorBrunchMealRecord indicates an expected call of UpdateFoodBenefactorBrunchMealRecord.
 func (mr *MockUserRepositoryMockRecorder) UpdateFoodBenefactorBrunchMealRecord(email interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
@@ -456,12 +448,20 @@ func (m *MockUserRepository) UpdateFoodBenefactorDinnerMealRecord(email string) 
 func (mr *MockUserRepositoryMockRecorder) UpdateFoodBenefactorDinnerMealRecord(email interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFoodBenefactorDinnerMealRecord", reflect.TypeOf((*MockUserRepository)(nil).UpdateFoodBenefactorDinnerMealRecord), email)
-=======
+}
+
+// UpdateFoodStatusById mocks base method.
+func (m *MockUserRepository) UpdateFoodStatusById(id, status string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateFoodStatusById", id, status)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
 // UpdateFoodStatusById indicates an expected call of UpdateFoodStatusById.
 func (mr *MockUserRepositoryMockRecorder) UpdateFoodStatusById(id, status interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFoodStatusById", reflect.TypeOf((*MockUserRepository)(nil).UpdateFoodStatusById), id, status)
->>>>>>> main
 }
 
 // UserResetPassword mocks base method.
