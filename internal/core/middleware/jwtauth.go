@@ -2,10 +2,16 @@ package middleware
 
 import (
 	"fmt"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/credentials"
+	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/decadevs/lunch-api/internal/core/helpers"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"log"
+	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -89,4 +95,25 @@ func IsTokenExpired(claims jwt.MapClaims) bool {
 func RespondAndAbort(c *gin.Context, message string, status int, data interface{}, errs []string) {
 	helpers.JSON(c, message, status, data, errs)
 	c.Abort()
+}
+
+func CheckSupportedFile(filename string) (string, bool) {
+	supportedFileTypes := map[string]bool{
+		".png":  true,
+		".jpeg": true,
+		".jpg":  true,
+	}
+	fileExtension := filepath.Ext(filename)
+	return fileExtension, !supportedFileTypes[fileExtension]
+}
+
+func PreAWS(fileExtension, folder string) (*session.Session, string, error) {
+	secret := os.Getenv("AWS_SECRET_KEY")
+	id := os.Getenv("AWS_SECRET_ID")
+	tempFileName := folder + "/" + uuid.NewString() + fileExtension
+	sess, err := session.NewSession(&aws.Config{
+		Region:      aws.String(os.Getenv("AWS_REGION")),
+		Credentials: credentials.NewStaticCredentials(id, secret, ""),
+	})
+	return sess, tempFileName, err
 }
