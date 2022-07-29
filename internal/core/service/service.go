@@ -129,3 +129,9 @@ func (u *userService) CreateFoodBenefactorBrunchMealRecord(user *models.FoodBene
 func (u *userService) CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error {
 	return u.userRepository.CreateFoodBenefactorDinnerMealRecord(user)
 }
+func (u *userService) UpdateFoodBenefactorBrunchMealRecord(email string) error {
+	return u.userRepository.CreateFoodBenefactorDinnerMealRecord(user)
+}
+func (u *userService) UpdateFoodBenefactorDinnerMealRecord(email string) error {
+	return u.userRepository.CreateFoodBenefactorDinnerMealRecord(user)
+}

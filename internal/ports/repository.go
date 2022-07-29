@@ -31,6 +31,8 @@ type UserRepository interface {
 	FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error)
 	CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error
 	CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error
+	UpdateFoodBenefactorBrunchMealRecord(email string) error
+	UpdateFoodBenefactorDinnerMealRecord(email string) error
 }
 
 // MailerRepository interface to implement mailing service
