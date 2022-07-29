@@ -102,12 +102,12 @@ func (p *Postgres) CreateFoodBenefactorBrunchMealRecord(user *models.FoodBenefic
 }
 
 //UpdateFoodBenefactorBrunchMealRecord verifies the beneficiary email address
-func (p *Postgres) UpdateFoodBenefactorBrunchMealRecord(email string) (*models.MealRecords, error) {
+func (p *Postgres) UpdateFoodBenefactorBrunchMealRecord(email string) error {
 	user := &models.MealRecords{}
 	if err := p.DB.Model(user).Where("user_email =?", email).Update("dinner", true).Error; err != nil {
 		return nil, err
 	}
-	return user, nil
+	return nil
 }
 
 // CreateFoodBenefactorDinnerMealRecord creates a benefactor in the database
