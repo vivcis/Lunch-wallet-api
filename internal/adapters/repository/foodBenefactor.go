@@ -100,3 +100,18 @@ func (p *Postgres) CreateFoodBenefactorBrunchMealRecord(user *models.FoodBenefic
 	err = p.DB.Create(record).Error
 	return err
 }
+
+// CreateFoodBenefactorDinnerMealRecord creates a benefactor in the database
+func (p *Postgres) CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error {
+	var err error
+	record := &models.MealRecords{
+		Model:     models.Model{},
+		MealDate:  time.Now().Format("2006-01-02"),
+		UserID:    user.ID,
+		UserEmail: user.Email,
+		Dinner:    true,
+	}
+
+	err = p.DB.Create(record).Error
+	return err
+}

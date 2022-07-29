@@ -30,6 +30,7 @@ type UserService interface {
 	AdminEmailVerification(id string) (*models.Admin, error)
 	FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error)
 	CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error
+	CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error
 }
 
 // MailerService interface to implement mailing service

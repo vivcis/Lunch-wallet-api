@@ -126,3 +126,6 @@ func (u *userService) FindFoodBenefactorMealRecord(email, date string) (*models.
 func (u *userService) CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error {
 	return u.userRepository.CreateFoodBenefactorBrunchMealRecord(user)
 }
+func (u *userService) CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error {
+	return u.userRepository.CreateFoodBenefactorDinnerMealRecord(user)
+}

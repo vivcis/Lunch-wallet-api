@@ -48,5 +48,15 @@ func (u HTTPHandler) BeneficiaryQRDinner(c *gin.Context) {
 		return
 	}
 	date := time.Now().Format("2006-01-02")
+	mealRecord, mealErr := u.UserService.FindFoodBenefactorMealRecord(foodBeneficiary.Email, date)
+	if mealErr != nil {
+		Cerr := u.UserService.CreateFoodBenefactorDinnerMealRecord(foodBeneficiary)
+		if Cerr != nil {
+			helpers.JSON(c, "internal server error", http.StatusInternalServerError, nil, []string{"internal server error"})
+			return
+		}
+		helpers.JSON(c, "success", http.StatusOK, nil, []string{"success"})
+		return
+	}
 
 }
