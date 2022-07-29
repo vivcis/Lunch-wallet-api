@@ -60,5 +60,6 @@ func TestBeneficiaryQRBrunch(t *testing.T) {
 	t.Run("testing success", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindAdminByEmail(beneficiary.Email).Return(&beneficiary, nil)
+	}
 
 }
