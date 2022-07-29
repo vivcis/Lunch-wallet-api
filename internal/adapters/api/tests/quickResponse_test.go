@@ -29,9 +29,9 @@ func TestBeneficiaryQRBrunch(t *testing.T) {
 	mealRecord := &models.MealRecords{
 		Model:     model,
 		MealDate:  date,
-		UserID:    "",
-		UserEmail: "",
-		Brunch:    false,
+		UserID:    "userid",
+		UserEmail: "michael.gbenle@decagon.dev",
+		Brunch:    true,
 		Dinner:    false,
 	}
 }
