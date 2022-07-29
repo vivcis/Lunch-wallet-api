@@ -57,5 +57,8 @@ func TestBeneficiaryQRBrunch(t *testing.T) {
 	secret := os.Getenv("JWT_SECRET")
 	accessClaims, _ := middleware.GenerateClaims(beneficiary.Email)
 	accToken, _ := middleware.GenerateToken(jwt.SigningMethodHS256, accessClaims, &secret)
+	t.Run("testing success", func(t *testing.T) {
+		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
+		mockDb.EXPECT().FindAdminByEmail(beneficiary.Email).Return(&beneficiary, nil)
 
 }
