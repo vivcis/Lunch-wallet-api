@@ -1,6 +1,8 @@
 package tests
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/decadevs/lunch-api/cmd/server"
 	"github.com/decadevs/lunch-api/internal/adapters/api"
 	"github.com/decadevs/lunch-api/internal/adapters/repository/mocks"
@@ -8,8 +10,12 @@ import (
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/golang/mock/gomock"
+	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
+	"net/http"
+	"net/http/httptest"
 	"os"
+	"strings"
 	"testing"
 	"time"
 )
@@ -60,6 +66,15 @@ func TestBeneficiaryQRBrunch(t *testing.T) {
 	t.Run("testing success", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindAdminByEmail(beneficiary.Email).Return(&beneficiary, nil)
-	}
+
+		bytes, _ := json.Marshal(mealRecord)
+		rw := httptest.NewRecorder()
+		req, _ := http.NewRequest(http.MethodPost, "/api/v1/admin/createtimetable", strings.NewReader(string(bytes)))
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))
+		router.ServeHTTP(rw, req)
+		assert.Equal(t, http.StatusBadRequest, rw.Code)
+		assert.Contains(t, rw.Body.String(), "bad request")
+
+	})
 
 }
