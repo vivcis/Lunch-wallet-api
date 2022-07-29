@@ -63,17 +63,18 @@ func TestBeneficiaryQRBrunch(t *testing.T) {
 	secret := os.Getenv("JWT_SECRET")
 	accessClaims, _ := middleware.GenerateClaims(beneficiary.Email)
 	accToken, _ := middleware.GenerateToken(jwt.SigningMethodHS256, accessClaims, &secret)
-	t.Run("testing success", func(t *testing.T) {
+	t.Run("testing bad request", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
-		mockDb.EXPECT().FindAdminByEmail(beneficiary.Email).Return(&beneficiary, nil)
+		mockDb.EXPECT().FindFoodBenefactorByEmail(beneficiary.Email).Return(&beneficiary, nil)
+		mockDb.EXPECT().FindFoodBenefactorMealRecord(beneficiary.Email, date).Return(mealRecord, nil)
 
 		bytes, _ := json.Marshal(mealRecord)
 		rw := httptest.NewRecorder()
-		req, _ := http.NewRequest(http.MethodPost, "/api/v1/benefactor/qrbrunch", strings.NewReader(string(bytes)))
+		req, _ := http.NewRequest(http.MethodGet, "/api/v1/benefactor/qrbrunch", strings.NewReader(string(bytes)))
 		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))
 		router.ServeHTTP(rw, req)
 		assert.Equal(t, http.StatusBadRequest, rw.Code)
-		assert.Contains(t, rw.Body.String(), "bad request")
+		assert.Contains(t, rw.Body.String(), "brunch already served")
 
 	})
 
