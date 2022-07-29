@@ -69,7 +69,7 @@ func TestBeneficiaryQRBrunch(t *testing.T) {
 
 		bytes, _ := json.Marshal(mealRecord)
 		rw := httptest.NewRecorder()
-		req, _ := http.NewRequest(http.MethodPost, "/api/v1/admin/createtimetable", strings.NewReader(string(bytes)))
+		req, _ := http.NewRequest(http.MethodPost, "/api/v1/benefactor/qrbrunch", strings.NewReader(string(bytes)))
 		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))
 		router.ServeHTTP(rw, req)
 		assert.Equal(t, http.StatusBadRequest, rw.Code)
