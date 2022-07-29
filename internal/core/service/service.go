@@ -136,7 +136,6 @@ func (u *userService) KitchenStaffEmailVerification(id string) (*models.KitchenS
 func (u *userService) AdminEmailVerification(id string) (*models.Admin, error) {
 	return u.userRepository.AdminEmailVerification(id)
 }
-<<<<<<< HEAD
 func (u *userService) FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error) {
 	return u.userRepository.FindFoodBenefactorMealRecord(email, date)
 }
