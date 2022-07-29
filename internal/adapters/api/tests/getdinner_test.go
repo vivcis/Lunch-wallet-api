@@ -40,7 +40,7 @@ func TestGetDinnerHandle(t *testing.T) {
 		Stack: "Golang",
 	}
 	year, month, day := time.Now().Date()
-	food := &models.Food{
+	food := models.Food{
 		Name:      "Egusi and Swallow",
 		Type:      "DINNER",
 		AdminName: "Joseph Asuquo",
@@ -49,6 +49,10 @@ func TestGetDinnerHandle(t *testing.T) {
 		Day:       day,
 		Weekday:   "Friday",
 		Status:    "Not serve",
+	}
+
+	foods := []models.Food{
+		food,
 	}
 
 	bytes, _ := json.Marshal(food)
@@ -72,7 +76,7 @@ func TestGetDinnerHandle(t *testing.T) {
 	t.Run("testing Successful request", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindFoodBenefactorByEmail(benefactor.Email).Return(&benefactor, nil)
-		mockDb.EXPECT().FindDinnerByDate(year, month, day).Return(food, nil)
+		mockDb.EXPECT().FindDinnerByDate(year, month, day).Return(foods, nil)
 		rw := httptest.NewRecorder()
 		req, _ := http.NewRequest(http.MethodGet, "/api/v1/benefactor/dinner", strings.NewReader(string(bytes)))
 		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))
