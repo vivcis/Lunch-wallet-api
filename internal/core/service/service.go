@@ -137,8 +137,8 @@ func (u *userService) AdminEmailVerification(id string) (*models.Admin, error) {
 	return u.userRepository.AdminEmailVerification(id)
 }
 
-func (u *userService) FindAllFoodBeneficiary(query map[string]string) ([]models.FoodBeneficiary, error) {
-	return u.userRepository.FindAllFoodBeneficiary(query)
+func (u *userService) FindAllFoodBeneficiary() ([]models.UserDetails, error) {
+	return u.userRepository.FindAllFoodBeneficiary()
 }
 
 func (u *userService) GetFoodByID(id string) (*models.Food, error) {
@@ -147,4 +147,12 @@ func (u *userService) GetFoodByID(id string) (*models.Food, error) {
 
 func (u *userService) UpdateFoodStatusById(id string, status string) error {
 	return u.userRepository.UpdateFoodStatusById(id, status)
+}
+
+func (u *userService) SearchFoodBeneficiary(fullName string) ([]models.FoodBeneficiary, error) {
+	return u.userRepository.SearchFoodBeneficiariesByFullName(fullName)
+}
+
+func (u *userService) GetTotalUsers() (int, error) {
+	return u.userRepository.GetTotalUsers()
 }

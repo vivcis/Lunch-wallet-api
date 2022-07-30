@@ -6,6 +6,7 @@ import (
 
 type Food struct {
 	Model
+	UserId    string     `gorm:"foreignKey:kitchen_staff(id)" json:"user_id"`
 	Name      string     `json:"name"`
 	Type      string     `json:"type"`
 	AdminName string     `json:"adminName"`

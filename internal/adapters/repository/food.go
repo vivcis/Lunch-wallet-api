@@ -36,7 +36,7 @@ func (p *Postgres) FindDinnerByDate(year int, month time.Month, day int) ([]mode
 
 func (p *Postgres) GetFoodByID(id string) (*models.Food, error) {
 	food := &models.Food{}
-	if err := p.DB.Where("ID", id).First(food).Error; err != nil {
+	if err := p.DB.Where("ID = ?", id).First(food).Error; err != nil {
 		return nil, err
 	}
 	return food, nil

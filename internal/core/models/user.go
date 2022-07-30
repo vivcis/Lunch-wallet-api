@@ -21,6 +21,12 @@ type User struct {
 	Token        string `json:"token"`
 }
 
+type UserDetails struct {
+	FullName string `json:"full_name" binding:"required"`
+	Stack    string `json:"stack"`
+	Location string `json:"location"`
+}
+
 //FoodBeneficiary represents a decadev
 type FoodBeneficiary struct {
 	User
@@ -76,7 +82,7 @@ func (user *User) ValidateDecagonEmail() bool {
 
 func (user *User) ValidAdminDecagonEmail() bool {
 	decagonEmail := strings.Split(user.Email, "@")
-	if decagonEmail[1] == "decagonhq.com" {
+	if decagonEmail[1] == "decagon.dev" {
 		return true
 	}
 	return false

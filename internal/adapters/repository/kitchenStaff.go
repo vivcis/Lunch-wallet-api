@@ -59,8 +59,17 @@ func (p *Postgres) KitchenStaffResetPassword(id, newPassword string) (*models.Ki
 //KitchenStaffEmailVerification verifies the kitchen staff email address
 func (p *Postgres) KitchenStaffEmailVerification(id string) (*models.KitchenStaff, error) {
 	user := &models.KitchenStaff{}
-	if err := p.DB.Model(user).Where("id =?", id).Update("is_active", true).Error; err != nil {
+	if err := p.DB.Model(user).Where("id = ?", id).Update("is_active", true).Error; err != nil {
 		return nil, err
 	}
 	return user, nil
+}
+
+func (p *Postgres) GetTotalUsers() (int, error) {
+	var totalUsers []models.FoodBeneficiary
+	if err := p.DB.Find(&totalUsers).Error; err != nil {
+		return 0, err
+	}
+	count := len(totalUsers)
+	return count, nil
 }
