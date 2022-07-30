@@ -51,6 +51,8 @@ type UserRepository interface {
 	CreateFoodBenefactorQRMealRecord(mealRecord *models.QRCodeMealRecords) error
 	NumberOfBlockedBeneficiary() (int64, error)
 	GetBlockedBeneficiary() ([]models.FoodBeneficiary, error)
+	UpdateFoodStatusById(id string, status string) error
+	GetAllFoodBeneficiaries() ([]models.FoodBeneficiary, error)
 }
 
 // MailerRepository interface to implement mailing service

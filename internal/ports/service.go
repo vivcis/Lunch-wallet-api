@@ -14,6 +14,7 @@ type UserService interface {
 	FindKitchenStaffByFullName(fullname string) (*models.KitchenStaff, error)
 	FindKitchenStaffByEmail(email string) (*models.KitchenStaff, error)
 	FindKitchenStaffByLocation(location string) (*models.KitchenStaff, error)
+	GetAllFoodBeneficiaries() ([]models.FoodBeneficiary, error)
 	CreateKitchenStaff(user *models.KitchenStaff) (*models.KitchenStaff, error)
 	FindAdminByEmail(email string) (*models.Admin, error)
 	TokenInBlacklist(token *string) bool
@@ -51,6 +52,7 @@ type UserService interface {
 	CreateFoodBenefactorQRMealRecord(mealRecord *models.QRCodeMealRecords) error
 	NumberOfBlockedBeneficiary() (int64, error)
 	GetBlockedBeneficiary() ([]models.FoodBeneficiary, error)
+	UpdateFoodStatusById(id string, status string) error
 }
 
 // MailerService interface to implement mailing service
