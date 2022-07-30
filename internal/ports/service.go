@@ -13,6 +13,7 @@ type UserService interface {
 	FindKitchenStaffByFullName(fullname string) (*models.KitchenStaff, error)
 	FindKitchenStaffByEmail(email string) (*models.KitchenStaff, error)
 	FindKitchenStaffByLocation(location string) (*models.KitchenStaff, error)
+	GetAllFoodBeneficiaries() ([]models.FoodBeneficiary, error)
 	CreateKitchenStaff(user *models.KitchenStaff) (*models.KitchenStaff, error)
 	FindAdminByEmail(email string) (*models.Admin, error)
 	TokenInBlacklist(token *string) bool

@@ -303,6 +303,21 @@ func (mr *MockUserRepositoryMockRecorder) FoodBeneficiaryEmailVerification(id in
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FoodBeneficiaryEmailVerification", reflect.TypeOf((*MockUserRepository)(nil).FoodBeneficiaryEmailVerification), id)
 }
 
+// GetAllFoodBeneficiaries mocks base method.
+func (m *MockUserRepository) GetAllFoodBeneficiaries() ([]models.FoodBeneficiary, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAllFoodBeneficiaries")
+	ret0, _ := ret[0].([]models.FoodBeneficiary)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAllFoodBeneficiaries indicates an expected call of GetAllFoodBeneficiaries.
+func (mr *MockUserRepositoryMockRecorder) GetAllFoodBeneficiaries() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllFoodBeneficiaries", reflect.TypeOf((*MockUserRepository)(nil).GetAllFoodBeneficiaries))
+}
+
 // KitchenStaffEmailVerification mocks base method.
 func (m *MockUserRepository) KitchenStaffEmailVerification(id string) (*models.KitchenStaff, error) {
 	m.ctrl.T.Helper()

@@ -74,3 +74,13 @@ func (p *Postgres) FoodBeneficiaryEmailVerification(id string) (*models.FoodBene
 	}
 	return user, nil
 }
+
+// GetAllFoodBeneficiaries  returns all the sellers in the updated database
+func (p *Postgres) GetAllFoodBeneficiaries() ([]models.FoodBeneficiary, error) {
+	var foodBeneficiary []models.FoodBeneficiary
+	err := p.DB.Model(&models.FoodBeneficiary{}).Find(&foodBeneficiary).Error
+	if err != nil {
+		return nil, err
+	}
+	return foodBeneficiary, nil
+}
