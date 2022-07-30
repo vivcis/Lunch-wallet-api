@@ -53,6 +53,7 @@ type UserRepository interface {
 	GetBlockedBeneficiary() ([]models.FoodBeneficiary, error)
 	UpdateFoodStatusById(id string, status string) error
 	GetAllFoodBeneficiaries() ([]models.FoodBeneficiary, error)
+	FindFoodByDate(year int, month time.Month, day int) ([]models.Food, error)
 }
 
 // MailerRepository interface to implement mailing service

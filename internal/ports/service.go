@@ -53,6 +53,7 @@ type UserService interface {
 	NumberOfBlockedBeneficiary() (int64, error)
 	GetBlockedBeneficiary() ([]models.FoodBeneficiary, error)
 	UpdateFoodStatusById(id string, status string) error
+	FindFoodByDate(year int, month time.Month, day int) ([]models.Food, error)
 }
 
 // MailerService interface to implement mailing service
