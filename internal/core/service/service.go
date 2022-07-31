@@ -145,12 +145,12 @@ func (u *userService) GetFoodByID(id string) (*models.Food, error) {
 	return u.userRepository.GetFoodByID(id)
 }
 
-func (u *userService) UpdateFoodStatusById(id string, status string) error {
-	return u.userRepository.UpdateFoodStatusById(id, status)
+func (u *userService) UpdateStatus(food []models.Food, status string) error {
+	return u.userRepository.UpdateStatus(food, status)
 }
 
 func (u *userService) SearchFoodBeneficiary(fullName string) ([]models.FoodBeneficiary, error) {
-	return u.userRepository.SearchFoodBeneficiariesByFullName(fullName)
+	return u.userRepository.SearchFoodBeneficiary(fullName)
 }
 
 func (u *userService) GetTotalUsers() (int, error) {
