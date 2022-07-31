@@ -42,12 +42,13 @@ func (p *Postgres) GetFoodByID(id string) (*models.Food, error) {
 	return food, nil
 }
 
-func (p *Postgres) UpdateFoodStatusById(id string, status string) error {
-	foodStatus := models.Food{}
-	err := p.DB.Model(&foodStatus).Where("id = ?", id).Update("status", status).Error
-	if err != nil {
-		fmt.Println("error updating status in database")
-		return err
+func (p *Postgres) UpdateStatus(food []models.Food, status string) error {
+	for i := 0; i < len(food); i++ {
+		err := p.DB.Model(&models.Food{}).Where("id = ?", food[i].ID).Update("status", status).Error
+		if err != nil {
+			fmt.Println("error updating brunch status in database")
+			return err
+		}
 	}
 	return nil
 }
