@@ -32,7 +32,7 @@ type UserService interface {
 	AdminEmailVerification(id string) (*models.Admin, error)
 	FindAllFoodBeneficiary() ([]models.UserDetails, error)
 	GetFoodByID(id string) (*models.Food, error)
-	UpdateFoodStatusById(id string, status string) error
+	UpdateStatus(food []models.Food, status string) error
 	SearchFoodBeneficiary(fullName string) ([]models.FoodBeneficiary, error)
 	GetTotalUsers() (int, error)
 }
