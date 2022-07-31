@@ -30,6 +30,11 @@ type UserService interface {
 	FoodBeneficiaryEmailVerification(id string) (*models.FoodBeneficiary, error)
 	KitchenStaffEmailVerification(id string) (*models.KitchenStaff, error)
 	AdminEmailVerification(id string) (*models.Admin, error)
+	FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error)
+	CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error
+	CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error
+	UpdateFoodBenefactorBrunchMealRecord(email string) error
+	UpdateFoodBenefactorDinnerMealRecord(email string) error
 	FindAllFoodBeneficiary(query map[string]string) ([]models.FoodBeneficiary, error)
 	GetFoodByID(id string) (*models.Food, error)
 	UpdateFoodStatusById(id string, status string) error

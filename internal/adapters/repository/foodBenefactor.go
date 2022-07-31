@@ -75,6 +75,66 @@ func (p *Postgres) FoodBeneficiaryEmailVerification(id string) (*models.FoodBene
 	return user, nil
 }
 
+// FindFoodBenefactorMealRecord finds a benefactor meal record
+func (p *Postgres) FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error) {
+	user := &models.MealRecords{}
+	err := p.DB.Where("user_email =? AND meal_date = ?", email, date).Last(user).Error
+	if user.UserEmail == "" {
+		return nil, err
+	}
+	return user, nil
+}
+
+// CreateFoodBenefactorBrunchMealRecord creates a benefactor meal record in the database
+func (p *Postgres) CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error {
+	var err error
+	record := &models.MealRecords{
+		Model:     models.Model{},
+		MealDate:  time.Now().Format("2006-01-02"),
+		UserID:    user.ID,
+		UserEmail: user.Email,
+		Brunch:    true,
+		Dinner:    false,
+	}
+
+	err = p.DB.Create(record).Error
+	return err
+}
+
+//UpdateFoodBenefactorBrunchMealRecord updates the beneficiary meal record
+func (p *Postgres) UpdateFoodBenefactorBrunchMealRecord(email string) error {
+	user := &models.MealRecords{}
+	if err := p.DB.Model(user).Where("user_email =?", email).Update("brunch", true).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+//UpdateFoodBenefactorDinnerMealRecord updates the beneficiary meal record
+func (p *Postgres) UpdateFoodBenefactorDinnerMealRecord(email string) error {
+	user := &models.MealRecords{}
+	if err := p.DB.Model(user).Where("user_email =?", email).Update("dinner", true).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+// CreateFoodBenefactorDinnerMealRecord creates a benefactor meal record in the database
+func (p *Postgres) CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error {
+	var err error
+	record := &models.MealRecords{
+		Model:     models.Model{},
+		MealDate:  time.Now().Format("2006-01-02"),
+		UserID:    user.ID,
+		UserEmail: user.Email,
+		Brunch:    false,
+		Dinner:    true,
+	}
+
+	err = p.DB.Create(record).Error
+	return err
+}
+
 //FindAllFoodBeneficiary finds and list all food beneficiaries
 func (p *Postgres) FindAllFoodBeneficiary(query map[string]string) ([]models.FoodBeneficiary, error) {
 	var users []models.FoodBeneficiary
