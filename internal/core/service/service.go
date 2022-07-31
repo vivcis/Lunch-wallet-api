@@ -136,6 +136,21 @@ func (u *userService) KitchenStaffEmailVerification(id string) (*models.KitchenS
 func (u *userService) AdminEmailVerification(id string) (*models.Admin, error) {
 	return u.userRepository.AdminEmailVerification(id)
 }
+func (u *userService) FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error) {
+	return u.userRepository.FindFoodBenefactorMealRecord(email, date)
+}
+func (u *userService) CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error {
+	return u.userRepository.CreateFoodBenefactorBrunchMealRecord(user)
+}
+func (u *userService) CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error {
+	return u.userRepository.CreateFoodBenefactorDinnerMealRecord(user)
+}
+func (u *userService) UpdateFoodBenefactorBrunchMealRecord(email string) error {
+	return u.userRepository.UpdateFoodBenefactorBrunchMealRecord(email)
+}
+func (u *userService) UpdateFoodBenefactorDinnerMealRecord(email string) error {
+	return u.userRepository.UpdateFoodBenefactorDinnerMealRecord(email)
+}
 
 func (u *userService) FindAllFoodBeneficiary() ([]models.UserDetails, error) {
 	return u.userRepository.FindAllFoodBeneficiary()

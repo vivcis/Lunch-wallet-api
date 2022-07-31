@@ -31,6 +31,11 @@ type UserRepository interface {
 	KitchenStaffEmailVerification(id string) (*models.KitchenStaff, error)
 	AdminEmailVerification(id string) (*models.Admin, error)
 	FindAllFoodBeneficiary() ([]models.UserDetails, error)
+	FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error)
+	CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error
+	CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error
+	UpdateFoodBenefactorBrunchMealRecord(email string) error
+	UpdateFoodBenefactorDinnerMealRecord(email string) error
 	GetFoodByID(id string) (*models.Food, error)
 	UpdateStatus(food []models.Food, status string) error
 	SearchFoodBeneficiary(fullName string) ([]models.FoodBeneficiary, error)

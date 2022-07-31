@@ -66,6 +66,8 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 		authorizeBenefactor.POST("/beneficiarylogout", handler.FoodBeneficiaryLogout)
 		authorizeBenefactor.GET("/brunch", handler.GetBrunchHandle)
 		authorizeBenefactor.GET("/dinner", handler.GetDinnerHandle)
+		authorizeBenefactor.GET("/qrbrunch", handler.BeneficiaryQRBrunch)
+		authorizeBenefactor.GET("/qrdinner", handler.BeneficiaryQRDinner)
 	}
 
 	// authorizeAdmin authorizes all authorized admin handler
