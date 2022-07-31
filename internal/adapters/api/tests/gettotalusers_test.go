@@ -2,6 +2,7 @@ package tests
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/decadevs/lunch-api/cmd/server"
 	"github.com/decadevs/lunch-api/internal/adapters/api"
@@ -14,11 +15,12 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"strconv"
 	"strings"
 	"testing"
 )
 
-func TestTotalNumberOfFoodBeneficciaries(t *testing.T) {
+func TestTotalNumberOfFoodBeneficiaries(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	mockDb := mocks.NewMockUserRepository(ctrl)
 
@@ -43,6 +45,7 @@ func TestTotalNumberOfFoodBeneficciaries(t *testing.T) {
 		User:  user1,
 		Stack: "GO",
 	}
+	count, _ := strconv.Atoi(foodBeneficiary.FullName)
 
 	kitchenStaff := models.KitchenStaff{
 		User: user1,
@@ -56,7 +59,7 @@ func TestTotalNumberOfFoodBeneficciaries(t *testing.T) {
 	t.Run("testing bad request", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindKitchenStaffByEmail(kitchenStaff.Email).Return(&kitchenStaff, nil)
-		mockDb.EXPECT().GetTotalUsers().Return(foodBeneficiary, nil)
+		mockDb.EXPECT().GetTotalUsers().Return(count, errors.New("internal server error"))
 		rw := httptest.NewRecorder()
 		req, _ := http.NewRequest(http.MethodGet, "/api/v1/staff/gettotalusers", strings.NewReader(string(bytes)))
 		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))
@@ -68,7 +71,7 @@ func TestTotalNumberOfFoodBeneficciaries(t *testing.T) {
 	t.Run("testing success", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindKitchenStaffByEmail(kitchenStaff.Email).Return(&kitchenStaff, nil)
-		mockDb.EXPECT().GetTotalUsers().Return(foodBeneficiary, nil)
+		mockDb.EXPECT().GetTotalUsers().Return(count, nil)
 		rw := httptest.NewRecorder()
 		req, _ := http.NewRequest(http.MethodGet, "/api/v1/staff/gettotalusers", strings.NewReader(string(bytes)))
 		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))
