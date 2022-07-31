@@ -51,8 +51,8 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 	authorizeKitchenStaff.Use(middleware.AuthorizeKitchenStaff(userService.FindKitchenStaffByEmail, userService.TokenInBlacklist))
 	{
 		authorizeKitchenStaff.POST("/kitchenstafflogout", handler.KitchenStaffLogout)
-		//authorizeKitchenStaff.PUT("/changefoodstatus", handler.ChangeFoodStatus)
-		//authorizeKitchenStaff.PUT("/changefoodstatus", handler.UpdateFoodStatus)
+		authorizeKitchenStaff.PUT("/changebrunchstatus", handler.UpdateBrunchFoodStatus)
+		authorizeKitchenStaff.PUT("/changedinnerstatus", handler.UpdateDinnerFoodStatus)
 		authorizeKitchenStaff.GET("/getusers", handler.GetFoodBeneficiaries)
 		authorizeKitchenStaff.GET("/searchbeneficiary", handler.SearchFoodBeneficiaries)
 		authorizeKitchenStaff.POST("/createtimetable", handler.CreateFoodTimetableHandle)
@@ -73,7 +73,6 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 	authorizeAdmin.Use(middleware.AuthorizeAdmin(userService.FindAdminByEmail, userService.TokenInBlacklist))
 	{
 		authorizeAdmin.POST("/createtimetable", handler.CreateFoodTimetableHandle)
-		//authorizeAdmin.PUT("/changefoodstatus/:id", handler.ChangeFoodStatus)
 	}
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
