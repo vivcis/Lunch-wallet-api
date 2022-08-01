@@ -28,7 +28,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 	r := router.Group("/api/v1")
 	{
 
-		r.GET("ping", handler.PingHandler)
+		r.GET("/ping", handler.PingHandler)
 		r.POST("/user/beneficiarysignup", handler.FoodBeneficiarySignUp)
 		r.PATCH("/user/beneficiaryverifyemail/:token", handler.BeneficiaryVerifyEmail)
 		r.POST("/user/kitchenstaffsignup", handler.KitchenStaffSignUp)
@@ -54,7 +54,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 		authorizeKitchenStaff.PUT("/changebrunchstatus", handler.UpdateBrunchFoodStatus)
 		authorizeKitchenStaff.PUT("/changedinnerstatus", handler.UpdateDinnerFoodStatus)
 		authorizeKitchenStaff.GET("/getusers", handler.GetFoodBeneficiaries)
-		authorizeKitchenStaff.GET("/searchbeneficiary", handler.SearchFoodBeneficiaries)
+		authorizeKitchenStaff.GET("/searchbeneficiary/:text", handler.SearchFoodBeneficiaries)
 		authorizeKitchenStaff.POST("/createtimetable", handler.CreateFoodTimetableHandle)
 		authorizeKitchenStaff.GET("/gettotalusers", handler.GetTotalNumberOfUsers)
 	}

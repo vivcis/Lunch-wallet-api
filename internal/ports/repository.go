@@ -38,7 +38,7 @@ type UserRepository interface {
 	UpdateFoodBenefactorDinnerMealRecord(email string) error
 	GetFoodByID(id string) (*models.Food, error)
 	UpdateStatus(food []models.Food, status string) error
-	SearchFoodBeneficiary(fullName string) ([]models.FoodBeneficiary, error)
+	SearchFoodBeneficiary(text string) ([]models.FoodBeneficiary, error)
 	GetTotalUsers() (int, error)
 }
 

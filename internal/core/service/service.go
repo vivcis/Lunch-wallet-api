@@ -164,8 +164,8 @@ func (u *userService) UpdateStatus(food []models.Food, status string) error {
 	return u.userRepository.UpdateStatus(food, status)
 }
 
-func (u *userService) SearchFoodBeneficiary(fullName string) ([]models.FoodBeneficiary, error) {
-	return u.userRepository.SearchFoodBeneficiary(fullName)
+func (u *userService) SearchFoodBeneficiary(text string) ([]models.FoodBeneficiary, error) {
+	return u.userRepository.SearchFoodBeneficiary(text)
 }
 
 func (u *userService) GetTotalUsers() (int, error) {

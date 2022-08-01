@@ -424,18 +424,18 @@ func (mr *MockUserRepositoryMockRecorder) KitchenStaffResetPassword(id, newPassw
 }
 
 // SearchFoodBeneficiary mocks base method.
-func (m *MockUserRepository) SearchFoodBeneficiary(fullName string) ([]models.FoodBeneficiary, error) {
+func (m *MockUserRepository) SearchFoodBeneficiary(text string) ([]models.FoodBeneficiary, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SearchFoodBeneficiary", fullName)
+	ret := m.ctrl.Call(m, "SearchFoodBeneficiary", text)
 	ret0, _ := ret[0].([]models.FoodBeneficiary)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SearchFoodBeneficiary indicates an expected call of SearchFoodBeneficiary.
-func (mr *MockUserRepositoryMockRecorder) SearchFoodBeneficiary(fullName interface{}) *gomock.Call {
+func (mr *MockUserRepositoryMockRecorder) SearchFoodBeneficiary(text interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchFoodBeneficiary", reflect.TypeOf((*MockUserRepository)(nil).SearchFoodBeneficiary), fullName)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchFoodBeneficiary", reflect.TypeOf((*MockUserRepository)(nil).SearchFoodBeneficiary), text)
 }
 
 // TokenInBlacklist mocks base method.

@@ -12,12 +12,15 @@ func (u *HTTPHandler) SearchFoodBeneficiaries(c *gin.Context) {
 		helpers.JSON(c, "An internal server error", 500, nil, []string{"internal server error"})
 		return
 	}
+	query := c.Param("text")
 
-	fullName := c.Query("full_name")
-
-	beneficiaries, err := u.UserService.SearchFoodBeneficiary(fullName)
+	beneficiaries, err := u.UserService.SearchFoodBeneficiary(query)
 	if err != nil {
-		helpers.JSON(c, "internal server error", 500, nil, []string{"An internal server error"})
+		helpers.JSON(c, "Record Not Found", 404, nil, []string{"Record Not Found"})
+		return
+	}
+	if len(beneficiaries) == 0 {
+		helpers.JSON(c, "Record Not Found", 404, nil, []string{"Record Not Found"})
 		return
 	}
 	helpers.JSON(c, "information gotten", http.StatusOK, beneficiaries, nil)

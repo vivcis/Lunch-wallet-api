@@ -60,9 +60,9 @@ func TestSearchBeneficiaries(t *testing.T) {
 	t.Run("testing bad request", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindKitchenStaffByEmail(kitchenStaff.Email).Return(&kitchenStaff, nil)
-		mockDb.EXPECT().SearchFoodBeneficiary(beneficiary.FullName).Return(nil, errors.New("beneficiary not found"))
+		mockDb.EXPECT().SearchFoodBeneficiary(beneficiary.Stack).Return(nil, errors.New("record not found"))
 		rw := httptest.NewRecorder()
-		req, _ := http.NewRequest(http.MethodGet, "/api/v1/staff/searchbeneficiary?full_name=Orji Cecilia", strings.NewReader(string(bytes)))
+		req, _ := http.NewRequest(http.MethodGet, "/api/v1/staff/searchbeneficiary/python", strings.NewReader(string(bytes)))
 		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))
 		router.ServeHTTP(rw, req)
 		assert.Equal(t, http.StatusInternalServerError, rw.Code)
