@@ -424,10 +424,10 @@ func (mr *MockUserRepositoryMockRecorder) KitchenStaffResetPassword(id, newPassw
 }
 
 // SearchFoodBeneficiary mocks base method.
-func (m *MockUserRepository) SearchFoodBeneficiary(text string) ([]models.FoodBeneficiary, error) {
+func (m *MockUserRepository) SearchFoodBeneficiary(text string) ([]models.UserDetails, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SearchFoodBeneficiary", text)
-	ret0, _ := ret[0].([]models.FoodBeneficiary)
+	ret0, _ := ret[0].([]models.UserDetails)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

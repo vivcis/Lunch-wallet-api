@@ -38,7 +38,7 @@ type UserService interface {
 	UpdateFoodBenefactorDinnerMealRecord(email string) error
 	GetFoodByID(id string) (*models.Food, error)
 	UpdateStatus(food []models.Food, status string) error
-	SearchFoodBeneficiary(text string) ([]models.FoodBeneficiary, error)
+	SearchFoodBeneficiary(text string) ([]models.UserDetails, error)
 	GetTotalUsers() (int, error)
 }
 

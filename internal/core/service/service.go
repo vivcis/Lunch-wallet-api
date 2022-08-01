@@ -164,7 +164,7 @@ func (u *userService) UpdateStatus(food []models.Food, status string) error {
 	return u.userRepository.UpdateStatus(food, status)
 }
 
-func (u *userService) SearchFoodBeneficiary(text string) ([]models.FoodBeneficiary, error) {
+func (u *userService) SearchFoodBeneficiary(text string) ([]models.UserDetails, error) {
 	return u.userRepository.SearchFoodBeneficiary(text)
 }
 

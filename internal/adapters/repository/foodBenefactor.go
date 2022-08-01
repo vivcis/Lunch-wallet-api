@@ -3,7 +3,6 @@ package repository
 import (
 	"errors"
 	"github.com/decadevs/lunch-api/internal/core/models"
-	"log"
 	"time"
 )
 
@@ -147,15 +146,17 @@ func (p *Postgres) FindAllFoodBeneficiary() ([]models.UserDetails, error) {
 }
 
 //SearchFoodBeneficiary searches for food beneficiary
-func (p *Postgres) SearchFoodBeneficiary(text string) ([]models.FoodBeneficiary, error) {
+func (p *Postgres) SearchFoodBeneficiary(text string) ([]models.UserDetails, error) {
 	var foodBeneficiary []models.FoodBeneficiary
-	err1 := p.DB.Where("full_name = ?", text).Or("location = ?", text).Or("stack = ?", text).Find(&foodBeneficiary).Error
-	//if err1 != nil {
-	//	fmt.Println("what's happening here", err1)
-	//
-	//	return nil, err1
-	//}
-	log.Println("hereeee", foodBeneficiary)
-	return foodBeneficiary, err1
-
+	err := p.DB.Where("full_name = ?", text).Or("location = ?", text).Or("stack = ?", text).Find(&foodBeneficiary).Error
+	var result []models.UserDetails
+	for i, _ := range foodBeneficiary {
+		userDetails := models.UserDetails{
+			FullName: foodBeneficiary[i].FullName,
+			Stack:    foodBeneficiary[i].Stack,
+			Location: foodBeneficiary[i].Location,
+		}
+		result = append(result, userDetails)
+	}
+	return result, err
 }

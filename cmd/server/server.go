@@ -46,6 +46,18 @@ func Run() (*gorm.DB, error) {
 		},
 		Stack: "GO",
 	}
+	user1 := &models.FoodBeneficiary{
+		User: models.User{
+			FullName:     "Chuks",
+			Email:        "chuks@decagon.dev",
+			Location:     "ETP",
+			PasswordHash: "$223456788878878989",
+			IsActive:     true,
+			Token:        "",
+		},
+		Stack: "GO",
+	}
 	db.Create(&user)
+	db.Create(&user1)
 	return db, nil
 }
