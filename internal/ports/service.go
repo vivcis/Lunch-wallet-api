@@ -30,14 +30,16 @@ type UserService interface {
 	FoodBeneficiaryEmailVerification(id string) (*models.FoodBeneficiary, error)
 	KitchenStaffEmailVerification(id string) (*models.KitchenStaff, error)
 	AdminEmailVerification(id string) (*models.Admin, error)
+	FindAllFoodBeneficiary() ([]models.UserDetails, error)
 	FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error)
 	CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error
 	CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error
 	UpdateFoodBenefactorBrunchMealRecord(email string) error
 	UpdateFoodBenefactorDinnerMealRecord(email string) error
-	FindAllFoodBeneficiary(query map[string]string) ([]models.FoodBeneficiary, error)
 	GetFoodByID(id string) (*models.Food, error)
-	UpdateFoodStatusById(id string, status string) error
+	UpdateStatus(food []models.Food, status string) error
+	SearchFoodBeneficiary(text string) ([]models.FoodBeneficiary, error)
+	GetTotalUsers() (int, error)
 }
 
 // MailerService interface to implement mailing service

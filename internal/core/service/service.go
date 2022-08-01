@@ -152,14 +152,22 @@ func (u *userService) UpdateFoodBenefactorDinnerMealRecord(email string) error {
 	return u.userRepository.UpdateFoodBenefactorDinnerMealRecord(email)
 }
 
-func (u *userService) FindAllFoodBeneficiary(query map[string]string) ([]models.FoodBeneficiary, error) {
-	return u.userRepository.FindAllFoodBeneficiary(query)
+func (u *userService) FindAllFoodBeneficiary() ([]models.UserDetails, error) {
+	return u.userRepository.FindAllFoodBeneficiary()
 }
 
 func (u *userService) GetFoodByID(id string) (*models.Food, error) {
 	return u.userRepository.GetFoodByID(id)
 }
 
-func (u *userService) UpdateFoodStatusById(id string, status string) error {
-	return u.userRepository.UpdateFoodStatusById(id, status)
+func (u *userService) UpdateStatus(food []models.Food, status string) error {
+	return u.userRepository.UpdateStatus(food, status)
+}
+
+func (u *userService) SearchFoodBeneficiary(text string) ([]models.FoodBeneficiary, error) {
+	return u.userRepository.SearchFoodBeneficiary(text)
+}
+
+func (u *userService) GetTotalUsers() (int, error) {
+	return u.userRepository.GetTotalUsers()
 }

@@ -11,17 +11,17 @@ func (u *HTTPHandler) PingHandler(c *gin.Context) {
 	helpers.JSON(c, "pong", 200, nil, nil)
 }
 
-func (u *HTTPHandler) GetUsers(c *gin.Context) {
-	_, err := u.GetBenefactorFromContext(c)
+func (u *HTTPHandler) GetFoodBeneficiaries(c *gin.Context) {
+	_, err := u.GetKitchenStaffFromContext(c)
 	if err != nil {
-		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
+		helpers.JSON(c, "internal server error", 500, nil, []string{"This is an internal server error"})
 		return
 	}
 
-	user, err := u.UserService.FindAllFoodBeneficiary(nil)
+	user, err := u.UserService.FindAllFoodBeneficiary()
 	if err != nil {
-		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
+		helpers.JSON(c, "internal server error", 500, nil, []string{"An internal server error"})
 		return
 	}
-	helpers.JSON(c, "food beneficiary found successfully", http.StatusOK, user, nil)
+	helpers.JSON(c, "food beneficiaries found successfully", http.StatusOK, user, nil)
 }
