@@ -56,7 +56,7 @@ func TestSearchBeneficiaries(t *testing.T) {
 	accessClaims, _ := middleware.GenerateClaims(kitchenStaff.Email)
 	accToken, _ := middleware.GenerateToken(jwt.SigningMethodHS256, accessClaims, &secret)
 
-	t.Run("testing bad request", func(t *testing.T) {
+	t.Run("test bad request", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindKitchenStaffByEmail(kitchenStaff.Email).Return(&kitchenStaff, nil)
 		mockDb.EXPECT().SearchFoodBeneficiary(gomock.Any()).Return(nil, errors.New("record not found"))
@@ -68,7 +68,7 @@ func TestSearchBeneficiaries(t *testing.T) {
 		assert.Contains(t, rw.Body.String(), "internal server error")
 	})
 
-	t.Run("testing successful search", func(t *testing.T) {
+	t.Run("test successful search", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindKitchenStaffByEmail(kitchenStaff.Email).Return(&kitchenStaff, nil)
 		mockDb.EXPECT().SearchFoodBeneficiary(beneficiary.Stack).Return(foodBeneficiary, nil)
