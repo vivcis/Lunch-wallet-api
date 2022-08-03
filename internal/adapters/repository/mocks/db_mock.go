@@ -168,6 +168,20 @@ func (mr *MockUserRepositoryMockRecorder) CreateKitchenStaff(user interface{}) *
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateKitchenStaff", reflect.TypeOf((*MockUserRepository)(nil).CreateKitchenStaff), user)
 }
 
+// DeleteMeal mocks base method.
+func (m *MockUserRepository) DeleteMeal(id string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteMeal", id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteMeal indicates an expected call of DeleteMeal.
+func (mr *MockUserRepositoryMockRecorder) DeleteMeal(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMeal", reflect.TypeOf((*MockUserRepository)(nil).DeleteMeal), id)
+}
+
 // FindAdminByEmail mocks base method.
 func (m *MockUserRepository) FindAdminByEmail(email string) (*models.Admin, error) {
 	m.ctrl.T.Helper()
@@ -478,6 +492,20 @@ func (m *MockUserRepository) UpdateFoodBenefactorDinnerMealRecord(email string) 
 func (mr *MockUserRepositoryMockRecorder) UpdateFoodBenefactorDinnerMealRecord(email interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFoodBenefactorDinnerMealRecord", reflect.TypeOf((*MockUserRepository)(nil).UpdateFoodBenefactorDinnerMealRecord), email)
+}
+
+// UpdateMeal mocks base method.
+func (m *MockUserRepository) UpdateMeal(id string, food models.Food) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateMeal", id, food)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateMeal indicates an expected call of UpdateMeal.
+func (mr *MockUserRepositoryMockRecorder) UpdateMeal(id, food interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateMeal", reflect.TypeOf((*MockUserRepository)(nil).UpdateMeal), id, food)
 }
 
 // UpdateStatus mocks base method.

@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (u HTTPHandler) GetAdminFromContext(c *gin.Context) (*models.Admin, error) {
+func (u *HTTPHandler) GetAdminFromContext(c *gin.Context) (*models.Admin, error) {
 	userI, exists := c.Get("user")
 	if !exists {
 		return nil, fmt.Errorf("error getting user from context")
@@ -18,7 +18,7 @@ func (u HTTPHandler) GetAdminFromContext(c *gin.Context) (*models.Admin, error) 
 	return user, nil
 }
 
-func (u HTTPHandler) GetBenefactorFromContext(c *gin.Context) (*models.FoodBeneficiary, error) {
+func (u *HTTPHandler) GetBenefactorFromContext(c *gin.Context) (*models.FoodBeneficiary, error) {
 	userI, exists := c.Get("user")
 	if !exists {
 		return nil, fmt.Errorf("error getting user from context")
@@ -30,7 +30,7 @@ func (u HTTPHandler) GetBenefactorFromContext(c *gin.Context) (*models.FoodBenef
 	return user, nil
 }
 
-func (u HTTPHandler) GetKitchenStaffFromContext(c *gin.Context) (*models.KitchenStaff, error) {
+func (u *HTTPHandler) GetKitchenStaffFromContext(c *gin.Context) (*models.KitchenStaff, error) {
 	userI, exists := c.Get("user")
 	if !exists {
 		return nil, fmt.Errorf("error getting user from context")
@@ -42,7 +42,7 @@ func (u HTTPHandler) GetKitchenStaffFromContext(c *gin.Context) (*models.Kitchen
 	return user, nil
 }
 
-func (u HTTPHandler) GetTokenFromContext(c *gin.Context) (string, error) {
+func (u *HTTPHandler) GetTokenFromContext(c *gin.Context) (string, error) {
 	tokenI, exists := c.Get("access_token")
 	if !exists {
 		return "", fmt.Errorf("error getting access token")
@@ -51,7 +51,7 @@ func (u HTTPHandler) GetTokenFromContext(c *gin.Context) (string, error) {
 	return tokenstr, nil
 }
 
-func (u HTTPHandler) GetFoodFromContext(c *gin.Context) (*models.Food, error) {
+func (u *HTTPHandler) GetFoodFromContext(c *gin.Context) (*models.Food, error) {
 	user1, exists := c.Get("user")
 	if !exists {
 		return nil, fmt.Errorf("error getting user from context")

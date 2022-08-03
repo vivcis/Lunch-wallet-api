@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func (u HTTPHandler) AdminSignUp(c *gin.Context) {
+func (u *HTTPHandler) AdminSignUp(c *gin.Context) {
 	var user *models.Admin
 	err := c.ShouldBindJSON(&user)
 	if err != nil {
