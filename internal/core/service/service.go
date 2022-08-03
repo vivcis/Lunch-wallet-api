@@ -171,3 +171,10 @@ func (u *userService) SearchFoodBeneficiary(text string) ([]models.FoodBeneficia
 func (u *userService) GetTotalUsers() (int, error) {
 	return u.userRepository.GetTotalUsers()
 }
+
+func (u *userService) UpdateMeal(id string, food models.Food) error {
+	return u.userRepository.UpdateMeal(id, food)
+}
+func (u *userService) DeleteMeal(id string) error {
+	return u.userRepository.DeleteMeal(id)
+}

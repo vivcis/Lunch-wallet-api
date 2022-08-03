@@ -9,7 +9,7 @@ import (
 )
 
 // FoodBeneficiarySignUp creates a new food benefactor
-func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
+func (u *HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 	var user *models.FoodBeneficiary
 	err := c.ShouldBindJSON(&user)
 	if err != nil {

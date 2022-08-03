@@ -40,6 +40,8 @@ type UserService interface {
 	UpdateStatus(food []models.Food, status string) error
 	SearchFoodBeneficiary(text string) ([]models.FoodBeneficiary, error)
 	GetTotalUsers() (int, error)
+	UpdateMeal(id string, food models.Food) error
+	DeleteMeal(id string) error
 }
 
 // MailerService interface to implement mailing service

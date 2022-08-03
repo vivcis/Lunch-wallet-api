@@ -49,6 +49,7 @@ func TestLoginKitchenStaffHandler(t *testing.T) {
 			User: models.User{
 				Email:    "mike123@decagon.dev",
 				Password: "12345566666",
+				IsActive: true,
 			},
 		}
 		_ = kitchenStaff.HashPassword()
@@ -107,6 +108,7 @@ func TestLoginFoodBenefactorHandler(t *testing.T) {
 			User: models.User{
 				Email:    "mike123@decagon.dev",
 				Password: "12345566666",
+				IsActive: true,
 			},
 		}
 		_ = benefactor.HashPassword()
@@ -165,6 +167,7 @@ func TestLoginAdminHandler(t *testing.T) {
 			User: models.User{
 				Email:    "mike123@decagon.dev",
 				Password: "12345566666",
+				IsActive: true,
 			},
 		}
 		_ = admin.HashPassword()

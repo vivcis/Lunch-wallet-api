@@ -75,6 +75,8 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 	authorizeAdmin.Use(middleware.AuthorizeAdmin(userService.FindAdminByEmail, userService.TokenInBlacklist))
 	{
 		authorizeAdmin.POST("/createtimetable", handler.CreateFoodTimetableHandle)
+		authorizeAdmin.DELETE("/deletemeal/:id", handler.DeleteMeal)
+		authorizeAdmin.PUT("/updatemeal/:id", handler.UpdateMeal)
 	}
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
