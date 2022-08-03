@@ -57,6 +57,8 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 		authorizeKitchenStaff.GET("/searchbeneficiary/:text", handler.SearchFoodBeneficiaries)
 		authorizeKitchenStaff.POST("/createtimetable", handler.CreateFoodTimetableHandle)
 		authorizeKitchenStaff.GET("/gettotalusers", handler.GetTotalNumberOfUsers)
+		authorizeKitchenStaff.GET("/getbrunchtimetable", handler.GetBrunchTimetable)
+		authorizeKitchenStaff.GET("/getdinnertimetable", handler.GetDinnerTimetable)
 	}
 
 	// authorizeBenefactor authorizes all authorized benefactor handler

@@ -42,6 +42,11 @@ func TestGetFoodBeneficiaries(t *testing.T) {
 	kitchenStaff := models.KitchenStaff{
 		User: user,
 	}
+	page := models.Pagination{
+		Page:  1,
+		Limit: 10,
+		Sort:  "created_at asc",
+	}
 
 	var foodBeneficiary []models.UserDetails
 
@@ -54,7 +59,7 @@ func TestGetFoodBeneficiaries(t *testing.T) {
 	t.Run("testing successful get users", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindKitchenStaffByEmail(kitchenStaff.Email).Return(&kitchenStaff, nil)
-		mockDb.EXPECT().FindAllFoodBeneficiary().Return(foodBeneficiary, nil)
+		mockDb.EXPECT().FindAllFoodBeneficiary(&page).Return(foodBeneficiary, nil)
 		rw := httptest.NewRecorder()
 		req, _ := http.NewRequest(http.MethodGet, "/api/v1/staff/getusers", strings.NewReader(string(bytes)))
 		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))

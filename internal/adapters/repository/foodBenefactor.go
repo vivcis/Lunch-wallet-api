@@ -3,7 +3,6 @@ package repository
 import (
 	"errors"
 	"github.com/decadevs/lunch-api/internal/core/models"
-	"log"
 	"time"
 )
 
@@ -137,25 +136,31 @@ func (p *Postgres) CreateFoodBenefactorDinnerMealRecord(user *models.FoodBenefic
 }
 
 //FindAllFoodBeneficiary finds and list all food beneficiaries
-func (p *Postgres) FindAllFoodBeneficiary() ([]models.UserDetails, error) {
+func (p *Postgres) FindAllFoodBeneficiary(pagination *models.Pagination) ([]models.UserDetails, error) {
 	var foodBeneficiary []models.UserDetails
-	err := p.DB.Model(&models.FoodBeneficiary{}).Find(&foodBeneficiary).Error
-	if err != nil {
-		return nil, err
+	offset := (pagination.Page - 1) * pagination.Limit
+	queryBuider := p.DB.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
+	result := queryBuider.Model(&models.FoodBeneficiary{}).Find(&foodBeneficiary).Error
+	if result != nil {
+		return nil, result
 	}
 	return foodBeneficiary, nil
 }
 
 //SearchFoodBeneficiary searches for food beneficiary
-func (p *Postgres) SearchFoodBeneficiary(text string) ([]models.FoodBeneficiary, error) {
-	var foodBeneficiary []models.FoodBeneficiary
-	err1 := p.DB.Where("full_name = ?", text).Or("location = ?", text).Or("stack = ?", text).Find(&foodBeneficiary).Error
-	//if err1 != nil {
-	//	fmt.Println("what's happening here", err1)
-	//
-	//	return nil, err1
-	//}
-	log.Println("hereeee", foodBeneficiary)
-	return foodBeneficiary, err1
-
+func (p *Postgres) SearchFoodBeneficiary(text string, pagination *models.Pagination) ([]models.UserDetails, error) {
+	var users []models.FoodBeneficiary
+	offset := (pagination.Page - 1) * pagination.Limit
+	queryBuider := p.DB.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
+	err := queryBuider.Where("full_name = ?", text).Or("location = ?", text).Or("stack = ?", text).Find(&users).Error
+	var result []models.UserDetails
+	for i, _ := range users {
+		userDetails := models.UserDetails{
+			FullName: users[i].FullName,
+			Stack:    users[i].Stack,
+			Location: users[i].Location,
+		}
+		result = append(result, userDetails)
+	}
+	return result, err
 }
