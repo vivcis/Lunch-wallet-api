@@ -184,18 +184,18 @@ func (mr *MockUserRepositoryMockRecorder) FindAdminByEmail(email interface{}) *g
 }
 
 // FindAllFoodBeneficiary mocks base method.
-func (m *MockUserRepository) FindAllFoodBeneficiary() ([]models.UserDetails, error) {
+func (m *MockUserRepository) FindAllFoodBeneficiary(pagination *models.Pagination) ([]models.UserDetails, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindAllFoodBeneficiary")
+	ret := m.ctrl.Call(m, "FindAllFoodBeneficiary", pagination)
 	ret0, _ := ret[0].([]models.UserDetails)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindAllFoodBeneficiary indicates an expected call of FindAllFoodBeneficiary.
-func (mr *MockUserRepositoryMockRecorder) FindAllFoodBeneficiary() *gomock.Call {
+func (mr *MockUserRepositoryMockRecorder) FindAllFoodBeneficiary(pagination interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAllFoodBeneficiary", reflect.TypeOf((*MockUserRepository)(nil).FindAllFoodBeneficiary))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAllFoodBeneficiary", reflect.TypeOf((*MockUserRepository)(nil).FindAllFoodBeneficiary), pagination)
 }
 
 // FindBrunchByDate mocks base method.
@@ -424,18 +424,18 @@ func (mr *MockUserRepositoryMockRecorder) KitchenStaffResetPassword(id, newPassw
 }
 
 // SearchFoodBeneficiary mocks base method.
-func (m *MockUserRepository) SearchFoodBeneficiary(text string) ([]models.UserDetails, error) {
+func (m *MockUserRepository) SearchFoodBeneficiary(text string, pagination *models.Pagination) ([]models.UserDetails, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SearchFoodBeneficiary", text)
+	ret := m.ctrl.Call(m, "SearchFoodBeneficiary", text, pagination)
 	ret0, _ := ret[0].([]models.UserDetails)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SearchFoodBeneficiary indicates an expected call of SearchFoodBeneficiary.
-func (mr *MockUserRepositoryMockRecorder) SearchFoodBeneficiary(text interface{}) *gomock.Call {
+func (mr *MockUserRepositoryMockRecorder) SearchFoodBeneficiary(text, pagination interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchFoodBeneficiary", reflect.TypeOf((*MockUserRepository)(nil).SearchFoodBeneficiary), text)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchFoodBeneficiary", reflect.TypeOf((*MockUserRepository)(nil).SearchFoodBeneficiary), text, pagination)
 }
 
 // TokenInBlacklist mocks base method.

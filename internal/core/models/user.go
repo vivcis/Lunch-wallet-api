@@ -57,6 +57,12 @@ type ResetPassword struct {
 	ConfirmNewPassword string `json:"confirm_new_password"`
 }
 
+type Pagination struct {
+	Limit int    `json:"limit"`
+	Page  int    `json:"page"`
+	Sort  string `json:"sort"`
+}
+
 func (user *User) ValidMailAddress() bool {
 	_, err := mail.ParseAddress(user.Email)
 	if err != nil {

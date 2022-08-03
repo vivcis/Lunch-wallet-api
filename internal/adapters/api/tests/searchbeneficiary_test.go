@@ -50,6 +50,12 @@ func TestSearchBeneficiaries(t *testing.T) {
 		beneficiary,
 	}
 
+	page := models.Pagination{
+		Page:  1,
+		Limit: 10,
+		Sort:  "created_at asc",
+	}
+
 	bytes, _ := json.Marshal(user)
 
 	secret := os.Getenv("JWT_SECRET")
@@ -59,7 +65,7 @@ func TestSearchBeneficiaries(t *testing.T) {
 	t.Run("test bad request", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindKitchenStaffByEmail(kitchenStaff.Email).Return(&kitchenStaff, nil)
-		mockDb.EXPECT().SearchFoodBeneficiary(gomock.Any()).Return(nil, errors.New("record not found"))
+		mockDb.EXPECT().SearchFoodBeneficiary(gomock.Any(), gomock.Any()).Return(nil, errors.New("record not found"))
 		rw := httptest.NewRecorder()
 		req, _ := http.NewRequest(http.MethodGet, "/api/v1/staff/searchbeneficiary/python", strings.NewReader(string(bytes)))
 		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))
@@ -71,7 +77,7 @@ func TestSearchBeneficiaries(t *testing.T) {
 	t.Run("test successful search", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindKitchenStaffByEmail(kitchenStaff.Email).Return(&kitchenStaff, nil)
-		mockDb.EXPECT().SearchFoodBeneficiary(beneficiary.Stack).Return(foodBeneficiary, nil)
+		mockDb.EXPECT().SearchFoodBeneficiary(beneficiary.Stack, &page).Return(foodBeneficiary, nil)
 		rw := httptest.NewRecorder()
 		req, _ := http.NewRequest(http.MethodGet, "/api/v1/staff/searchbeneficiary/Golang", strings.NewReader(string(bytes)))
 		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))
