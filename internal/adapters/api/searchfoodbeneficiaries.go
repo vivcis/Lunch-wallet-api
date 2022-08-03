@@ -1,6 +1,7 @@
 package api
 
 import (
+	"github.com/decadevs/lunch-api/internal/adapters/repository"
 	"github.com/decadevs/lunch-api/internal/core/helpers"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -12,11 +13,12 @@ func (u *HTTPHandler) SearchFoodBeneficiaries(c *gin.Context) {
 		helpers.JSON(c, "An internal server error", 500, nil, []string{"internal server error"})
 		return
 	}
+	pagination := repository.GeneratePaginationFromRequest(c)
 	query := c.Param("text")
 
-	beneficiaries, err := u.UserService.SearchFoodBeneficiary(query)
+	beneficiaries, err := u.UserService.SearchFoodBeneficiary(query, &pagination)
 	if err != nil {
-		helpers.JSON(c, "Record Not Found", 404, nil, []string{"Record Not Found"})
+		helpers.JSON(c, "An internal server error", 500, nil, []string{"internal server error"})
 		return
 	}
 	if len(beneficiaries) == 0 {
