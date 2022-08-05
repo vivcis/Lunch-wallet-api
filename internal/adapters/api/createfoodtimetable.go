@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-func (u HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
+func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 	admin, err := u.GetAdminFromContext(c)
 	if err != nil {
 		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})

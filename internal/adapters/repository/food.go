@@ -52,3 +52,23 @@ func (p *Postgres) UpdateStatus(food []models.Food, status string) error {
 	}
 	return nil
 }
+
+func (p *Postgres) DeleteMeal(id string) error {
+	var food models.Food
+	err := p.DB.Where("id =?", id).Delete(&food).Error
+	if err != nil {
+		fmt.Println("error deleting food")
+		return err
+	}
+	return nil
+}
+
+func (p *Postgres) UpdateMeal(id string, food models.Food) error {
+	err := p.DB.Model(models.Food{}).Where("id = ?", id).Updates(&food).Error
+	if err != nil {
+		fmt.Println("error updating food")
+		return err
+	}
+
+	return nil
+}

@@ -40,6 +40,8 @@ type UserRepository interface {
 	UpdateStatus(food []models.Food, status string) error
 	SearchFoodBeneficiary(text string, pagination *models.Pagination) ([]models.UserDetails, error)
 	GetTotalUsers() (int, error)
+	UpdateMeal(id string, food models.Food) error
+	DeleteMeal(id string) error
 }
 
 // MailerRepository interface to implement mailing service
