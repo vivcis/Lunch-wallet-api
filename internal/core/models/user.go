@@ -96,7 +96,7 @@ func (user *User) ValidateDecagonEmail() bool {
 
 func (user *User) ValidAdminDecagonEmail() bool {
 	decagonEmail := strings.Split(user.Email, "@")
-	if decagonEmail[1] == "decagonhq.com" {
+	if decagonEmail[1] == "decagon.dev" {
 		return true
 	}
 	return false
