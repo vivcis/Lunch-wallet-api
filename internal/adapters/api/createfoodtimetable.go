@@ -78,10 +78,6 @@ func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 
 	kitchen := c.PostForm("kitchen")
 
-	kitchenModel := models.Kitchen{
-		Name: kitchen,
-	}
-
 	year, err := strconv.Atoi(c.PostForm("year"))
 	if err != nil {
 		log.Println(err)
@@ -116,12 +112,25 @@ func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 	food.Day = date
 	food.Weekday = weekDay
 	food.Images = images
-	food.Kitchen = kitchenModel
+	food.Kitchen = kitchen
 	food.Status = "Not serving"
 
 	err = u.UserService.CreateFoodTimetable(food)
 	if err != nil {
 		c.JSON(400, gin.H{"message": "This is a bad request"})
+		return
+	}
+
+	notification := models.Notification{
+		Message: admin.FullName + " added " + foodName + " to timetable",
+		Year:    year,
+		Month:   time.Month(month),
+		Day:     date,
+	}
+
+	err = u.UserService.CreateNotification(notification)
+	if err != nil {
+		helpers.JSON(c, "Error in getting Notification", http.StatusInternalServerError, nil, []string{"Error in getting Notification"})
 		return
 	}
 

@@ -178,3 +178,15 @@ func (u *userService) UpdateMeal(id string, food models.Food) error {
 func (u *userService) DeleteMeal(id string) error {
 	return u.userRepository.DeleteMeal(id)
 }
+
+func (u *userService) FindAllFoodByDate(year int, month time.Month, day int) ([]models.Food, error) {
+	return u.userRepository.FindAllFoodByDate(year, month, day)
+}
+
+func (u *userService) CreateNotification(notification models.Notification) error {
+	return u.userRepository.CreateNotification(notification)
+}
+
+func (u *userService) FindNotificationDate(year int, month time.Month, day int) ([]models.Notification, error) {
+	return u.userRepository.FindNotificationDate(year, month, day)
+}

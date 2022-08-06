@@ -6,10 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+	"time"
 )
 
 func (u *HTTPHandler) UpdateMeal(c *gin.Context) {
-	_, err := u.GetAdminFromContext(c)
+	user, err := u.GetAdminFromContext(c)
 	if err != nil {
 		helpers.JSON(c, "not authorized", http.StatusUnauthorized, nil, []string{"not authorized"})
 		return
@@ -31,6 +32,21 @@ func (u *HTTPHandler) UpdateMeal(c *gin.Context) {
 		return
 	}
 
-	helpers.JSON(c, "Successful", http.StatusOK, "Successful", nil)
+	year, month, day := time.Now().Date()
+
+	notification := models.Notification{
+		Message: user.FullName + " updated timetable",
+		Year:    year,
+		Month:   time.Month(month),
+		Day:     day,
+	}
+
+	err = u.UserService.CreateNotification(notification)
+	if err != nil {
+		helpers.JSON(c, "Error in getting Notification", http.StatusInternalServerError, nil, []string{"Error in getting Notification"})
+		return
+	}
+
+	helpers.JSON(c, "Successful updated", http.StatusOK, "Successfully updated", nil)
 
 }
