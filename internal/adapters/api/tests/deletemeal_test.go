@@ -17,6 +17,7 @@ import (
 	"os"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestDeleteMeal(t *testing.T) {
@@ -44,6 +45,15 @@ func TestDeleteMeal(t *testing.T) {
 		t.Fail()
 	}
 
+	year, month, day := time.Now().Date()
+
+	notification := models.Notification{
+		Message: user.FullName + " updated timetable",
+		Year:    year,
+		Month:   time.Month(month),
+		Day:     day,
+	}
+
 	secret := os.Getenv("JWT_SECRET")
 	accessClaims, _ := middleware.GenerateClaims(admin.Email)
 	accToken, _ := middleware.GenerateToken(jwt.SigningMethodHS256, accessClaims, &secret)
@@ -52,6 +62,7 @@ func TestDeleteMeal(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindAdminByEmail(admin.Email).Return(&admin, nil)
 		mockDb.EXPECT().DeleteMeal(id).Return(nil)
+		mockDb.EXPECT().CreateNotification(notification).Return(nil)
 		rw := httptest.NewRecorder()
 		req, err := http.NewRequest(http.MethodDelete,
 			"/api/v1/admin/deletemeal/4",

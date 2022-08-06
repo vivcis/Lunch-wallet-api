@@ -121,5 +121,18 @@ func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 		return
 	}
 
+	notification := models.Notification{
+		Message: admin.FullName + " added " + foodName + " to timetable",
+		Year:    year,
+		Month:   time.Month(month),
+		Day:     date,
+	}
+
+	err = u.UserService.CreateNotification(notification)
+	if err != nil {
+		c.JSON(400, gin.H{"message": "internal server error"})
+		return
+	}
+
 	helpers.JSON(c, "Successfully Created", 201, nil, nil)
 }

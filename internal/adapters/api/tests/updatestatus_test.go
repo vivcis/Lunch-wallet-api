@@ -57,6 +57,13 @@ func TestUpdateBrunchFoodStatus(t *testing.T) {
 	accessClaims, _ := middleware.GenerateClaims(kitchenStaff.Email)
 	accToken, _ := middleware.GenerateToken(jwt.SigningMethodHS256, accessClaims, &secret)
 
+	notification := models.Notification{
+		Message: createFood.Status,
+		Year:    year,
+		Month:   month,
+		Day:     day,
+	}
+
 	t.Run("testing bad request", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindKitchenStaffByEmail(kitchenStaff.Email).Return(&kitchenStaff, nil)
@@ -74,6 +81,7 @@ func TestUpdateBrunchFoodStatus(t *testing.T) {
 		mockDb.EXPECT().FindKitchenStaffByEmail(kitchenStaff.Email).Return(&kitchenStaff, nil)
 		mockDb.EXPECT().FindBrunchByDate(year, month, day).Return(foods, nil)
 		mockDb.EXPECT().UpdateStatus(foods, createFood.Status).Return(nil)
+		mockDb.EXPECT().CreateNotification(notification).Return(nil)
 		mockDb.EXPECT().FindBrunchByDate(year, month, day).Return(foods, nil)
 		rw := httptest.NewRecorder()
 		req, _ := http.NewRequest(http.MethodPut, "/api/v1/staff/changebrunchstatus", strings.NewReader(string(bytes)))

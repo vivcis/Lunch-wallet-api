@@ -168,6 +168,20 @@ func (mr *MockUserRepositoryMockRecorder) CreateKitchenStaff(user interface{}) *
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateKitchenStaff", reflect.TypeOf((*MockUserRepository)(nil).CreateKitchenStaff), user)
 }
 
+// CreateNotification mocks base method.
+func (m *MockUserRepository) CreateNotification(notification models.Notification) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateNotification", notification)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateNotification indicates an expected call of CreateNotification.
+func (mr *MockUserRepositoryMockRecorder) CreateNotification(notification interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateNotification", reflect.TypeOf((*MockUserRepository)(nil).CreateNotification), notification)
+}
+
 // DeleteMeal mocks base method.
 func (m *MockUserRepository) DeleteMeal(id string) error {
 	m.ctrl.T.Helper()
@@ -360,6 +374,21 @@ func (m *MockUserRepository) FindKitchenStaffByLocation(location string) (*model
 func (mr *MockUserRepositoryMockRecorder) FindKitchenStaffByLocation(location interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindKitchenStaffByLocation", reflect.TypeOf((*MockUserRepository)(nil).FindKitchenStaffByLocation), location)
+}
+
+// FindNotificationDate mocks base method.
+func (m *MockUserRepository) FindNotificationDate(year int, month time.Month, day int) ([]models.Notification, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindNotificationDate", year, month, day)
+	ret0, _ := ret[0].([]models.Notification)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindNotificationDate indicates an expected call of FindNotificationDate.
+func (mr *MockUserRepositoryMockRecorder) FindNotificationDate(year, month, day interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindNotificationDate", reflect.TypeOf((*MockUserRepository)(nil).FindNotificationDate), year, month, day)
 }
 
 // FindUserById mocks base method.
