@@ -130,7 +130,7 @@ func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 
 	err = u.UserService.CreateNotification(notification)
 	if err != nil {
-		c.JSON(400, gin.H{"message": "internal server error"})
+		helpers.JSON(c, "Error in getting Notification", http.StatusInternalServerError, nil, []string{"Error in getting Notification"})
 		return
 	}
 

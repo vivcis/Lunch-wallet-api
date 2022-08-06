@@ -11,7 +11,7 @@ func (u *HTTPHandler) GetNotification(c *gin.Context) {
 	year, month, day := time.Now().Date()
 	notification, err := u.UserService.FindNotificationDate(year, month, day)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error in getting Notification"})
+		helpers.JSON(c, "Error in getting Notification", http.StatusInternalServerError, nil, []string{"Error in getting Notification"})
 		return
 	}
 
