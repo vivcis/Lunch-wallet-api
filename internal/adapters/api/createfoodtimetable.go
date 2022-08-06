@@ -78,10 +78,6 @@ func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 
 	kitchen := c.PostForm("kitchen")
 
-	kitchenModel := models.Kitchen{
-		Name: kitchen,
-	}
-
 	year, err := strconv.Atoi(c.PostForm("year"))
 	if err != nil {
 		log.Println(err)
@@ -116,7 +112,7 @@ func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 	food.Day = date
 	food.Weekday = weekDay
 	food.Images = images
-	food.Kitchen = kitchenModel
+	food.Kitchen = kitchen
 	food.Status = "Not serving"
 
 	err = u.UserService.CreateFoodTimetable(food)

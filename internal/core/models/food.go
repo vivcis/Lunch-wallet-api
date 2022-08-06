@@ -15,15 +15,11 @@ type Food struct {
 	Weekday   string     `json:"weekday"`
 	Status    string     `json:"status"`
 	Images    []Image    `json:"images" gorm:"many2many:image"`
-	Kitchen
+	Kitchen   string     `json:"kitchen"`
 }
 
 type Image struct {
 	Model
 	ProductId uint   `json:"product_id"`
 	Url       string `json:"url"`
-}
-
-type Kitchen struct {
-	Name string `json:"name"`
 }
