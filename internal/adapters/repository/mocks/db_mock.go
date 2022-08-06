@@ -212,6 +212,21 @@ func (mr *MockUserRepositoryMockRecorder) FindAllFoodBeneficiary(pagination inte
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAllFoodBeneficiary", reflect.TypeOf((*MockUserRepository)(nil).FindAllFoodBeneficiary), pagination)
 }
 
+// FindAllFoodByDate mocks base method.
+func (m *MockUserRepository) FindAllFoodByDate(year int, month time.Month, day int) ([]models.Food, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindAllFoodByDate", year, month, day)
+	ret0, _ := ret[0].([]models.Food)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindAllFoodByDate indicates an expected call of FindAllFoodByDate.
+func (mr *MockUserRepositoryMockRecorder) FindAllFoodByDate(year, month, day interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAllFoodByDate", reflect.TypeOf((*MockUserRepository)(nil).FindAllFoodByDate), year, month, day)
+}
+
 // FindBrunchByDate mocks base method.
 func (m *MockUserRepository) FindBrunchByDate(year int, month time.Month, day int) ([]models.Food, error) {
 	m.ctrl.T.Helper()

@@ -72,3 +72,13 @@ func (p *Postgres) UpdateMeal(id string, food models.Food) error {
 
 	return nil
 }
+
+func (p *Postgres) FindAllFoodByDate(year int, month time.Month, day int) ([]models.Food, error) {
+	var err error
+	var food []models.Food
+	if err = p.DB.Where("year = ?", year).Where("month = ?", month).Where("day = ?", day).
+		Find(&food).Error; err != nil {
+		return nil, errors.New(" food not found")
+	}
+	return food, nil
+}
