@@ -8,7 +8,6 @@ import (
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"gorm.io/gorm"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -41,7 +40,7 @@ func TestBeneficiarySendForgotPasswordEMailHandler(t *testing.T) {
 				ID:        "cad4fc7b-b819-4ec0-aff4-5cefefd7f8ee",
 				CreatedAt: time.Time{},
 				UpdatedAt: time.Time{},
-				DeletedAt: gorm.DeletedAt{},
+				DeletedAt: time.Time{},
 			},
 			Email:        resetPassword.Email,
 			PasswordHash: "passwordHash",

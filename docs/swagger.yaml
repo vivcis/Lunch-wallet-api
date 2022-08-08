@@ -1,0 +1,362 @@
+basePath: /api/v1
+definitions:
+  models.Admin:
+    properties:
+      avatar:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: string
+      is_active:
+        type: boolean
+      location:
+        type: string
+      password:
+        type: string
+      password_hash:
+        type: string
+      status:
+        type: string
+      token:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - email
+    - full_name
+    - location
+    type: object
+  models.FoodBeneficiary:
+    properties:
+      avatar:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: string
+      is_active:
+        type: boolean
+      location:
+        type: string
+      password:
+        type: string
+      password_hash:
+        type: string
+      stack:
+        type: string
+      status:
+        type: string
+      token:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - email
+    - full_name
+    - location
+    - stack
+    type: object
+  models.KitchenStaff:
+    properties:
+      avatar:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: string
+      is_active:
+        type: boolean
+      location:
+        type: string
+      password:
+        type: string
+      password_hash:
+        type: string
+      status:
+        type: string
+      token:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - email
+    - full_name
+    - location
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: info@lunchwallet.com
+    name: Lunch-wallet Team API Support
+    url: http://www.swagger.io/support
+  description: This is a lunch wallet server.
+  license:
+    name: BSD
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Lunch Wallet Swagger API
+  version: "1.0"
+paths:
+  /beneficiarylogout:
+    post:
+      consumes:
+      - application/json
+      description: Log out a kitchen staff
+      parameters:
+      - description: User Email
+        in: path
+        name: email
+        required: true
+        type: string
+      - description: User Token
+        in: path
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+        "404":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Logout User
+      tags:
+      - Users
+  /user/benefactorlogin:
+    post:
+      consumes:
+      - application/json
+      description: Log in an admin
+      parameters:
+      - description: Add user
+        in: body
+        name: admin
+        required: true
+        schema:
+          $ref: '#/definitions/models.Admin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+        "404":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Login User
+      tags:
+      - Users
+  /user/beneficiarysignup:
+    post:
+      consumes:
+      - application/json
+      description: creates a user
+      parameters:
+      - description: Add user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.FoodBeneficiary'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+        "404":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Create User
+      tags:
+      - Users
+  /user/beneficiaryverifyemail/{token}:
+    patch:
+      consumes:
+      - application/json
+      description: verifies a food beneficiary email
+      parameters:
+      - description: Token string
+        in: path
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+        "404":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Verify Email
+      tags:
+      - Users
+  /user/kitchenstafflogin:
+    post:
+      consumes:
+      - application/json
+      description: Log in a kitchen staff
+      parameters:
+      - description: Add user
+        in: body
+        name: kitchenStaff
+        required: true
+        schema:
+          $ref: '#/definitions/models.KitchenStaff'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+        "404":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Login User
+      tags:
+      - Users
+  /user/kitchenstaffsignup:
+    post:
+      consumes:
+      - application/json
+      description: creates a user
+      parameters:
+      - description: Add user
+        in: body
+        name: staff
+        required: true
+        schema:
+          $ref: '#/definitions/models.KitchenStaff'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+        "404":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Create User
+      tags:
+      - Users
+  /user/kitchenstaffverifyemail/{token}:
+    patch:
+      consumes:
+      - application/json
+      description: verifies a kitchen staff email
+      parameters:
+      - description: Token string
+        in: path
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+        "404":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Verify Email
+      tags:
+      - Users
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"
