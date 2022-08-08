@@ -1,0 +1,555 @@
+basePath: /api/v1
+definitions:
+  models.Food:
+    properties:
+      adminName:
+        type: string
+      created_at:
+        type: string
+      day:
+        type: integer
+      deleted_at:
+        type: string
+      id:
+        type: string
+      images:
+        items:
+          $ref: '#/definitions/models.Image'
+        type: array
+      kitchen:
+        type: string
+      month:
+        type: integer
+      name:
+        type: string
+      status:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+      weekday:
+        type: string
+      year:
+        type: integer
+    type: object
+  models.FoodBeneficiary:
+    properties:
+      avatar:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: string
+      is_active:
+        type: boolean
+      is_block:
+        type: boolean
+      location:
+        type: string
+      password:
+        type: string
+      password_hash:
+        type: string
+      stack:
+        type: string
+      status:
+        type: string
+      token:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - email
+    - full_name
+    - location
+    - stack
+    type: object
+  models.Image:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: string
+      product_id:
+        type: integer
+      updated_at:
+        type: string
+      url:
+        type: string
+    type: object
+  models.KitchenStaff:
+    properties:
+      avatar:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: string
+      is_active:
+        type: boolean
+      is_block:
+        type: boolean
+      location:
+        type: string
+      password:
+        type: string
+      password_hash:
+        type: string
+      status:
+        type: string
+      token:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - email
+    - full_name
+    - location
+    type: object
+  models.Notification:
+    properties:
+      day:
+        type: integer
+      message:
+        type: string
+      month:
+        type: integer
+      year:
+        type: integer
+    type: object
+  models.UserLogin:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: info@lunchwallet.com
+    name: Lunch-wallet Team API Support
+    url: http://www.swagger.io/support
+  description: This is a lunch wallet server.
+  license:
+    name: BSD
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Lunch Wallet Swagger API
+  version: "1.0"
+paths:
+  /admin/createtimetable:
+    post:
+      consumes:
+      - application/json
+      description: 'creates meal by collecting fields in models.Food in a form data.
+        Note: "images" is a file to be uploaded in jpeg or png. "name" is the name
+        of the meal, "type" is either brunch or dinner, "weekday" can be ignored but
+        it is either monday - sunday, "kitchen" is either uno, edo-tech park, etc.
+        "year", "month" and "day" are numbers. It is an authorized route to only ADMIN'
+      parameters:
+      - description: images, type, name, kitchen, year, month, day
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.Food'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully Created
+          schema:
+            type: string
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Admin creates meal
+      tags:
+      - Food
+  /benefactor/allfood:
+    get:
+      consumes:
+      - application/json
+      description: This should be used to get all the food in the database meant for
+        today. This should be used instead of GetBrunch and GetDinner seperately for
+        scalability purpose when rendering on the Beneficiary dashboard. Frontend
+        can seperate dinner and brunch. It is an authorized route to only foodBeneficiary
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Food successfully gotten
+          schema:
+            items:
+              $ref: '#/definitions/models.Food'
+            type: array
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Gets all the food in the database using the date of the present day
+      tags:
+      - Food
+  /benefactor/brunch:
+    get:
+      consumes:
+      - application/json
+      description: Gets all the brunch in the database meant for today. GetAllFood
+        should be used instead for scalability purpose when rendering on the Beneficiary
+        dashboard. Frontend can filter brunch and dinner It is an authorized route
+        to only foodBeneficiary
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Brunch found
+          schema:
+            items:
+              $ref: '#/definitions/models.Food'
+            type: array
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Gets all the brunch in the database using the date of the present day
+      tags:
+      - Food
+  /benefactor/dinner:
+    get:
+      consumes:
+      - application/json
+      description: Gets all the dinner in the database meant for today. GetAllFood
+        should be used instead for scalability purpose when rendering on the Beneficiary
+        dashboard. Frontend can filter brunch and dinner It is an authorized route
+        to only foodBeneficiary
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Dinner found
+          schema:
+            items:
+              $ref: '#/definitions/models.Food'
+            type: array
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Gets all the dinner in the database using the date of the present day
+      tags:
+      - Food
+  /beneficiarylogout:
+    post:
+      consumes:
+      - application/json
+      description: Log out a kitchen staff
+      parameters:
+      - description: User Email
+        in: path
+        name: email
+        required: true
+        type: string
+      - description: User Token
+        in: path
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+        "404":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Logout User
+      tags:
+      - Users
+  /user/adminlogin:
+    post:
+      consumes:
+      - application/json
+      description: Allows Admin to log in in order to use app dashboard. Admin must
+        be active before he or she can log in
+      parameters:
+      - description: email, password
+        in: body
+        name: kitchenStaff
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: login successful
+          schema:
+            type: string
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Login Admin
+      tags:
+      - Users
+  /user/benefactorlogin:
+    post:
+      consumes:
+      - application/json
+      description: Allows Food Beneficiary to log in in order to use app dashboard.
+        Beneficiary must be active before he or she can log in
+      parameters:
+      - description: email, password
+        in: body
+        name: kitchenStaff
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: login successful
+          schema:
+            type: string
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Login Food Beneficiary
+      tags:
+      - Users
+  /user/beneficiarysignup:
+    post:
+      consumes:
+      - application/json
+      description: creates a user
+      parameters:
+      - description: Add user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.FoodBeneficiary'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+        "404":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Create User
+      tags:
+      - Users
+  /user/beneficiaryverifyemail/{token}:
+    patch:
+      consumes:
+      - application/json
+      description: verifies a food beneficiary email
+      parameters:
+      - description: Token string
+        in: path
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+        "404":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Verify Email
+      tags:
+      - Users
+  /user/kitchenstafflogin:
+    post:
+      consumes:
+      - application/json
+      description: Allows Kitchen staff to log in in order to use app dashboard. Staff
+        must be active before he or she can log in
+      parameters:
+      - description: email, password
+        in: body
+        name: kitchenStaff
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: login successful
+          schema:
+            type: string
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Login Kitchen Staff
+      tags:
+      - Users
+  /user/kitchenstaffsignup:
+    post:
+      consumes:
+      - application/json
+      description: creates a user
+      parameters:
+      - description: Add user
+        in: body
+        name: staff
+        required: true
+        schema:
+          $ref: '#/definitions/models.KitchenStaff'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+        "404":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Create User
+      tags:
+      - Users
+  /user/kitchenstaffverifyemail/{token}:
+    patch:
+      consumes:
+      - application/json
+      description: verifies a kitchen staff email
+      parameters:
+      - description: Token string
+        in: path
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+        "404":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Verify Email
+      tags:
+      - Users
+  /user/notifications:
+    get:
+      consumes:
+      - application/json
+      description: Returns all notifications in the database and their dates to be
+        rendered as will by the frontend
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: notification successfully loaded
+          schema:
+            items:
+              $ref: '#/definitions/models.Notification'
+            type: array
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Notifies users whenever there is a change worthy of notification
+      tags:
+      - Notification
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"
