@@ -25,7 +25,7 @@ import (
 // @Failure      404  {string}  string "error"
 // @Failure      500  {string}  string "error"
 // @Router       /beneficiarylogout [post]
-func (u HTTPHandler) FoodBeneficiaryLogout(c *gin.Context) {
+func (u *HTTPHandler) FoodBeneficiaryLogout(c *gin.Context) {
 	tokenstr, err := u.GetTokenFromContext(c)
 	if err != nil {
 		helpers.JSON(c, "error getting access token", http.StatusBadRequest, nil, []string{"bad request"})
@@ -76,7 +76,7 @@ func (u HTTPHandler) FoodBeneficiaryLogout(c *gin.Context) {
 // @Failure      404  {string}  string "error"
 // @Failure      500  {string}  string "error"
 // @Router       /beneficiarylogout [post]
-func (u HTTPHandler) KitchenStaffLogout(c *gin.Context) {
+func (u *HTTPHandler) KitchenStaffLogout(c *gin.Context) {
 	tokenstr, err := u.GetTokenFromContext(c)
 	if err != nil {
 		helpers.JSON(c, "error getting access token", http.StatusBadRequest, nil, []string{"bad request"})

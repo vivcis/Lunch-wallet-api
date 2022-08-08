@@ -25,7 +25,7 @@ import (
 // @Failure      404  {string}  string "error"
 // @Failure      500  {string}  string "error"
 // @Router       /user/kitchenstafflogin [post]
-func (u HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
+func (u *HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 	kitchenStaff := &models.KitchenStaff{}
 	KitchenStaffLoginRequest := &struct {
 		Email    string `json:"email" binding:"required"`
@@ -43,6 +43,11 @@ func (u HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 	if sqlErr != nil {
 		fmt.Println(sqlErr)
 		helpers.JSON(c, "user not found, sign up", http.StatusInternalServerError, nil, []string{"internal server error"})
+		return
+	}
+
+	if !kitchenStaff.IsActive {
+		helpers.JSON(c, "please activate your account", http.StatusInternalServerError, nil, []string{"please activate your account"})
 		return
 	}
 
@@ -91,7 +96,7 @@ func (u HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 // @Failure      404  {string}  string "error"
 // @Failure      500  {string}  string "error"
 // @Router       /user/benefactorlogin [post]
-func (u HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
+func (u *HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
 	benefactor := &models.FoodBeneficiary{}
 	benefactorLoginRequest := &struct {
 		Email    string `json:"email" binding:"required"`
@@ -109,6 +114,11 @@ func (u HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
 	if sqlErr != nil {
 		fmt.Println(sqlErr)
 		helpers.JSON(c, "email exists", http.StatusInternalServerError, nil, []string{"internal server error"})
+		return
+	}
+
+	if !benefactor.IsActive {
+		helpers.JSON(c, "please activate your account", http.StatusInternalServerError, nil, []string{"please activate your account"})
 		return
 	}
 
@@ -157,7 +167,7 @@ func (u HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
 // @Failure      404  {string}  string "error"
 // @Failure      500  {string}  string "error"
 // @Router       /user/benefactorlogin [post]
-func (u HTTPHandler) LoginAdminHandler(c *gin.Context) {
+func (u *HTTPHandler) LoginAdminHandler(c *gin.Context) {
 	admin := &models.Admin{}
 	adminLoginRequest := &struct {
 		Email    string `json:"email" binding:"required"`
@@ -175,6 +185,12 @@ func (u HTTPHandler) LoginAdminHandler(c *gin.Context) {
 	if sqlErr != nil {
 		fmt.Println(sqlErr)
 		helpers.JSON(c, "email exists", http.StatusInternalServerError, nil, []string{"internal server error"})
+		return
+	}
+
+	if !admin.IsActive {
+		helpers.JSON(c, "please activate your account", http.StatusInternalServerError, nil, []string{"please activate your account"})
+		return
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(admin.PasswordHash), []byte(adminLoginRequest.Password)); err != nil {

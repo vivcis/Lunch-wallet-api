@@ -21,6 +21,12 @@ type User struct {
 	Token        string `json:"token"`
 }
 
+type UserDetails struct {
+	FullName string `json:"full_name" binding:"required"`
+	Stack    string `json:"stack"`
+	Location string `json:"location"`
+}
+
 //FoodBeneficiary represents a decadev
 type FoodBeneficiary struct {
 	User
@@ -49,6 +55,12 @@ type ForgotPassword struct {
 type ResetPassword struct {
 	NewPassword        string `json:"new_password"`
 	ConfirmNewPassword string `json:"confirm_new_password"`
+}
+
+type Pagination struct {
+	Limit int    `json:"limit"`
+	Page  int    `json:"page"`
+	Sort  string `json:"sort"`
 }
 
 func (user *User) ValidMailAddress() bool {

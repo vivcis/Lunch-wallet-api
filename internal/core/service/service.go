@@ -152,14 +152,41 @@ func (u *userService) UpdateFoodBenefactorDinnerMealRecord(email string) error {
 	return u.userRepository.UpdateFoodBenefactorDinnerMealRecord(email)
 }
 
-func (u *userService) FindAllFoodBeneficiary(query map[string]string) ([]models.FoodBeneficiary, error) {
-	return u.userRepository.FindAllFoodBeneficiary(query)
+func (u *userService) FindAllFoodBeneficiary(pagination *models.Pagination) ([]models.UserDetails, error) {
+	return u.userRepository.FindAllFoodBeneficiary(pagination)
 }
 
 func (u *userService) GetFoodByID(id string) (*models.Food, error) {
 	return u.userRepository.GetFoodByID(id)
 }
 
-func (u *userService) UpdateFoodStatusById(id string, status string) error {
-	return u.userRepository.UpdateFoodStatusById(id, status)
+func (u *userService) UpdateStatus(food []models.Food, status string) error {
+	return u.userRepository.UpdateStatus(food, status)
+}
+
+func (u *userService) SearchFoodBeneficiary(text string, pagination *models.Pagination) ([]models.UserDetails, error) {
+	return u.userRepository.SearchFoodBeneficiary(text, pagination)
+}
+
+func (u *userService) GetTotalUsers() (int, error) {
+	return u.userRepository.GetTotalUsers()
+}
+
+func (u *userService) UpdateMeal(id string, food models.Food) error {
+	return u.userRepository.UpdateMeal(id, food)
+}
+func (u *userService) DeleteMeal(id string) error {
+	return u.userRepository.DeleteMeal(id)
+}
+
+func (u *userService) FindAllFoodByDate(year int, month time.Month, day int) ([]models.Food, error) {
+	return u.userRepository.FindAllFoodByDate(year, month, day)
+}
+
+func (u *userService) CreateNotification(notification models.Notification) error {
+	return u.userRepository.CreateNotification(notification)
+}
+
+func (u *userService) FindNotificationDate(year int, month time.Month, day int) ([]models.Notification, error) {
+	return u.userRepository.FindNotificationDate(year, month, day)
 }

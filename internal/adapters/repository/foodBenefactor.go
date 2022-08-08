@@ -136,11 +136,31 @@ func (p *Postgres) CreateFoodBenefactorDinnerMealRecord(user *models.FoodBenefic
 }
 
 //FindAllFoodBeneficiary finds and list all food beneficiaries
-func (p *Postgres) FindAllFoodBeneficiary(query map[string]string) ([]models.FoodBeneficiary, error) {
-	var users []models.FoodBeneficiary
-	err := p.DB.Model(&models.FoodBeneficiary{}).Where("is_active = true").Where(query).Find(&users).Error
-	if err != nil {
-		return nil, err
+func (p *Postgres) FindAllFoodBeneficiary(pagination *models.Pagination) ([]models.UserDetails, error) {
+	var foodBeneficiary []models.UserDetails
+	offset := (pagination.Page - 1) * pagination.Limit
+	queryBuider := p.DB.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
+	result := queryBuider.Model(&models.FoodBeneficiary{}).Find(&foodBeneficiary).Error
+	if result != nil {
+		return nil, result
 	}
-	return users, nil
+	return foodBeneficiary, nil
+}
+
+//SearchFoodBeneficiary searches for food beneficiary
+func (p *Postgres) SearchFoodBeneficiary(text string, pagination *models.Pagination) ([]models.UserDetails, error) {
+	var users []models.FoodBeneficiary
+	offset := (pagination.Page - 1) * pagination.Limit
+	queryBuider := p.DB.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
+	err := queryBuider.Where("full_name = ?", text).Or("location = ?", text).Or("stack = ?", text).Find(&users).Error
+	var result []models.UserDetails
+	for i, _ := range users {
+		userDetails := models.UserDetails{
+			FullName: users[i].FullName,
+			Stack:    users[i].Stack,
+			Location: users[i].Location,
+		}
+		result = append(result, userDetails)
+	}
+	return result, err
 }

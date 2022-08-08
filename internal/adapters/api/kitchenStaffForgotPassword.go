@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-func (u HTTPHandler) KitchenStaffForgotPassword(c *gin.Context) {
+func (u *HTTPHandler) KitchenStaffForgotPassword(c *gin.Context) {
 	var forgotPassword models.ForgotPassword
 
 	err := c.ShouldBindJSON(&forgotPassword)
@@ -43,7 +43,7 @@ func (u HTTPHandler) KitchenStaffForgotPassword(c *gin.Context) {
 		[]string{"message: please check your email for password reset link"})
 }
 
-func (u HTTPHandler) KitchenStaffResetPassword(c *gin.Context) {
+func (u *HTTPHandler) KitchenStaffResetPassword(c *gin.Context) {
 	var reset models.ResetPassword
 	err := c.ShouldBindJSON(&reset)
 	if err != nil {

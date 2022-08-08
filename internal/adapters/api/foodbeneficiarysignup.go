@@ -20,7 +20,7 @@ import (
 // @Failure      404  {string}  string "error"
 // @Failure      500  {string}  string "error"
 // @Router       /user/beneficiarysignup [post]
-func (u HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
+func (u *HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 	var user *models.FoodBeneficiary
 	err := c.ShouldBindJSON(&user)
 	if err != nil {
