@@ -7,7 +7,18 @@ import (
 	"os"
 )
 
-// KitchenStaffSignUp creates a new kitchen staff
+// CreateUser godoc
+// @Summary      Create User
+// @Description  creates a user
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param staff body models.KitchenStaff true "Add user"
+// @Success      201  {string}  string "success"
+// @Failure      400  {string}  string "error"
+// @Failure      404  {string}  string "error"
+// @Failure      500  {string}  string "error"
+// @Router       /user/kitchenstaffsignup [post]
 func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 	staff := &models.KitchenStaff{}
 	err := c.ShouldBindJSON(staff)
@@ -58,6 +69,18 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 	helpers.JSON(c, "Please check your email to verify your account", 201, nil, nil)
 }
 
+// VerifyEmail godoc
+// @Summary      Verify Email
+// @Description  verifies a kitchen staff email
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param token path string true "Token string"
+// @Success      200  {string}  string "success"
+// @Failure      400  {string}  string "error"
+// @Failure      404  {string}  string "error"
+// @Failure      500  {string}  string "error"
+// @Router       /user/kitchenstaffverifyemail/{token} [patch]
 func (u *HTTPHandler) KitchenStaffVerifyEmail(c *gin.Context) {
 	token := c.Param("token")
 	secretString := os.Getenv("JWT_SECRET")

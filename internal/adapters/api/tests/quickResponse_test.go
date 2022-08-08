@@ -11,7 +11,6 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"gorm.io/gorm"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -32,7 +31,7 @@ func TestBeneficiaryQRBrunch(t *testing.T) {
 		ID:        "userID",
 		CreatedAt: time.Time{},
 		UpdatedAt: time.Time{},
-		DeletedAt: gorm.DeletedAt{},
+		DeletedAt: time.Time{},
 	}
 	user := models.User{
 		Model:    userModel,
@@ -49,7 +48,7 @@ func TestBeneficiaryQRBrunch(t *testing.T) {
 		ID:        "hello",
 		CreatedAt: time.Time{},
 		UpdatedAt: time.Time{},
-		DeletedAt: gorm.DeletedAt{},
+		DeletedAt: time.Time{},
 	}
 	date := time.Now().Format("2006-01-02")
 	mealRecord := &models.MealRecords{
