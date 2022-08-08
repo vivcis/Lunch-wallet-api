@@ -38,7 +38,6 @@ type UserRepository interface {
 	FindAllFoodBeneficiary(query map[string]string) ([]models.FoodBeneficiary, error)
 	GetFoodByID(id string) (*models.Food, error)
 	UpdateFoodStatusById(id string, status string) error
-	SetUserToActive(userID string) error
 }
 
 // MailerRepository interface to implement mailing service

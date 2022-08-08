@@ -12,10 +12,6 @@ type userService struct {
 	userRepository ports.UserRepository
 }
 
-func (u *userService) SetUserToActive(userID string) error {
-	return u.userRepository.SetUserToActive(userID)
-}
-
 type mailerService struct {
 	mailerRepository ports.MailerRepository
 }
