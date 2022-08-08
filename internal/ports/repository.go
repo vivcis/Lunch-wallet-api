@@ -42,6 +42,12 @@ type UserRepository interface {
 	GetTotalUsers() (int, error)
 	UpdateMeal(id string, food models.Food) error
 	DeleteMeal(id string) error
+	FindAllFoodByDate(year int, month time.Month, day int) ([]models.Food, error)
+	CreateNotification(notification models.Notification) error
+	FindNotificationDate(year int, month time.Month, day int) ([]models.Notification, error)
+	GetFoodBenefactorById(id string) (*models.FoodBeneficiary, error)
+	AdminBlockFoodBeneficiary(userID string) error
+	AdminRemoveFoodBeneficiary(userID string) error
 }
 
 // MailerRepository interface to implement mailing service

@@ -36,5 +36,5 @@ func ConnectDb(config *helpers.Config) (*gorm.DB, error) {
 }
 
 func MigrateAll(db *gorm.DB) error {
-	return db.AutoMigrate(&models.FoodBeneficiary{}, &models.KitchenStaff{}, &models.Admin{}, &models.Food{}, &models.Blacklist{}, &models.MealRecords{})
+	return db.AutoMigrate(&models.FoodBeneficiary{}, &models.KitchenStaff{}, &models.Admin{}, &models.Food{}, &models.Blacklist{}, &models.MealRecords{}, &models.Notification{})
 }

@@ -19,12 +19,21 @@ type User struct {
 	Status       string `json:"status"`
 	Avatar       string `json:"avatar"`
 	Token        string `json:"token"`
+	IsBlock      bool   `json:"is_block"`
 }
 
 type UserDetails struct {
 	FullName string `json:"full_name" binding:"required"`
 	Stack    string `json:"stack"`
 	Location string `json:"location"`
+}
+
+type UserProfile struct {
+	FullName string `json:"full_name" binding:"required"`
+	Stack    string `json:"stack"`
+	Email    string `json:"email"`
+	Location string `json:"location"`
+	Avatar   string `json:"avatar"`
 }
 
 //FoodBeneficiary represents a decadev

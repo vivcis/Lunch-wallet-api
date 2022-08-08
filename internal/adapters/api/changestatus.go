@@ -1,13 +1,14 @@
 package api
 
 import (
+	"github.com/decadevs/lunch-api/internal/core/helpers"
+	"github.com/decadevs/lunch-api/internal/core/models"
+	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"time"
 
 	"github.com/decadevs/lunch-api/internal/adapters/repository"
-	"github.com/decadevs/lunch-api/internal/core/helpers"
-	"github.com/gin-gonic/gin"
 )
 
 func (u *HTTPHandler) UpdateBrunchFoodStatus(c *gin.Context) {
@@ -48,6 +49,15 @@ func (u *HTTPHandler) UpdateBrunchFoodStatus(c *gin.Context) {
 		return
 	}
 
+	notification := models.Notification{
+		Message: status.Status,
+		Year:    year,
+		Month:   time.Month(month),
+		Day:     day,
+	}
+
+	err = u.UserService.CreateNotification(notification)
+
 	currentFood, _ := u.UserService.FindBrunchByDate(year, month, day)
 	helpers.JSON(c, "food status updated successfully", http.StatusOK, currentFood, nil)
 }
@@ -82,6 +92,19 @@ func (u *HTTPHandler) UpdateDinnerFoodStatus(c *gin.Context) {
 	errS := u.UserService.UpdateStatus(food, status.Status)
 	if errS != nil {
 		helpers.JSON(c, "internal server error", 500, nil, []string{"error updating food"})
+		return
+	}
+
+	notification := models.Notification{
+		Message: status.Status,
+		Year:    year,
+		Month:   time.Month(month),
+		Day:     day,
+	}
+
+	err = u.UserService.CreateNotification(notification)
+	if err != nil {
+		helpers.JSON(c, "Error in getting Notification", http.StatusInternalServerError, nil, []string{"Error in getting Notification"})
 		return
 	}
 
