@@ -190,3 +190,15 @@ func (u *userService) CreateNotification(notification models.Notification) error
 func (u *userService) FindNotificationDate(year int, month time.Month, day int) ([]models.Notification, error) {
 	return u.userRepository.FindNotificationDate(year, month, day)
 }
+
+func (u *userService) GetFoodBenefactorById(id string) (*models.FoodBeneficiary, error) {
+	return u.userRepository.GetFoodBenefactorById(id)
+}
+
+func (u *userService) AdminBlockFoodBeneficiary(userID string) error {
+	return u.userRepository.AdminBlockFoodBeneficiary(userID)
+}
+
+func (u *userService) AdminRemoveFoodBeneficiary(userID string) error {
+	return u.userRepository.AdminRemoveFoodBeneficiary(userID)
+}

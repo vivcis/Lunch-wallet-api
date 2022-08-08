@@ -42,3 +42,22 @@ func (p *Postgres) AdminEmailVerification(id string) (*models.Admin, error) {
 	}
 	return user, nil
 }
+
+func (p *Postgres) AdminBlockFoodBeneficiary(userID string) error {
+	var user *models.FoodBeneficiary
+	err := p.DB.Model(user).Where("id = ?", userID).Update("is_block", true).Error
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *Postgres) AdminRemoveFoodBeneficiary(userID string) error {
+	user := models.FoodBeneficiary{}
+	err := p.DB.Model(&user).Where("id = ?", userID).Delete(&user).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}

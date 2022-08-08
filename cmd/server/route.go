@@ -72,6 +72,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 		authorizeBenefactor.GET("/allfood", handler.GetAllFoodHandler)
 		authorizeBenefactor.GET("/qrbrunch", handler.BeneficiaryQRBrunch)
 		authorizeBenefactor.GET("/qrdinner", handler.BeneficiaryQRDinner)
+
 	}
 
 	// authorizeAdmin authorizes all authorized admin handler
@@ -81,6 +82,9 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 		authorizeAdmin.POST("/createtimetable", handler.CreateFoodTimetableHandle)
 		authorizeAdmin.DELETE("/deletemeal/:id", handler.DeleteMeal)
 		authorizeAdmin.PUT("/updatemeal/:id", handler.UpdateMeal)
+		authorizeAdmin.GET("/getfoodbeneficiaryprofile/:id", handler.GetFoodBeneficiaryProfile)
+		authorizeAdmin.PUT("/blockfoodbeneficiary/:id", handler.BlockFoodBeneficiary)
+		authorizeAdmin.DELETE("/removefoodbeneficiary/:id", handler.RemoveFoodBeneficiary)
 	}
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

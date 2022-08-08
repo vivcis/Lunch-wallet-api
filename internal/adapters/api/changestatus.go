@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/decadevs/lunch-api/internal/adapters/repository"
 )
 
 func (u *HTTPHandler) UpdateBrunchFoodStatus(c *gin.Context) {
@@ -35,6 +37,12 @@ func (u *HTTPHandler) UpdateBrunchFoodStatus(c *gin.Context) {
 		return
 	}
 
+	inputField, err := repository.StatusEnum(status.Status)
+	if err != nil {
+		helpers.JSON(c, "This is an internal server error", 500, inputField, []string{"incorrect status field"})
+		return
+	}
+
 	errS := u.UserService.UpdateStatus(food, status.Status)
 	if errS != nil {
 		helpers.JSON(c, "An internal server error", 500, nil, []string{"error updating food"})
@@ -54,6 +62,7 @@ func (u *HTTPHandler) UpdateBrunchFoodStatus(c *gin.Context) {
 	helpers.JSON(c, "food status updated successfully", http.StatusOK, currentFood, nil)
 }
 
+//UpdateDinnerFoodStatus handler to change dinner status
 func (u *HTTPHandler) UpdateDinnerFoodStatus(c *gin.Context) {
 	user, err := u.GetKitchenStaffFromContext(c)
 	log.Println("user in context", user)

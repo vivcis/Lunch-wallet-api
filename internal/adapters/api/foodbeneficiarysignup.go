@@ -54,8 +54,8 @@ func (u *HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 	emailToken, _ := u.MailerService.GenerateNonAuthToken(user.Email, secretString)
 	emailLink := os.Getenv("BENEFICIARY_EMAIL")
 	link := emailLink + *emailToken
-	body := "Click this <a href='" + link + "'>link</a> to verify your email."
-	html := "<strong>" + body + "</strong>"
+	body := "Click this <a href=' " + " " + link + " '>link</a> to verify your email."
+	html := "<strong> " + body + " </strong>"
 
 	//initialize email sent out
 	privateAPIKey := os.Getenv("MAILGUN_API_KEY")
