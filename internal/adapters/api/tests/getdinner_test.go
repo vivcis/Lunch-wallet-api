@@ -45,7 +45,7 @@ func TestGetDinnerHandle(t *testing.T) {
 		Type:      "DINNER",
 		AdminName: "Joseph Asuquo",
 		Year:      year,
-		Month:     month,
+		Month:     int(month),
 		Day:       day,
 		Weekday:   "Friday",
 		Status:    "Not serve",
@@ -64,7 +64,7 @@ func TestGetDinnerHandle(t *testing.T) {
 	t.Run("testing bad request", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindFoodBenefactorByEmail(benefactor.Email).Return(&benefactor, nil)
-		mockDb.EXPECT().FindDinnerByDate(year, month, day).Return(nil, errors.New("internal server error"))
+		mockDb.EXPECT().FindDinnerByDate(year, food.Month, day).Return(nil, errors.New("internal server error"))
 		rw := httptest.NewRecorder()
 		req, _ := http.NewRequest(http.MethodGet, "/api/v1/benefactor/dinner", strings.NewReader(string(bytes)))
 		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))
@@ -76,7 +76,7 @@ func TestGetDinnerHandle(t *testing.T) {
 	t.Run("testing Successful request", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindFoodBenefactorByEmail(benefactor.Email).Return(&benefactor, nil)
-		mockDb.EXPECT().FindDinnerByDate(year, month, day).Return(foods, nil)
+		mockDb.EXPECT().FindDinnerByDate(year, food.Month, day).Return(foods, nil)
 		rw := httptest.NewRecorder()
 		req, _ := http.NewRequest(http.MethodGet, "/api/v1/benefactor/dinner", strings.NewReader(string(bytes)))
 		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))

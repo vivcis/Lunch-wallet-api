@@ -32,7 +32,8 @@ func TestUpdateBrunchFoodStatus(t *testing.T) {
 
 	user := models.User{}
 
-	year, month, day := time.Now().Date()
+	year, mon, day := time.Now().Date()
+	month := int(mon)
 
 	kitchenStaff := models.KitchenStaff{
 		User: user,
@@ -60,7 +61,7 @@ func TestUpdateBrunchFoodStatus(t *testing.T) {
 	notification := models.Notification{
 		Message: createFood.Status,
 		Year:    year,
-		Month:   month,
+		Month:   int(month),
 		Day:     day,
 	}
 
@@ -79,7 +80,7 @@ func TestUpdateBrunchFoodStatus(t *testing.T) {
 	t.Run("testing Successful request", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindKitchenStaffByEmail(kitchenStaff.Email).Return(&kitchenStaff, nil)
-		mockDb.EXPECT().FindBrunchByDate(year, month, day).Return(foods, nil)
+		mockDb.EXPECT().FindBrunchByDate(year, createFood.Month, day).Return(foods, nil)
 		mockDb.EXPECT().UpdateStatus(foods, createFood.Status).Return(nil)
 		mockDb.EXPECT().CreateNotification(notification).Return(nil)
 		mockDb.EXPECT().FindBrunchByDate(year, month, day).Return(foods, nil)

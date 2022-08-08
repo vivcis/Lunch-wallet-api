@@ -43,7 +43,7 @@ func TestUpdateMeal(t *testing.T) {
 		Name:    "Afang Soup",
 		Type:    "brunch",
 		Year:    year,
-		Month:   month,
+		Month:   int(month),
 		Day:     day,
 		Weekday: "Wednesday",
 	}
@@ -56,7 +56,7 @@ func TestUpdateMeal(t *testing.T) {
 	notification := models.Notification{
 		Message: admin.FullName + " updated timetable",
 		Year:    food.Year,
-		Month:   food.Month,
+		Month:   int(month),
 		Day:     food.Day,
 	}
 

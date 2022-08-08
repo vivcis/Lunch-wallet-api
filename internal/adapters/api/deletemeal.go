@@ -27,7 +27,7 @@ func (u *HTTPHandler) DeleteMeal(c *gin.Context) {
 	notification := models.Notification{
 		Message: user.FullName + " updated timetable",
 		Year:    year,
-		Month:   time.Month(month),
+		Month:   int(month),
 		Day:     day,
 	}
 
