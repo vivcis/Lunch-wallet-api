@@ -52,7 +52,6 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 	authorizeKitchenStaff.Use(middleware.AuthorizeKitchenStaff(userService.FindKitchenStaffByEmail, userService.TokenInBlacklist))
 	{
 		authorizeKitchenStaff.POST("/kitchenstafflogout", handler.KitchenStaffLogout)
-		authorizeKitchenStaff.PUT("/changefoodstatus", handler.ChangeFoodStatus)
 		authorizeKitchenStaff.PUT("/changebrunchstatus", handler.UpdateBrunchFoodStatus)
 		authorizeKitchenStaff.PUT("/changedinnerstatus", handler.UpdateDinnerFoodStatus)
 		authorizeKitchenStaff.GET("/getusers", handler.GetFoodBeneficiaries)
