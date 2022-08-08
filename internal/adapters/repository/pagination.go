@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"errors"
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/gin-gonic/gin"
 	"strconv"
@@ -32,4 +33,17 @@ func GeneratePaginationFromRequest(c *gin.Context) models.Pagination {
 		Page:  page,
 		Sort:  sort,
 	}
+}
+
+func StatusEnum(text string) (string, error) {
+	var result string
+	notifyServe := [...]string{"SERVING", "SERVED"}
+	for _, v := range notifyServe {
+		if v == text {
+			result = text
+			return result, nil
+		}
+	}
+	result = ""
+	return result, errors.New("incorrect status field")
 }

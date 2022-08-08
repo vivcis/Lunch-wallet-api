@@ -46,7 +46,7 @@ func TestUpdateBrunchFoodStatus(t *testing.T) {
 		Month:     month,
 		Day:       day,
 		Weekday:   "Sunday",
-		Status:    "served",
+		Status:    "SERVED",
 	}
 	foods := []models.Food{
 		createFood,
