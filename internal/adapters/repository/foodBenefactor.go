@@ -57,6 +57,12 @@ func (p *Postgres) UserResetPassword(id, newPassword string) (*models.FoodBenefi
 	return user, nil
 }
 
+func (p *Postgres) SetUserToActive(userID string) error {
+	var user *models.User
+	err := p.DB.Model(&user).Where("id = ?", userID).Update("is_active", true).Error
+	return err
+}
+
 // CreateFoodBenefactor creates a benefactor in the database
 func (p *Postgres) CreateFoodBenefactor(user *models.FoodBeneficiary) (*models.FoodBeneficiary, error) {
 	var err error

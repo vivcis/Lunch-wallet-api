@@ -12,6 +12,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// LogoutUser godoc
+// @Summary      Logout User
+// @Description  Log out a food beneficiary
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param email path string true "User Email"
+// @Param token path string true "User Token"
+// @Success      200  {string}  string "success"
+// @Failure      400  {string}  string "error"
+// @Failure      404  {string}  string "error"
+// @Failure      500  {string}  string "error"
+// @Router       /beneficiarylogout [post]
 func (u HTTPHandler) FoodBeneficiaryLogout(c *gin.Context) {
 	tokenstr, err := u.GetTokenFromContext(c)
 	if err != nil {
@@ -50,6 +63,19 @@ func (u HTTPHandler) FoodBeneficiaryLogout(c *gin.Context) {
 
 }
 
+// LogoutUser godoc
+// @Summary      Logout User
+// @Description  Log out a kitchen staff
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param email path string true "User Email"
+// @Param token path string true "User Token"
+// @Success      200  {string}  string "success"
+// @Failure      400  {string}  string "error"
+// @Failure      404  {string}  string "error"
+// @Failure      500  {string}  string "error"
+// @Router       /beneficiarylogout [post]
 func (u HTTPHandler) KitchenStaffLogout(c *gin.Context) {
 	tokenstr, err := u.GetTokenFromContext(c)
 	if err != nil {

@@ -28,7 +28,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 	r := router.Group("/api/v1")
 	{
 
-		r.GET("ping", handler.PingHandler)
+		r.GET("/ping", handler.PingHandler)
 		r.POST("/user/beneficiarysignup", handler.FoodBeneficiarySignUp)
 		r.PATCH("/user/beneficiaryverifyemail/:token", handler.BeneficiaryVerifyEmail)
 		r.POST("/user/kitchenstaffsignup", handler.KitchenStaffSignUp)
@@ -51,7 +51,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 	authorizeKitchenStaff.Use(middleware.AuthorizeKitchenStaff(userService.FindKitchenStaffByEmail, userService.TokenInBlacklist))
 	{
 		authorizeKitchenStaff.POST("/kitchenstafflogout", handler.KitchenStaffLogout)
-		authorizeKitchenStaff.PUT("changefoodstatus", handler.ChangeFoodStatus)
+		authorizeKitchenStaff.PUT("/changefoodstatus", handler.ChangeFoodStatus)
 	}
 
 	// authorizeBenefactor authorizes all authorized benefactor handler

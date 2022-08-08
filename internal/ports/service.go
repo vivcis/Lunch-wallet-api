@@ -38,6 +38,7 @@ type UserService interface {
 	FindAllFoodBeneficiary(query map[string]string) ([]models.FoodBeneficiary, error)
 	GetFoodByID(id string) (*models.Food, error)
 	UpdateFoodStatusById(id string, status string) error
+	SetUserToActive(userID string) error
 }
 
 // MailerService interface to implement mailing service

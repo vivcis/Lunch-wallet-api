@@ -13,7 +13,18 @@ import (
 	"os"
 )
 
-// LoginKitchenStaffHandler handles login for Kitchen Staff
+// LoginUser godoc
+// @Summary      Login User
+// @Description  Log in a kitchen staff
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param kitchenStaff body models.KitchenStaff true "Add user"
+// @Success      200  {object}  string "success"
+// @Failure      400  {string}  string "error"
+// @Failure      404  {string}  string "error"
+// @Failure      500  {string}  string "error"
+// @Router       /user/kitchenstafflogin [post]
 func (u HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 	kitchenStaff := &models.KitchenStaff{}
 	KitchenStaffLoginRequest := &struct {
@@ -21,7 +32,6 @@ func (u HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 		Password string `json:"password" binding:"required"`
 	}{}
 
-	fmt.Println("here", kitchenStaff)
 	err := c.ShouldBindJSON(KitchenStaffLoginRequest)
 	if err != nil {
 		helpers.JSON(c, "bad request", 400, nil, []string{"bad request"})
@@ -69,7 +79,18 @@ func (u HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 
 }
 
-// LoginFoodBenefactorHandler handles login for food benefactors eg. Decadevs
+// LoginUser godoc
+// @Summary      Login User
+// @Description  Log in a food beneficiary
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param benefactor body models.KitchenStaff true "Add user"
+// @Success      201  {object}  string "success"
+// @Failure      400  {string}  string "error"
+// @Failure      404  {string}  string "error"
+// @Failure      500  {string}  string "error"
+// @Router       /user/benefactorlogin [post]
 func (u HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
 	benefactor := &models.FoodBeneficiary{}
 	benefactorLoginRequest := &struct {
@@ -124,7 +145,18 @@ func (u HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
 
 }
 
-// LoginAdminHandler handles login for the Admin
+// LoginUser godoc
+// @Summary      Login User
+// @Description  Log in an admin
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param admin body models.Admin true "Add user"
+// @Success      200  {object}  string "success"
+// @Failure      400  {string}  string "error"
+// @Failure      404  {string}  string "error"
+// @Failure      500  {string}  string "error"
+// @Router       /user/benefactorlogin [post]
 func (u HTTPHandler) LoginAdminHandler(c *gin.Context) {
 	admin := &models.Admin{}
 	adminLoginRequest := &struct {
