@@ -57,7 +57,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.2 // indirect
 	github.com/stretchr/testify v1.8.0
-	github.com/swaggo/swag v1.8.3 // indirect
+	github.com/swaggo/swag v1.8.3
 	github.com/ugorji/go/codec v1.2.7 // indirect
 	golang.org/x/net v0.0.0-20220706163947-c90051bbdb60 // indirect
 	golang.org/x/sys v0.0.0-20220708085239-5a0f0661e09d // indirect
