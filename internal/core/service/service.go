@@ -5,7 +5,6 @@ import (
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/decadevs/lunch-api/internal/ports"
 	"mime/multipart"
-	"time"
 )
 
 type userService struct {
@@ -118,11 +117,11 @@ func (u *userService) CreateAdmin(user *models.Admin) (*models.Admin, error) {
 	return u.userRepository.CreateAdmin(user)
 }
 
-func (u *userService) FindBrunchByDate(year int, month time.Month, day int) ([]models.Food, error) {
+func (u *userService) FindBrunchByDate(year int, month int, day int) ([]models.Food, error) {
 	return u.userRepository.FindBrunchByDate(year, month, day)
 }
 
-func (u *userService) FindDinnerByDate(year int, month time.Month, day int) ([]models.Food, error) {
+func (u *userService) FindDinnerByDate(year int, month int, day int) ([]models.Food, error) {
 	return u.userRepository.FindDinnerByDate(year, month, day)
 }
 func (u *userService) FoodBeneficiaryEmailVerification(id string) (*models.FoodBeneficiary, error) {
@@ -179,7 +178,7 @@ func (u *userService) DeleteMeal(id string) error {
 	return u.userRepository.DeleteMeal(id)
 }
 
-func (u *userService) FindAllFoodByDate(year int, month time.Month, day int) ([]models.Food, error) {
+func (u *userService) FindAllFoodByDate(year int, month int, day int) ([]models.Food, error) {
 	return u.userRepository.FindAllFoodByDate(year, month, day)
 }
 
@@ -187,8 +186,8 @@ func (u *userService) CreateNotification(notification models.Notification) error
 	return u.userRepository.CreateNotification(notification)
 }
 
-func (u *userService) FindNotificationDate(year int, month time.Month, day int) ([]models.Notification, error) {
-	return u.userRepository.FindNotificationDate(year, month, day)
+func (u *userService) FindNotificationByDate(year int, month int, day int) ([]models.Notification, error) {
+	return u.userRepository.FindNotificationByDate(year, month, day)
 }
 
 func (u *userService) GetFoodBenefactorById(id string) (*models.FoodBeneficiary, error) {

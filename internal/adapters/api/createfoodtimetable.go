@@ -14,6 +14,17 @@ import (
 	"time"
 )
 
+// CreateMeal godoc
+// @Summary      Admin creates meal
+// @Description  creates meal by collecting fields in models.Food in a form data. Note: "images" is a file to be uploaded in jpeg or png. "name" is the name of the meal, "type" is either brunch or dinner, "weekday" can be ignored but it is either monday - sunday, "kitchen" is either uno, edo-tech park, etc. "year", "month" and "day" are numbers. It is an authorized route to only ADMIN
+// @Tags         Food
+// @Accept       json
+// @Produce      json
+// @Param Food in form data body models.Food true "images, type, name, kitchen, year, month, day"
+// @Success      200  {string} string "Successfully Created"
+// @Failure      500  {string}  string "internal server error"
+// @Failure      400  {string}  string "bad request"
+// @Router       /admin/createtimetable [post]
 func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 	admin, err := u.GetAdminFromContext(c)
 	if err != nil {
@@ -69,7 +80,7 @@ func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 		images = append(images, img)
 	}
 
-	mealType := c.PostForm("meal")
+	mealType := c.PostForm("type")
 	foodType := strings.ToUpper(mealType)
 
 	foodName := c.PostForm("name")
@@ -95,7 +106,7 @@ func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 		return
 	}
 
-	date, err := strconv.Atoi(c.PostForm("date"))
+	date, err := strconv.Atoi(c.PostForm("day"))
 	if err != nil {
 		log.Println(err)
 
@@ -108,7 +119,7 @@ func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 	food.Type = foodType
 	food.AdminName = admin.FullName
 	food.Year = year
-	food.Month = time.Month(month)
+	food.Month = month
 	food.Day = date
 	food.Weekday = weekDay
 	food.Images = images
@@ -124,7 +135,7 @@ func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 	notification := models.Notification{
 		Message: admin.FullName + " added " + foodName + " to timetable",
 		Year:    year,
-		Month:   time.Month(month),
+		Month:   month,
 		Day:     date,
 	}
 

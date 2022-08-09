@@ -54,10 +54,7 @@ func TestLoginKitchenStaffHandler(t *testing.T) {
 		}
 		_ = kitchenStaff.HashPassword()
 
-		KitchenStaffLoginRequest := &struct {
-			Email    string `json:"email" binding:"required"`
-			Password string `json:"password" binding:"required"`
-		}{
+		KitchenStaffLoginRequest := &models.UserLogin{
 			Email:    "mike123@decagon.dev",
 			Password: "12345566666",
 		}
@@ -113,10 +110,7 @@ func TestLoginFoodBenefactorHandler(t *testing.T) {
 		}
 		_ = benefactor.HashPassword()
 
-		benefactorLoginRequest := &struct {
-			Email    string `json:"email" binding:"required"`
-			Password string `json:"password" binding:"required"`
-		}{
+		benefactorLoginRequest := &models.UserLogin{
 			Email:    "mike123@decagon.dev",
 			Password: "12345566666",
 		}
@@ -172,10 +166,7 @@ func TestLoginAdminHandler(t *testing.T) {
 		}
 		_ = admin.HashPassword()
 
-		adminLoginRequest := &struct {
-			Email    string `json:"email" binding:"required"`
-			Password string `json:"password" binding:"required"`
-		}{
+		adminLoginRequest := &models.UserLogin{
 			Email:    "mike123@decagon.dev",
 			Password: "12345566666",
 		}

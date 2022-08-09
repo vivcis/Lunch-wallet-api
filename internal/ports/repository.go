@@ -4,7 +4,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"mime/multipart"
-	"time"
 )
 
 type UserRepository interface {
@@ -25,8 +24,8 @@ type UserRepository interface {
 	AdminResetPassword(id, newPassword string) (*models.Admin, error)
 	CreateFoodTimetable(food models.Food) error
 	CreateAdmin(user *models.Admin) (*models.Admin, error)
-	FindBrunchByDate(year int, month time.Month, day int) ([]models.Food, error)
-	FindDinnerByDate(year int, month time.Month, day int) ([]models.Food, error)
+	FindBrunchByDate(year int, month int, day int) ([]models.Food, error)
+	FindDinnerByDate(year int, month int, day int) ([]models.Food, error)
 	FoodBeneficiaryEmailVerification(id string) (*models.FoodBeneficiary, error)
 	KitchenStaffEmailVerification(id string) (*models.KitchenStaff, error)
 	AdminEmailVerification(id string) (*models.Admin, error)
@@ -42,9 +41,9 @@ type UserRepository interface {
 	GetTotalUsers() (int, error)
 	UpdateMeal(id string, food models.Food) error
 	DeleteMeal(id string) error
-	FindAllFoodByDate(year int, month time.Month, day int) ([]models.Food, error)
+	FindAllFoodByDate(year int, month int, day int) ([]models.Food, error)
 	CreateNotification(notification models.Notification) error
-	FindNotificationDate(year int, month time.Month, day int) ([]models.Notification, error)
+	FindNotificationByDate(year int, month int, day int) ([]models.Notification, error)
 	GetFoodBenefactorById(id string) (*models.FoodBeneficiary, error)
 	AdminBlockFoodBeneficiary(userID string) error
 	AdminRemoveFoodBeneficiary(userID string) error

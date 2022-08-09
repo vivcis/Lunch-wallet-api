@@ -29,7 +29,8 @@ func TestNotificationHandle(t *testing.T) {
 	}
 	router := server.SetupRouter(r, mockDb)
 
-	year, month, day := time.Now().Date()
+	year, mon, day := time.Now().Date()
+	month := int(mon)
 
 	notification := models.Notification{
 		Message: "serving",
@@ -43,7 +44,7 @@ func TestNotificationHandle(t *testing.T) {
 	bytes, _ := json.Marshal(notifications)
 
 	t.Run("testing successful notification", func(t *testing.T) {
-		mockDb.EXPECT().FindNotificationDate(year, month, day).Return(notifications, nil)
+		mockDb.EXPECT().FindNotificationByDate(year, month, day).Return(notifications, nil)
 		rw := httptest.NewRecorder()
 		req, _ := http.NewRequest(http.MethodGet, "/api/v1/user/notifications", strings.NewReader(string(bytes)))
 		router.ServeHTTP(rw, req)
@@ -52,7 +53,7 @@ func TestNotificationHandle(t *testing.T) {
 	})
 
 	t.Run("testing error", func(t *testing.T) {
-		mockDb.EXPECT().FindNotificationDate(year, month, day).Return(nil, errors.New("error in notification"))
+		mockDb.EXPECT().FindNotificationByDate(year, month, day).Return(nil, errors.New("error in notification"))
 		rw := httptest.NewRecorder()
 		req, _ := http.NewRequest(http.MethodGet, "/api/v1/user/notifications", strings.NewReader(string(bytes)))
 		router.ServeHTTP(rw, req)
