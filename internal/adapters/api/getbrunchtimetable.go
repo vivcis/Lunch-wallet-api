@@ -13,7 +13,7 @@ func (u *HTTPHandler) GetBrunchTimetable(c *gin.Context) {
 		return
 	}
 	year, month, day := time.Now().Date()
-	food, err := u.UserService.FindBrunchByDate(year, month, day)
+	food, err := u.UserService.FindBrunchByDate(year, int(month), day)
 	if err != nil {
 		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
 		return

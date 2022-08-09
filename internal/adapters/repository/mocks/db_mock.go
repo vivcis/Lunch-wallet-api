@@ -7,7 +7,6 @@ package mocks
 import (
 	multipart "mime/multipart"
 	reflect "reflect"
-	time "time"
 
 	session "github.com/aws/aws-sdk-go/aws/session"
 	models "github.com/decadevs/lunch-api/internal/core/models"
@@ -255,7 +254,7 @@ func (mr *MockUserRepositoryMockRecorder) FindAllFoodBeneficiary(pagination inte
 }
 
 // FindAllFoodByDate mocks base method.
-func (m *MockUserRepository) FindAllFoodByDate(year int, month time.Month, day int) ([]models.Food, error) {
+func (m *MockUserRepository) FindAllFoodByDate(year, month, day int) ([]models.Food, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindAllFoodByDate", year, month, day)
 	ret0, _ := ret[0].([]models.Food)
@@ -270,7 +269,7 @@ func (mr *MockUserRepositoryMockRecorder) FindAllFoodByDate(year, month, day int
 }
 
 // FindBrunchByDate mocks base method.
-func (m *MockUserRepository) FindBrunchByDate(year int, month time.Month, day int) ([]models.Food, error) {
+func (m *MockUserRepository) FindBrunchByDate(year, month, day int) ([]models.Food, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindBrunchByDate", year, month, day)
 	ret0, _ := ret[0].([]models.Food)
@@ -285,7 +284,7 @@ func (mr *MockUserRepositoryMockRecorder) FindBrunchByDate(year, month, day inte
 }
 
 // FindDinnerByDate mocks base method.
-func (m *MockUserRepository) FindDinnerByDate(year int, month time.Month, day int) ([]models.Food, error) {
+func (m *MockUserRepository) FindDinnerByDate(year, month, day int) ([]models.Food, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindDinnerByDate", year, month, day)
 	ret0, _ := ret[0].([]models.Food)
@@ -404,19 +403,19 @@ func (mr *MockUserRepositoryMockRecorder) FindKitchenStaffByLocation(location in
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindKitchenStaffByLocation", reflect.TypeOf((*MockUserRepository)(nil).FindKitchenStaffByLocation), location)
 }
 
-// FindNotificationDate mocks base method.
-func (m *MockUserRepository) FindNotificationDate(year int, month time.Month, day int) ([]models.Notification, error) {
+// FindNotificationByDate mocks base method.
+func (m *MockUserRepository) FindNotificationByDate(year, month, day int) ([]models.Notification, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindNotificationDate", year, month, day)
+	ret := m.ctrl.Call(m, "FindNotificationByDate", year, month, day)
 	ret0, _ := ret[0].([]models.Notification)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// FindNotificationDate indicates an expected call of FindNotificationDate.
-func (mr *MockUserRepositoryMockRecorder) FindNotificationDate(year, month, day interface{}) *gomock.Call {
+// FindNotificationByDate indicates an expected call of FindNotificationByDate.
+func (mr *MockUserRepositoryMockRecorder) FindNotificationByDate(year, month, day interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindNotificationDate", reflect.TypeOf((*MockUserRepository)(nil).FindNotificationDate), year, month, day)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindNotificationByDate", reflect.TypeOf((*MockUserRepository)(nil).FindNotificationByDate), year, month, day)
 }
 
 // FindUserById mocks base method.

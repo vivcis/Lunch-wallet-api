@@ -13,7 +13,7 @@ func (u *HTTPHandler) GetDinnerTimetable(c *gin.Context) {
 		return
 	}
 	year, month, day := time.Now().Date()
-	food, err := u.UserService.FindDinnerByDate(year, month, day)
+	food, err := u.UserService.FindDinnerByDate(year, int(month), day)
 	if err != nil {
 		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
 		return

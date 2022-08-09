@@ -25,6 +25,148 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/admin/createtimetable": {
+            "post": {
+                "description": "creates meal by collecting fields in models.Food in a form data. Note: \"images\" is a file to be uploaded in jpeg or png. \"name\" is the name of the meal, \"type\" is either brunch or dinner, \"weekday\" can be ignored but it is either monday - sunday, \"kitchen\" is either uno, edo-tech park, etc. \"year\", \"month\" and \"day\" are numbers. It is an authorized route to only ADMIN",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Food"
+                ],
+                "summary": "Admin creates meal",
+                "parameters": [
+                    {
+                        "description": "images, type, name, kitchen, year, month, day",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Food"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Created",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/benefactor/allfood": {
+            "get": {
+                "description": "This should be used to get all the food in the database meant for today. This should be used instead of GetBrunch and GetDinner seperately for scalability purpose when rendering on the Beneficiary dashboard. Frontend can seperate dinner and brunch. It is an authorized route to only foodBeneficiary",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Food"
+                ],
+                "summary": "Gets all the food in the database using the date of the present day",
+                "responses": {
+                    "200": {
+                        "description": "Food successfully gotten",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Food"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/benefactor/brunch": {
+            "get": {
+                "description": "Gets all the brunch in the database meant for today. GetAllFood should be used instead for scalability purpose when rendering on the Beneficiary dashboard. Frontend can filter brunch and dinner It is an authorized route to only foodBeneficiary",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Food"
+                ],
+                "summary": "Gets all the brunch in the database using the date of the present day",
+                "responses": {
+                    "200": {
+                        "description": "Brunch found",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Food"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/benefactor/dinner": {
+            "get": {
+                "description": "Gets all the dinner in the database meant for today. GetAllFood should be used instead for scalability purpose when rendering on the Beneficiary dashboard. Frontend can filter brunch and dinner It is an authorized route to only foodBeneficiary",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Food"
+                ],
+                "summary": "Gets all the dinner in the database using the date of the present day",
+                "responses": {
+                    "200": {
+                        "description": "Dinner found",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Food"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/beneficiarylogout": {
             "post": {
                 "description": "Log out a kitchen staff",
@@ -82,9 +224,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/benefactorlogin": {
+        "/user/adminlogin": {
             "post": {
-                "description": "Log in an admin",
+                "description": "Allows Admin to log in in order to use app dashboard. Admin must be active before he or she can log in",
                 "consumes": [
                     "application/json"
                 ],
@@ -94,39 +236,79 @@ const docTemplate = `{
                 "tags": [
                     "Users"
                 ],
-                "summary": "Login User",
+                "summary": "Login Admin",
                 "parameters": [
                     {
-                        "description": "Add user",
-                        "name": "admin",
+                        "description": "email, password",
+                        "name": "kitchenStaff",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Admin"
+                            "$ref": "#/definitions/models.UserLogin"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "success",
+                        "description": "login successful",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "400": {
-                        "description": "error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "404": {
-                        "description": "error",
+                        "description": "bad request",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "500": {
-                        "description": "error",
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/benefactorlogin": {
+            "post": {
+                "description": "Allows Food Beneficiary to log in in order to use app dashboard. Beneficiary must be active before he or she can log in",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Login Food Beneficiary",
+                "parameters": [
+                    {
+                        "description": "email, password",
+                        "name": "kitchenStaff",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UserLogin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "login successful",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
                         "schema": {
                             "type": "string"
                         }
@@ -238,7 +420,7 @@ const docTemplate = `{
         },
         "/user/kitchenstafflogin": {
             "post": {
-                "description": "Log in a kitchen staff",
+                "description": "Allows Kitchen staff to log in in order to use app dashboard. Staff must be active before he or she can log in",
                 "consumes": [
                     "application/json"
                 ],
@@ -248,39 +430,33 @@ const docTemplate = `{
                 "tags": [
                     "Users"
                 ],
-                "summary": "Login User",
+                "summary": "Login Kitchen Staff",
                 "parameters": [
                     {
-                        "description": "Add user",
+                        "description": "email, password",
                         "name": "kitchenStaff",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.KitchenStaff"
+                            "$ref": "#/definitions/models.UserLogin"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "success",
+                        "description": "login successful",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "400": {
-                        "description": "error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "404": {
-                        "description": "error",
+                        "description": "bad request",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "500": {
-                        "description": "error",
+                        "description": "internal server error",
                         "schema": {
                             "type": "string"
                         }
@@ -389,55 +565,88 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/user/notifications": {
+            "get": {
+                "description": "Returns all notifications in the database and their dates to be rendered as will by the frontend",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notification"
+                ],
+                "summary": "Notifies users whenever there is a change worthy of notification",
+                "responses": {
+                    "200": {
+                        "description": "notification successfully loaded",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Notification"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
-        "models.Admin": {
+        "models.Food": {
             "type": "object",
-            "required": [
-                "email",
-                "full_name",
-                "location"
-            ],
             "properties": {
-                "avatar": {
+                "adminName": {
                     "type": "string"
                 },
                 "created_at": {
                     "type": "string"
                 },
+                "day": {
+                    "type": "integer"
+                },
                 "deleted_at": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "full_name": {
                     "type": "string"
                 },
                 "id": {
                     "type": "string"
                 },
-                "is_active": {
-                    "type": "boolean"
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Image"
+                    }
                 },
-                "location": {
+                "kitchen": {
                     "type": "string"
                 },
-                "password": {
-                    "type": "string"
+                "month": {
+                    "type": "integer"
                 },
-                "password_hash": {
+                "name": {
                     "type": "string"
                 },
                 "status": {
                     "type": "string"
                 },
-                "token": {
+                "type": {
                     "type": "string"
                 },
                 "updated_at": {
                     "type": "string"
+                },
+                "weekday": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
                 }
             }
         },
@@ -471,6 +680,9 @@ const docTemplate = `{
                 "is_active": {
                     "type": "boolean"
                 },
+                "is_block": {
+                    "type": "boolean"
+                },
                 "location": {
                     "type": "string"
                 },
@@ -490,6 +702,29 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Image": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "url": {
                     "type": "string"
                 }
             }
@@ -523,6 +758,9 @@ const docTemplate = `{
                 "is_active": {
                     "type": "boolean"
                 },
+                "is_block": {
+                    "type": "boolean"
+                },
                 "location": {
                     "type": "string"
                 },
@@ -539,6 +777,38 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Notification": {
+            "type": "object",
+            "properties": {
+                "day": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "month": {
+                    "type": "integer"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.UserLogin": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
                     "type": "string"
                 }
             }

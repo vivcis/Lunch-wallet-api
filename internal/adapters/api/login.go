@@ -13,24 +13,20 @@ import (
 	"os"
 )
 
-// LoginUser godoc
-// @Summary      Login User
-// @Description  Log in a kitchen staff
+// LoginKitchenStaff godoc
+// @Summary      Login Kitchen Staff
+// @Description  Allows Kitchen staff to log in in order to use app dashboard. Staff must be active before he or she can log in
 // @Tags         Users
 // @Accept       json
 // @Produce      json
-// @Param kitchenStaff body models.KitchenStaff true "Add user"
-// @Success      200  {object}  string "success"
-// @Failure      400  {string}  string "error"
-// @Failure      404  {string}  string "error"
-// @Failure      500  {string}  string "error"
+// @Param kitchenStaff body models.UserLogin true "email, password"
+// @Success      200  {string}  string "login successful"
+// @Failure      400  {string}  string "bad request"
+// @Failure      500  {string}  string "internal server error"
 // @Router       /user/kitchenstafflogin [post]
 func (u *HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 	kitchenStaff := &models.KitchenStaff{}
-	KitchenStaffLoginRequest := &struct {
-		Email    string `json:"email" binding:"required"`
-		Password string `json:"password" binding:"required"`
-	}{}
+	KitchenStaffLoginRequest := &models.UserLogin{}
 
 	err := c.ShouldBindJSON(KitchenStaffLoginRequest)
 	if err != nil {
@@ -42,7 +38,7 @@ func (u *HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 
 	if sqlErr != nil {
 		fmt.Println(sqlErr)
-		helpers.JSON(c, "user not found, sign up", http.StatusInternalServerError, nil, []string{"internal server error"})
+		helpers.JSON(c, "email does not exists", http.StatusInternalServerError, nil, []string{"internal server error"})
 		return
 	}
 
@@ -84,24 +80,20 @@ func (u *HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 
 }
 
-// LoginUser godoc
-// @Summary      Login User
-// @Description  Log in a food beneficiary
+// LoginFoodBeneficiary godoc
+// @Summary      Login Food Beneficiary
+// @Description  Allows Food Beneficiary to log in in order to use app dashboard. Beneficiary must be active before he or she can log in
 // @Tags         Users
 // @Accept       json
 // @Produce      json
-// @Param benefactor body models.KitchenStaff true "Add user"
-// @Success      201  {object}  string "success"
-// @Failure      400  {string}  string "error"
-// @Failure      404  {string}  string "error"
-// @Failure      500  {string}  string "error"
+// @Param kitchenStaff body models.UserLogin true "email, password"
+// @Success      200  {string}  string "login successful"
+// @Failure      400  {string}  string "bad request"
+// @Failure      500  {string}  string "internal server error"
 // @Router       /user/benefactorlogin [post]
 func (u *HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
 	benefactor := &models.FoodBeneficiary{}
-	benefactorLoginRequest := &struct {
-		Email    string `json:"email" binding:"required"`
-		Password string `json:"password" binding:"required"`
-	}{}
+	benefactorLoginRequest := &models.UserLogin{}
 
 	err := c.ShouldBindJSON(&benefactorLoginRequest)
 	if err != nil {
@@ -113,7 +105,7 @@ func (u *HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
 
 	if sqlErr != nil {
 		fmt.Println(sqlErr)
-		helpers.JSON(c, "email exists", http.StatusInternalServerError, nil, []string{"internal server error"})
+		helpers.JSON(c, "email does not exists", http.StatusInternalServerError, nil, []string{"internal server error"})
 		return
 	}
 
@@ -155,24 +147,20 @@ func (u *HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
 
 }
 
-// LoginUser godoc
-// @Summary      Login User
-// @Description  Log in an admin
+// LoginAdmin godoc
+// @Summary      Login Admin
+// @Description  Allows Admin to log in in order to use app dashboard. Admin must be active before he or she can log in
 // @Tags         Users
 // @Accept       json
 // @Produce      json
-// @Param admin body models.Admin true "Add user"
-// @Success      200  {object}  string "success"
-// @Failure      400  {string}  string "error"
-// @Failure      404  {string}  string "error"
-// @Failure      500  {string}  string "error"
-// @Router       /user/benefactorlogin [post]
+// @Param kitchenStaff body models.UserLogin true "email, password"
+// @Success      200  {string}  string "login successful"
+// @Failure      400  {string}  string "bad request"
+// @Failure      500  {string}  string "internal server error"
+// @Router       /user/adminlogin [post]
 func (u *HTTPHandler) LoginAdminHandler(c *gin.Context) {
 	admin := &models.Admin{}
-	adminLoginRequest := &struct {
-		Email    string `json:"email" binding:"required"`
-		Password string `json:"password" binding:"required"`
-	}{}
+	adminLoginRequest := &models.UserLogin{}
 
 	err := c.ShouldBindJSON(&adminLoginRequest)
 	if err != nil {
@@ -184,7 +172,7 @@ func (u *HTTPHandler) LoginAdminHandler(c *gin.Context) {
 
 	if sqlErr != nil {
 		fmt.Println(sqlErr)
-		helpers.JSON(c, "email exists", http.StatusInternalServerError, nil, []string{"internal server error"})
+		helpers.JSON(c, "email does not exists", http.StatusInternalServerError, nil, []string{"internal server error"})
 		return
 	}
 
