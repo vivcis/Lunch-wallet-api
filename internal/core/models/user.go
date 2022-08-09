@@ -50,6 +50,10 @@ type MealRecords struct {
 	Brunch    bool   `json:"brunch"`
 	Dinner    bool   `json:"dinner"`
 }
+
+type QRCodeRecords struct {
+}
+
 type KitchenStaff struct {
 	User
 }
