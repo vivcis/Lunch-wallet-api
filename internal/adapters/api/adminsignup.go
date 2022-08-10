@@ -56,7 +56,7 @@ func (u *HTTPHandler) AdminSignUp(c *gin.Context) {
 }
 
 func (u *HTTPHandler) AdminVerifyEmail(c *gin.Context) {
-	token := c.Param("token")
+	token := c.Query("token")
 	secretString := os.Getenv("JWT_SECRET")
 	userEmail, userr := u.MailerService.DecodeToken(token, secretString)
 	if userr != nil {

@@ -32,7 +32,7 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 		helpers.JSON(c, "", 400, nil, []string{"enter a valid email"})
 		return
 	}
-	
+
 	validateEmail := staff.ValidateEmail()
 	if !validateEmail {
 		helpers.JSON(c, "Enter valid email", 400, nil, []string{"enter valid email"})
@@ -88,7 +88,7 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 // @Failure      500  {string}  string "error"
 // @Router       /user/kitchenstaffverifyemail/{token} [patch]
 func (u *HTTPHandler) KitchenStaffVerifyEmail(c *gin.Context) {
-	token := c.Param("token")
+	token := c.Query("token")
 	secretString := os.Getenv("JWT_SECRET")
 	userEmail, userr := u.MailerService.DecodeToken(token, secretString)
 	if userr != nil {

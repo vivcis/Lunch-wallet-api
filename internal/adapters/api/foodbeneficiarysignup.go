@@ -34,6 +34,12 @@ func (u *HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 		return
 	}
 
+	//validPassword := user.PasswordStrength()
+	//if !validPassword {
+	//	helpers.JSON(c, "Your password must contain upper case letter, lower case letter, number and special character of 8 characters", 400, nil, []string{"enter a strong password"})
+	//	return
+	//}
+
 	_, Emailerr := u.UserService.FindFoodBenefactorByEmail(user.Email)
 	if Emailerr == nil {
 		helpers.JSON(c, "Email already exists", 400, nil, []string{"email exists"})
@@ -84,7 +90,7 @@ func (u *HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 // @Failure      500  {string}  string "error"
 // @Router       /user/beneficiaryverifyemail/{token} [patch]
 func (u *HTTPHandler) BeneficiaryVerifyEmail(c *gin.Context) {
-	token := c.Param("token")
+	token := c.Query("token")
 	secretString := os.Getenv("JWT_SECRET")
 	userEmail, uerr := u.MailerService.DecodeToken(token, secretString)
 	if uerr != nil {
