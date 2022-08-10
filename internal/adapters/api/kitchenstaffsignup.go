@@ -5,6 +5,7 @@ import (
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/gin-gonic/gin"
 	"os"
+	"strings"
 )
 
 // CreateUser godoc
@@ -27,6 +28,11 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 		return
 	}
 
+	if strings.Contains(staff.Email, "decagon.dev") || strings.Contains(staff.Email, "decagonhq.com") {
+		helpers.JSON(c, "", 400, nil, []string{"enter a valid email"})
+		return
+	}
+	
 	validateEmail := staff.ValidateEmail()
 	if !validateEmail {
 		helpers.JSON(c, "Enter valid email", 400, nil, []string{"enter valid email"})
