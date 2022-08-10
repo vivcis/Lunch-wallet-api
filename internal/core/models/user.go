@@ -89,13 +89,13 @@ func (user *User) HashPassword() error {
 	return nil
 }
 
-//func (user *User) StrongPassword() bool {
-//	 password := regexp.MustCompile(`(?m)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\!-\/\:-\@\[-\`\{-\~])(?:.{8})$`)
-//		return password.MatchString(user.Password)
-//}
+func (user *User) PasswordStrength() bool {
+	password := regexp.MustCompile(`^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8}$`)
+	return password.MatchString(user.Password)
+}
 
 func (user *User) ValidateEmail() bool {
-	emailRegexp := regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
+	emailRegexp := regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{5,50}$`)
 	return emailRegexp.MatchString(user.Email)
 
 }
