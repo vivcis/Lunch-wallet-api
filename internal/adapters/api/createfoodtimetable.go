@@ -68,11 +68,9 @@ func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 
 		url, err := u.AWSService.UploadFileToS3(session, file, tempFileName, f.Size)
 		if err != nil {
-			log.Println(err)
 			helpers.JSON(c, "internal server error", http.StatusInternalServerError, nil, []string{"an error occurred while uploading the image"})
 			return
 		}
-		log.Printf("filename: %v", f.Filename)
 
 		img := models.Image{
 			Url: url,

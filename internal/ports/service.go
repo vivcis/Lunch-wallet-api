@@ -47,6 +47,8 @@ type UserService interface {
 	GetFoodBenefactorById(id string) (*models.FoodBeneficiary, error)
 	AdminBlockFoodBeneficiary(userID string) error
 	AdminRemoveFoodBeneficiary(userID string) error
+	NumberOfBlockedBeneficiary() (int64, error)
+	GetBlockedBeneficiary() ([]models.FoodBeneficiary, error)
 }
 
 // MailerService interface to implement mailing service

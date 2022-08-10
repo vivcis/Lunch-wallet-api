@@ -201,3 +201,11 @@ func (u *userService) AdminBlockFoodBeneficiary(userID string) error {
 func (u *userService) AdminRemoveFoodBeneficiary(userID string) error {
 	return u.userRepository.AdminRemoveFoodBeneficiary(userID)
 }
+
+func (u *userService) NumberOfBlockedBeneficiary() (int64, error) {
+	return u.userRepository.NumberOfBlockedBeneficiary()
+}
+
+func (u *userService) GetBlockedBeneficiary() ([]models.FoodBeneficiary, error) {
+	return u.userRepository.GetBlockedBeneficiary()
+}

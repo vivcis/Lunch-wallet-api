@@ -47,6 +47,11 @@ func (u *HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 		return
 	}
 
+	if kitchenStaff.IsBlock {
+		helpers.JSON(c, "you have been blocked", http.StatusInternalServerError, nil, []string{"you have been blocked"})
+		return
+	}
+
 	if err := bcrypt.CompareHashAndPassword([]byte(kitchenStaff.PasswordHash), []byte(KitchenStaffLoginRequest.Password)); err != nil {
 		helpers.JSON(c, "invalid Password", http.StatusInternalServerError, nil, []string{"interval server error"})
 		return
@@ -114,6 +119,11 @@ func (u *HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
 		return
 	}
 
+	if benefactor.IsBlock {
+		helpers.JSON(c, "you have been blocked", http.StatusInternalServerError, nil, []string{"you have been blocked"})
+		return
+	}
+
 	if err := bcrypt.CompareHashAndPassword([]byte(benefactor.PasswordHash), []byte(benefactorLoginRequest.Password)); err != nil {
 		helpers.JSON(c, "invalid Password", http.StatusInternalServerError, nil, []string{"interval server error"})
 		return
@@ -178,6 +188,11 @@ func (u *HTTPHandler) LoginAdminHandler(c *gin.Context) {
 
 	if !admin.IsActive {
 		helpers.JSON(c, "please activate your account", http.StatusInternalServerError, nil, []string{"please activate your account"})
+		return
+	}
+
+	if admin.IsBlock {
+		helpers.JSON(c, "you have been blocked", http.StatusInternalServerError, nil, []string{"you have been blocked"})
 		return
 	}
 
