@@ -27,29 +27,77 @@ func TestStaffSignUpEmailExists(t *testing.T) {
 
 	router := server.SetupRouter(r, mockDb)
 
-	user := models.User{
-		FullName:     "Orji Cecilia",
-		Email:        "cece@decagon.dev",
-		Password:     "password",
-		PasswordHash: "",
-		Location:     "ETP",
-	}
-	staff := models.KitchenStaff{
-		User: user,
-	}
+	t.Run("Bad request", func(t *testing.T) {
+		user := models.User{
+			FullName:     "Orji Cecilia",
+			Email:        "cece@decagon.dev",
+			Password:     "password",
+			PasswordHash: "",
+			Location:     "ETP",
+		}
+		staff := models.KitchenStaff{
+			User: user,
+		}
 
-	newUser, err := json.Marshal(staff)
-	if err != nil {
-		t.Fail()
-	}
-	mockDb.EXPECT().FindKitchenStaffByEmail(staff.Email).Return(&staff, nil)
+		newUser, err := json.Marshal(staff)
+		if err != nil {
+			t.Fail()
+		}
+		w := httptest.NewRecorder()
+		req, _ := http.NewRequest("POST", "/api/v1/user/kitchenstaffsignup", strings.NewReader(string(newUser)))
+		router.ServeHTTP(w, req)
 
-	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("POST", "/api/v1/user/kitchenstaffsignup", strings.NewReader(string(newUser)))
-	router.ServeHTTP(w, req)
+		assert.Equal(t, http.StatusBadRequest, w.Code)
+		assert.Contains(t, w.Body.String(), "enter a valid email")
+	})
 
-	assert.Equal(t, http.StatusBadRequest, w.Code)
-	assert.Contains(t, w.Body.String(), "email exists")
+	t.Run("valid email format", func(t *testing.T) {
+		user := models.User{
+			FullName:     "Orji Cecilia",
+			Email:        "cece@decagon.dev",
+			Password:     "password",
+			PasswordHash: "",
+			Location:     "ETP",
+		}
+		staff := models.KitchenStaff{
+			User: user,
+		}
+
+		body, err := json.Marshal(staff)
+		if err != nil {
+			t.Fail()
+		}
+		w := httptest.NewRecorder()
+		req, _ := http.NewRequest("POST", "/api/v1/user/kitchenstaffsignup", strings.NewReader(string(body)))
+		router.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusBadRequest, w.Code)
+		assert.Contains(t, w.Body.String(), "enter a valid email")
+	})
+	t.Run("email exist", func(t *testing.T) {
+		user := models.User{
+			FullName:     "Orji Cecilia",
+			Email:        "cece@gmail.com",
+			Password:     "password",
+			PasswordHash: "",
+			Location:     "ETP",
+		}
+		staff := models.KitchenStaff{
+			User: user,
+		}
+
+		body, err := json.Marshal(staff)
+		if err != nil {
+			t.Fail()
+		}
+		mockDb.EXPECT().FindKitchenStaffByEmail(staff.Email).Return(&staff, nil)
+		w := httptest.NewRecorder()
+		req, _ := http.NewRequest("POST", "/api/v1/user/kitchenstaffsignup", strings.NewReader(string(body)))
+		router.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusBadRequest, w.Code)
+		assert.Contains(t, w.Body.String(), "email exists")
+	})
 }
 
 func TestStaffSignUpBadRequest(t *testing.T) {
@@ -72,7 +120,7 @@ func TestStaffSignUpBadRequest(t *testing.T) {
 		},
 		{
 			FullName:     "Dede",
-			Email:        "cece@decagon.dev",
+			Email:        "cece@gmail.com",
 			Password:     "password",
 			PasswordHash: "",
 			Location:     "ETP",
