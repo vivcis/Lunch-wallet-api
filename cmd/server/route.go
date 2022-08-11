@@ -85,6 +85,8 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 		authorizeAdmin.GET("/getfoodbeneficiaryprofile/:id", handler.GetFoodBeneficiaryProfile)
 		authorizeAdmin.PUT("/blockfoodbeneficiary/:id", handler.BlockFoodBeneficiary)
 		authorizeAdmin.DELETE("/removefoodbeneficiary/:id", handler.RemoveFoodBeneficiary)
+		authorizeAdmin.GET("/numberblocked", handler.GetNumberOfBlockedUsers)
+		authorizeAdmin.GET("/blockedusers", handler.GetBlockedUsers)
 	}
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

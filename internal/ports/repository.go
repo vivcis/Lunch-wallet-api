@@ -47,6 +47,8 @@ type UserRepository interface {
 	GetFoodBenefactorById(id string) (*models.FoodBeneficiary, error)
 	AdminBlockFoodBeneficiary(userID string) error
 	AdminRemoveFoodBeneficiary(userID string) error
+	NumberOfBlockedBeneficiary() (int64, error)
+	GetBlockedBeneficiary() ([]models.FoodBeneficiary, error)
 }
 
 // MailerRepository interface to implement mailing service

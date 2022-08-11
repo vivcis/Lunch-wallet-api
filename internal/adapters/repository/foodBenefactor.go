@@ -173,3 +173,20 @@ func (p *Postgres) SearchFoodBeneficiary(text string, pagination *models.Paginat
 	}
 	return result, err
 }
+
+func (p *Postgres) NumberOfBlockedBeneficiary() (int64, error) {
+	var user []models.FoodBeneficiary
+	var number int64
+	if err := p.DB.Where("is_block =?", true).Find(&user).Count(&number).Error; err != nil {
+		return 0, err
+	}
+	return number, nil
+}
+
+func (p *Postgres) GetBlockedBeneficiary() ([]models.FoodBeneficiary, error) {
+	var user []models.FoodBeneficiary
+	if err := p.DB.Where("is_block =?", true).Find(&user).Error; err != nil {
+		return nil, err
+	}
+	return user, nil
+}

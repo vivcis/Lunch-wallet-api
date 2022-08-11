@@ -25,6 +25,44 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/admin/blockedusers": {
+            "get": {
+                "description": "Admin gets to see all blocked users with this endpoint. It is an authorized route to only ADMIN",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "This endpoint enables admin to see all blocked users",
+                "responses": {
+                    "200": {
+                        "description": "blocked users successfully gotten",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.FoodBeneficiary"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/createtimetable": {
             "post": {
                 "description": "creates meal by collecting fields in models.Food in a form data. Note: \"images\" is a file to be uploaded in jpeg or png. \"name\" is the name of the meal, \"type\" is either brunch or dinner, \"weekday\" can be ignored but it is either monday - sunday, \"kitchen\" is either uno, edo-tech park, etc. \"year\", \"month\" and \"day\" are numbers. It is an authorized route to only ADMIN",
@@ -54,6 +92,41 @@ const docTemplate = `{
                         "description": "Successfully Created",
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/numberblocked": {
+            "get": {
+                "description": "Admin gets to see how manuy beneficiaries blocked. It is an authorized route to only ADMIN",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Gets number of blocked benefeciary",
+                "responses": {
+                    "200": {
+                        "description": "successfully gotten",
+                        "schema": {
+                            "type": "number"
                         }
                     },
                     "400": {
