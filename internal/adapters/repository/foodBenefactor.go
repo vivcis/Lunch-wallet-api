@@ -94,6 +94,28 @@ func (p *Postgres) FindFoodBenefactorMealRecord(email, date string) (*models.Mea
 	return user, nil
 }
 
+// FindFoodBenefactorQRCodeMealRecord finds a benefactor QR meal record
+func (p *Postgres) FindFoodBenefactorQRCodeMealRecord(mealId, userId string) (*models.QRCodeMealRecords, error) {
+	record := &models.QRCodeMealRecords{}
+	err := p.DB.Where("meal_id = ? AND user_id = ?", mealId, userId).First(record).Error
+	if record.MealId == "" {
+		return nil, err
+	}
+	return record, nil
+}
+
+// CreateFoodBenefactorQRMealRecord creates a benefactor meal record in the database
+func (p *Postgres) CreateFoodBenefactorQRMealRecord(mealRecord *models.QRCodeMealRecords) error {
+	var err error
+	record := &models.QRCodeMealRecords{
+		Model:  models.Model{},
+		MealId: mealRecord.MealId,
+		UserId: mealRecord.UserId,
+	}
+	err = p.DB.Create(record).Error
+	return err
+}
+
 // CreateFoodBenefactorBrunchMealRecord creates a benefactor meal record in the database
 func (p *Postgres) CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error {
 	var err error

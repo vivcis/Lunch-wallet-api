@@ -201,3 +201,10 @@ func (u *userService) AdminBlockFoodBeneficiary(userID string) error {
 func (u *userService) AdminRemoveFoodBeneficiary(userID string) error {
 	return u.userRepository.AdminRemoveFoodBeneficiary(userID)
 }
+
+func (u *userService) FindFoodBenefactorQRCodeMealRecord(mealId, userId string) (*models.QRCodeMealRecords, error) {
+	return u.userRepository.FindFoodBenefactorQRCodeMealRecord(mealId, userId)
+}
+func (u *userService) CreateFoodBenefactorQRMealRecord(mealRecord *models.QRCodeMealRecords) error {
+	return u.userRepository.CreateFoodBenefactorQRMealRecord(mealRecord)
+}

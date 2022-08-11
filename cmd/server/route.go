@@ -60,6 +60,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 		authorizeKitchenStaff.GET("/gettotalusers", handler.GetTotalNumberOfUsers)
 		authorizeKitchenStaff.GET("/getbrunchtimetable", handler.GetBrunchTimetable)
 		authorizeKitchenStaff.GET("/getdinnertimetable", handler.GetDinnerTimetable)
+		authorizeKitchenStaff.GET("/generateqrcode", handler.GetMeal)
 	}
 
 	// authorizeBenefactor authorizes all authorized benefactor handler
@@ -72,7 +73,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 		authorizeBenefactor.GET("/allfood", handler.GetAllFoodHandler)
 		authorizeBenefactor.GET("/qrbrunch", handler.BeneficiaryQRBrunch)
 		authorizeBenefactor.GET("/qrdinner", handler.BeneficiaryQRDinner)
-
+		authorizeBenefactor.POST("/qrmealrecords", handler.MealRecord)
 	}
 
 	// authorizeAdmin authorizes all authorized admin handler
