@@ -22,9 +22,8 @@ import (
 // @Router       /user/kitchenstaffsignup [post]
 func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 	staff := &models.KitchenStaff{}
-	err := c.ShouldBindJSON(staff)
-	if err != nil {
-		helpers.JSON(c, "Unable to bind request", 400, nil, []string{"unable to bind request: validation error"})
+	if err := u.decode(c, staff); err != nil {
+		helpers.JSON(c, "", 400, nil, err)
 		return
 	}
 
@@ -33,13 +32,7 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 		return
 	}
 
-	validateEmail := staff.ValidateEmail()
-	if !validateEmail {
-		helpers.JSON(c, "Enter valid email", 400, nil, []string{"enter valid email"})
-		return
-	}
-
-	_, err = u.UserService.FindKitchenStaffByEmail(staff.Email)
+	_, err := u.UserService.FindKitchenStaffByEmail(staff.Email)
 	if err == nil {
 		helpers.JSON(c, "Email exist", 400, nil, []string{"email exists"})
 		return
