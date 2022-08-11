@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/decadevs/lunch-api/internal/core/helpers"
@@ -21,36 +22,29 @@ import (
 // @Failure      500  {string}  string "error"
 // @Router       /user/beneficiarysignup [post]
 func (u *HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
-	var user *models.FoodBeneficiary
-	err := c.ShouldBindJSON(&user)
-	if err != nil {
-		helpers.JSON(c, "Unable to bind request", 400, nil, []string{"unable to bind request: validation error"})
+	user := &models.FoodBeneficiary{}
+	if err := u.decode(c, user); err != nil {
+		helpers.JSON(c, "", 400, nil, err)
 		return
 	}
-
+	fmt.Println("hello decagon")
 	validDecagonEmail := user.ValidateDecagonEmail()
 	if !validDecagonEmail {
 		helpers.JSON(c, "Enter valid decagon email", 400, nil, []string{"enter valid decagon email"})
 		return
 	}
 
-	//validPassword := user.PasswordStrength()
-	//if !validPassword {
-	//	helpers.JSON(c, "Your password must contain upper case letter, lower case letter, number and special character of 8 characters", 400, nil, []string{"enter a strong password"})
-	//	return
-	//}
-
 	_, Emailerr := u.UserService.FindFoodBenefactorByEmail(user.Email)
 	if Emailerr == nil {
 		helpers.JSON(c, "Email already exists", 400, nil, []string{"email exists"})
 		return
 	}
-	if err = user.HashPassword(); err != nil {
+	if err := user.HashPassword(); err != nil {
 		helpers.JSON(c, "Unable to hash password", 400, nil, []string{err.Error()})
 		return
 	}
 
-	_, err = u.UserService.CreateFoodBenefactor(user)
+	_, err := u.UserService.CreateFoodBenefactor(user)
 	if err != nil {
 		helpers.JSON(c, "Unable to create user", 400, nil, []string{"unable to create user"})
 		return
