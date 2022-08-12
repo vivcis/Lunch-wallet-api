@@ -52,8 +52,8 @@ type MealRecords struct {
 
 type QRCodeMealRecords struct {
 	Model
-	MealId string `json:"meal_id"`
-	UserId string `json:"user_id"`
+	MealId string `json:"meal_id" binding:"required"`
+	UserId string `json:"user_id" binding:"required"`
 }
 
 type KitchenStaff struct {
