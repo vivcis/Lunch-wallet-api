@@ -30,11 +30,11 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 
 		r.GET("/ping", handler.PingHandler)
 		r.POST("/user/beneficiarysignup", handler.FoodBeneficiarySignUp)
-		r.PATCH("/user/beneficiaryverifyemail/:token", handler.BeneficiaryVerifyEmail)
+		r.PATCH("/user/beneficiaryverifyemail", handler.BeneficiaryVerifyEmail)
 		r.POST("/user/kitchenstaffsignup", handler.KitchenStaffSignUp)
-		r.PATCH("/user/kitchenstaffverifyemail/:token", handler.KitchenStaffVerifyEmail)
+		r.PATCH("/user/kitchenstaffverifyemail", handler.KitchenStaffVerifyEmail)
 		r.POST("/user/adminsignup", handler.AdminSignUp)
-		r.PATCH("/user/adminverifyemail/:token", handler.AdminVerifyEmail)
+		r.PATCH("/user/adminverifyemail", handler.AdminVerifyEmail)
 		r.POST("/user/kitchenstafflogin", handler.LoginKitchenStaffHandler)
 		r.POST("/user/benefactorlogin", handler.LoginFoodBenefactorHandler)
 		r.POST("/user/adminlogin", handler.LoginAdminHandler)
@@ -86,6 +86,8 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 		authorizeAdmin.GET("/getfoodbeneficiaryprofile/:id", handler.GetFoodBeneficiaryProfile)
 		authorizeAdmin.PUT("/blockfoodbeneficiary/:id", handler.BlockFoodBeneficiary)
 		authorizeAdmin.DELETE("/removefoodbeneficiary/:id", handler.RemoveFoodBeneficiary)
+		authorizeAdmin.GET("/numberblocked", handler.GetNumberOfBlockedUsers)
+		authorizeAdmin.GET("/blockedusers", handler.GetBlockedUsers)
 	}
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

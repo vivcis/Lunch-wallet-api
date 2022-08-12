@@ -26,6 +26,13 @@ func (u *HTTPHandler) AdminSignUp(c *gin.Context) {
 		helpers.JSON(c, "Email already exists", 400, nil, []string{"email exists"})
 		return
 	}
+
+	validPassword := user.IsValid(user.Password)
+	if !validPassword {
+		helpers.JSON(c, "Enter strong password", 400, nil, []string{"password must have upper, lower case, number, special character and length not less than 8 characters"})
+		return
+	}
+
 	if err = user.HashPassword(); err != nil {
 		helpers.JSON(c, "Unable to hash password", 400, nil, []string{"unable to hash password"})
 		return
@@ -56,7 +63,7 @@ func (u *HTTPHandler) AdminSignUp(c *gin.Context) {
 }
 
 func (u *HTTPHandler) AdminVerifyEmail(c *gin.Context) {
-	token := c.Param("token")
+	token := c.Query("token")
 	secretString := os.Getenv("JWT_SECRET")
 	userEmail, userr := u.MailerService.DecodeToken(token, secretString)
 	if userr != nil {

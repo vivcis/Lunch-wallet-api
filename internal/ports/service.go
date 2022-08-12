@@ -49,6 +49,8 @@ type UserService interface {
 	AdminRemoveFoodBeneficiary(userID string) error
 	FindFoodBenefactorQRCodeMealRecord(mealId, userId string) (*models.QRCodeMealRecords, error)
 	CreateFoodBenefactorQRMealRecord(mealRecord *models.QRCodeMealRecords) error
+	NumberOfBlockedBeneficiary() (int64, error)
+	GetBlockedBeneficiary() ([]models.FoodBeneficiary, error)
 }
 
 // MailerService interface to implement mailing service

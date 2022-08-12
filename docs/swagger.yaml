@@ -156,6 +156,32 @@ info:
   title: Lunch Wallet Swagger API
   version: "1.0"
 paths:
+  /admin/blockedusers:
+    get:
+      consumes:
+      - application/json
+      description: Admin gets to see all blocked users with this endpoint. It is an
+        authorized route to only ADMIN
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: blocked users successfully gotten
+          schema:
+            items:
+              $ref: '#/definitions/models.FoodBeneficiary'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: This endpoint enables admin to see all blocked users
+      tags:
+      - Users
   /admin/createtimetable:
     post:
       consumes:
@@ -190,6 +216,30 @@ paths:
       summary: Admin creates meal
       tags:
       - Food
+  /admin/numberblocked:
+    get:
+      consumes:
+      - application/json
+      description: Admin gets to see how manuy beneficiaries blocked. It is an authorized
+        route to only ADMIN
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: successfully gotten
+          schema:
+            type: number
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Gets number of blocked benefeciary
+      tags:
+      - Users
   /benefactor/allfood:
     get:
       consumes:

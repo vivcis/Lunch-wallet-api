@@ -477,6 +477,21 @@ func (mr *MockUserRepositoryMockRecorder) FoodBeneficiaryEmailVerification(id in
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FoodBeneficiaryEmailVerification", reflect.TypeOf((*MockUserRepository)(nil).FoodBeneficiaryEmailVerification), id)
 }
 
+// GetBlockedBeneficiary mocks base method.
+func (m *MockUserRepository) GetBlockedBeneficiary() ([]models.FoodBeneficiary, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetBlockedBeneficiary")
+	ret0, _ := ret[0].([]models.FoodBeneficiary)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetBlockedBeneficiary indicates an expected call of GetBlockedBeneficiary.
+func (mr *MockUserRepositoryMockRecorder) GetBlockedBeneficiary() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlockedBeneficiary", reflect.TypeOf((*MockUserRepository)(nil).GetBlockedBeneficiary))
+}
+
 // GetFoodBenefactorById mocks base method.
 func (m *MockUserRepository) GetFoodBenefactorById(id string) (*models.FoodBeneficiary, error) {
 	m.ctrl.T.Helper()
@@ -550,6 +565,21 @@ func (m *MockUserRepository) KitchenStaffResetPassword(id, newPassword string) (
 func (mr *MockUserRepositoryMockRecorder) KitchenStaffResetPassword(id, newPassword interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KitchenStaffResetPassword", reflect.TypeOf((*MockUserRepository)(nil).KitchenStaffResetPassword), id, newPassword)
+}
+
+// NumberOfBlockedBeneficiary mocks base method.
+func (m *MockUserRepository) NumberOfBlockedBeneficiary() (int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "NumberOfBlockedBeneficiary")
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// NumberOfBlockedBeneficiary indicates an expected call of NumberOfBlockedBeneficiary.
+func (mr *MockUserRepositoryMockRecorder) NumberOfBlockedBeneficiary() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NumberOfBlockedBeneficiary", reflect.TypeOf((*MockUserRepository)(nil).NumberOfBlockedBeneficiary))
 }
 
 // SearchFoodBeneficiary mocks base method.
