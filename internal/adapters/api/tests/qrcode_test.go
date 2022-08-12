@@ -60,7 +60,7 @@ func TestGetMeal(t *testing.T) {
 	accessClaims, _ := middleware.GenerateClaims(kitchenStaff.Email)
 	accToken, _ := middleware.GenerateToken(jwt.SigningMethodHS256, accessClaims, &secret)
 
-	t.Run("testing bad request", func(t *testing.T) {
+	t.Run("testing for success", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindKitchenStaffByEmail(kitchenStaff.Email).Return(kitchenStaff, nil)
 		mockDb.EXPECT().FindAllFoodByDate(year, int(month), day).Return(meals, nil)
@@ -70,8 +70,8 @@ func TestGetMeal(t *testing.T) {
 		req, _ := http.NewRequest(http.MethodGet, "/api/v1/staff/generateqrcode?mealType=brunch", strings.NewReader(string(bytes)))
 		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))
 		router.ServeHTTP(rw, req)
-		assert.Equal(t, http.StatusBadRequest, rw.Code)
-		assert.Contains(t, rw.Body.String(), "internal server error")
+		assert.Equal(t, http.StatusOK, rw.Code)
+		assert.NotContains(t, rw.Body.String(), string(bytes))
 
 	})
 }
