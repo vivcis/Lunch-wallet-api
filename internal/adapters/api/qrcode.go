@@ -19,7 +19,7 @@ import (
 // @Success      200  {object} models.Food string "success"
 // @Failure      500  {string}  string "internal server error"
 // @Failure      400  {string}  string "invalid meal type"
-// @Router       /staff/generateqrcode?mealType=brunch  [get]
+// @Router       /staff/generateqrcode [get]
 func (u *HTTPHandler) GetMeal(c *gin.Context) {
 	_, err := u.GetKitchenStaffFromContext(c)
 	if err != nil {

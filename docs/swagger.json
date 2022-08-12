@@ -160,6 +160,41 @@
                 }
             }
         },
+        "/benefactor/qrmealrecords": {
+            "post": {
+                "description": "This is used to tell if a food beneficiary has scanned the QR code previously or not,it then logs the information .",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Logs meal records in the database after successful QR code scan",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "meal already served",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/beneficiarylogout": {
             "post": {
                 "description": "Log out a kitchen staff",
@@ -210,6 +245,41 @@
                     },
                     "500": {
                         "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/staff/generateqrcode": {
+            "get": {
+                "description": "This should be used to get the food in the database to generate QR code meant for the day.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Food"
+                ],
+                "summary": "Gets the food in the database required to generate QR code",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/models.Food"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid meal type",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
                         "schema": {
                             "type": "string"
                         }
