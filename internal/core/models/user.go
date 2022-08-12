@@ -6,7 +6,6 @@ import (
 	"regexp"
 	"strings"
 	"unicode"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
