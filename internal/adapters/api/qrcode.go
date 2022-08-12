@@ -18,6 +18,7 @@ import (
 // @Produce      json
 // @Success      200  {object} models.Food string "success"
 // @Failure      500  {string}  string "internal server error"
+// @Failure      400  {string}  string "invalid meal type"
 // @Router       /staff/generateqrcode?mealType=brunch  [get]
 func (u *HTTPHandler) GetMeal(c *gin.Context) {
 	_, err := u.GetKitchenStaffFromContext(c)
@@ -56,7 +57,7 @@ func (u *HTTPHandler) GetMeal(c *gin.Context) {
 // @Produce      json
 // @Success      200  {string}  string "success"
 // @Failure      500  {string}  string "internal server error"
-// @Failure      500  {string}  string "meal already served"
+// @Failure      400  {string}  string "meal already served"
 // @Router       /benefactor/qrmealrecords [post]
 func (u *HTTPHandler) MealRecord(c *gin.Context) {
 	_, err := u.GetBenefactorFromContext(c)
