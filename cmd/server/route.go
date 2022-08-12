@@ -79,6 +79,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 	authorizeAdmin := r.Group("/admin")
 	authorizeAdmin.Use(middleware.AuthorizeAdmin(userService.FindAdminByEmail, userService.TokenInBlacklist))
 	{
+		authorizeAdmin.POST("/adminlogout", handler.AdminLogout)
 		authorizeAdmin.POST("/createtimetable", handler.CreateFoodTimetableHandle)
 		authorizeAdmin.DELETE("/deletemeal/:id", handler.DeleteMeal)
 		authorizeAdmin.PUT("/updatemeal/:id", handler.UpdateMeal)
