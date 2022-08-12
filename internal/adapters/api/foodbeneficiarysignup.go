@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/decadevs/lunch-api/internal/core/helpers"
@@ -27,7 +26,7 @@ func (u *HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 		helpers.JSON(c, "", 400, nil, err)
 		return
 	}
-	fmt.Println("hello decagon")
+
 	validDecagonEmail := user.ValidateDecagonEmail()
 	if !validDecagonEmail {
 		helpers.JSON(c, "Enter valid decagon email", 400, nil, []string{"enter valid decagon email"})
@@ -39,6 +38,13 @@ func (u *HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 		helpers.JSON(c, "Email already exists", 400, nil, []string{"email exists"})
 		return
 	}
+
+	validPassword := user.IsValid(user.Password)
+	if !validPassword {
+		helpers.JSON(c, "Enter strong password", 400, nil, []string{"password must have upper, lower case, number, special character and length not less than 8 characters"})
+		return
+	}
+
 	if err := user.HashPassword(); err != nil {
 		helpers.JSON(c, "Unable to hash password", 400, nil, []string{err.Error()})
 		return
