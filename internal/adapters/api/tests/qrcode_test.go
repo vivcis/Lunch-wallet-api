@@ -29,7 +29,7 @@ func TestGetMeal(t *testing.T) {
 	router := server.SetupRouter(r, mockDb)
 
 	mealType := "brunch"
-	meals := &[]models.Food{
+	meals := []models.Food{
 		{
 			Model:     models.Model{},
 			Name:      "eba",
@@ -54,16 +54,16 @@ func TestGetMeal(t *testing.T) {
 	kitchenStaff := &models.KitchenStaff{
 		User: user,
 	}
-	kitchenStaffEmail := "bolu@decagon.dev"
+	//kitchenStaffEmail := "bolu@decagon.dev"
 	year, month, day := time.Now().Date()
 	secret := os.Getenv("JWT_SECRET")
-	accessClaims, _ := middleware.GenerateClaims(kitchenStaffEmail)
+	accessClaims, _ := middleware.GenerateClaims(kitchenStaff.Email)
 	accToken, _ := middleware.GenerateToken(jwt.SigningMethodHS256, accessClaims, &secret)
 
 	t.Run("testing bad request", func(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
-		mockDb.EXPECT().FindFoodBenefactorByEmail(kitchenStaff.Email).Return(&kitchenStaff, nil)
-		mockDb.EXPECT().FindAllFoodByDate(year, int(month), day).Return(&meals, nil)
+		mockDb.EXPECT().FindKitchenStaffByEmail(kitchenStaff.Email).Return(kitchenStaff, nil)
+		mockDb.EXPECT().FindAllFoodByDate(year, int(month), day).Return(meals, nil)
 
 		bytes, _ := json.Marshal(meals)
 		rw := httptest.NewRecorder()
