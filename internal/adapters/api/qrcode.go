@@ -13,12 +13,12 @@ import (
 // @Summary      Gets the food in the database required to generate QR code
 // @Description  This should be used to get the food in the database to generate QR code meant for the day.
 // @Tags         Food
+//params		 mealType query string true "mealType"
 // @Accept       json
 // @Produce      json
 // @Success      200  {object} models.Food string "success"
 // @Failure      500  {string}  string "internal server error"
-// @Router       /staff/generateqrcode [get]
-
+// @Router       /staff/generateqrcode?mealType=brunch  [get]
 func (u *HTTPHandler) GetMeal(c *gin.Context) {
 	_, err := u.GetKitchenStaffFromContext(c)
 	if err != nil {
@@ -48,6 +48,16 @@ func (u *HTTPHandler) GetMeal(c *gin.Context) {
 	return
 }
 
+// MealRecord godoc
+// @Summary      Logs meal records in the database after successful QR code scan
+// @Description  This is used to tell if a food beneficiary has scanned the QR code previously or not,it then logs the information .
+// @Tags         user
+// @Accept       json
+// @Produce      json
+// @Success      200  {string}  string "success"
+// @Failure      500  {string}  string "internal server error"
+// @Failure      500  {string}  string "meal already served"
+// @Router       /benefactor/qrmealrecords [post]
 func (u *HTTPHandler) MealRecord(c *gin.Context) {
 	_, err := u.GetBenefactorFromContext(c)
 	if err != nil {
