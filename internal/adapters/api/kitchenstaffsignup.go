@@ -38,6 +38,12 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 		return
 	}
 
+	validPassword := staff.IsValid(staff.Password)
+	if !validPassword {
+		helpers.JSON(c, "Enter strong password", 400, nil, []string{"password must have upper, lower case, number, special character and length not less than 8 characters"})
+		return
+	}
+
 	if err = staff.HashPassword(); err != nil {
 		helpers.JSON(c, "Unable to hash password", 400, nil, []string{err.Error()})
 		return
