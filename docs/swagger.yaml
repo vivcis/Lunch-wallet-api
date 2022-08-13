@@ -347,6 +347,30 @@ paths:
       summary: Gets all the dinner in the database using the date of the present day
       tags:
       - Food
+  /benefactor/qrmealrecords:
+    post:
+      consumes:
+      - application/json
+      description: This is used to tell if a food beneficiary has scanned the QR code
+        previously or not,it then logs the information .
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: meal already served
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Logs meal records in the database after successful QR code scan
+      tags:
+      - user
   /beneficiarylogout:
     post:
       consumes:
@@ -385,6 +409,30 @@ paths:
       summary: Logout User
       tags:
       - Users
+  /staff/generateqrcode:
+    get:
+      consumes:
+      - application/json
+      description: This should be used to get the food in the database to generate
+        QR code meant for the day.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/models.Food'
+        "400":
+          description: invalid meal type
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Gets the food in the database required to generate QR code
+      tags:
+      - Food
   /user/adminlogin:
     post:
       consumes:

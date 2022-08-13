@@ -166,6 +166,20 @@ func (mr *MockUserRepositoryMockRecorder) CreateFoodBenefactorDinnerMealRecord(u
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFoodBenefactorDinnerMealRecord", reflect.TypeOf((*MockUserRepository)(nil).CreateFoodBenefactorDinnerMealRecord), user)
 }
 
+// CreateFoodBenefactorQRMealRecord mocks base method.
+func (m *MockUserRepository) CreateFoodBenefactorQRMealRecord(mealRecord *models.QRCodeMealRecords) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateFoodBenefactorQRMealRecord", mealRecord)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateFoodBenefactorQRMealRecord indicates an expected call of CreateFoodBenefactorQRMealRecord.
+func (mr *MockUserRepositoryMockRecorder) CreateFoodBenefactorQRMealRecord(mealRecord interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFoodBenefactorQRMealRecord", reflect.TypeOf((*MockUserRepository)(nil).CreateFoodBenefactorQRMealRecord), mealRecord)
+}
+
 // CreateFoodTimetable mocks base method.
 func (m *MockUserRepository) CreateFoodTimetable(food models.Food) error {
 	m.ctrl.T.Helper()
@@ -356,6 +370,21 @@ func (m *MockUserRepository) FindFoodBenefactorMealRecord(email, date string) (*
 func (mr *MockUserRepositoryMockRecorder) FindFoodBenefactorMealRecord(email, date interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindFoodBenefactorMealRecord", reflect.TypeOf((*MockUserRepository)(nil).FindFoodBenefactorMealRecord), email, date)
+}
+
+// FindFoodBenefactorQRCodeMealRecord mocks base method.
+func (m *MockUserRepository) FindFoodBenefactorQRCodeMealRecord(mealId, userId string) (*models.QRCodeMealRecords, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindFoodBenefactorQRCodeMealRecord", mealId, userId)
+	ret0, _ := ret[0].(*models.QRCodeMealRecords)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindFoodBenefactorQRCodeMealRecord indicates an expected call of FindFoodBenefactorQRCodeMealRecord.
+func (mr *MockUserRepositoryMockRecorder) FindFoodBenefactorQRCodeMealRecord(mealId, userId interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindFoodBenefactorQRCodeMealRecord", reflect.TypeOf((*MockUserRepository)(nil).FindFoodBenefactorQRCodeMealRecord), mealId, userId)
 }
 
 // FindKitchenStaffByEmail mocks base method.

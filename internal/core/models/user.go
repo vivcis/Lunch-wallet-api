@@ -1,12 +1,11 @@
 package models
 
 import (
+	"golang.org/x/crypto/bcrypt"
 	"net/mail"
 	"regexp"
 	"strings"
 	"unicode"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
@@ -51,6 +50,13 @@ type MealRecords struct {
 	Brunch    bool   `json:"brunch"`
 	Dinner    bool   `json:"dinner"`
 }
+
+type QRCodeMealRecords struct {
+	Model
+	MealId string `json:"meal_id" binding:"required"`
+	UserId string `json:"user_id" binding:"required"`
+}
+
 type KitchenStaff struct {
 	User
 }
