@@ -7,6 +7,18 @@ import (
 	"os"
 )
 
+// CreateUser godoc
+// @Summary      Create User
+// @Description  creates a user
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param user body models.Admin true "Add user"
+// @Success      201  {string}  string "success"
+// @Failure      400  {string}  string "error"
+// @Failure      404  {string}  string "error"
+// @Failure      500  {string}  string "error"
+// @Router       /user/adminsignup [post]
 func (u *HTTPHandler) AdminSignUp(c *gin.Context) {
 	var user *models.Admin
 	err := c.ShouldBindJSON(&user)
@@ -62,6 +74,18 @@ func (u *HTTPHandler) AdminSignUp(c *gin.Context) {
 
 }
 
+// VerifyEmail godoc
+// @Summary      Verify Email
+// @Description  verifies an admin email
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param token path string true "Token string"
+// @Success      200  {string}  string "success"
+// @Failure      400  {string}  string "error"
+// @Failure      404  {string}  string "error"
+// @Failure      500  {string}  string "error"
+// @Router       /user/adminverifyemail/{token} [patch]
 func (u *HTTPHandler) AdminVerifyEmail(c *gin.Context) {
 	token := c.Query("token")
 	secretString := os.Getenv("JWT_SECRET")

@@ -1,5 +1,40 @@
 basePath: /api/v1
 definitions:
+  models.Admin:
+    properties:
+      avatar:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: string
+      is_active:
+        type: boolean
+      is_block:
+        type: boolean
+      location:
+        type: string
+      password:
+        type: string
+      password_hash:
+        type: string
+      status:
+        type: string
+      token:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - email
+    - full_name
+    - location
+    type: object
   models.Food:
     properties:
       adminName:
@@ -379,6 +414,73 @@ paths:
           schema:
             type: string
       summary: Login Admin
+      tags:
+      - Users
+  /user/adminsignup:
+    post:
+      consumes:
+      - application/json
+      description: creates a user
+      parameters:
+      - description: Add user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.Admin'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+        "404":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Create User
+      tags:
+      - Users
+  /user/adminverifyemail/{token}:
+    patch:
+      consumes:
+      - application/json
+      description: verifies an admin email
+      parameters:
+      - description: Token string
+        in: path
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+        "404":
+          description: error
+          schema:
+            type: string
+        "500":
+          description: error
+          schema:
+            type: string
+      summary: Verify Email
       tags:
       - Users
   /user/benefactorlogin:
