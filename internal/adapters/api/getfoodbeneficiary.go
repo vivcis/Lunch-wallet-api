@@ -83,4 +83,5 @@ func (u *HTTPHandler) AdminGetTotalNumberOfUsers(c *gin.Context) {
 		return
 	}
 	helpers.JSON(c, "Total number of users", http.StatusOK, totalNumber, nil)
+
 }
