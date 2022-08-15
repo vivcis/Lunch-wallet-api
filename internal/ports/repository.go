@@ -4,6 +4,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"mime/multipart"
+	"time"
 )
 
 type UserRepository interface {
@@ -31,6 +32,7 @@ type UserRepository interface {
 	AdminEmailVerification(id string) (*models.Admin, error)
 	FindAllFoodBeneficiary(pagination *models.Pagination) ([]models.UserDetails, error)
 	FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error)
+	FindActiveUsersByMonth(date string) (*models.MealRecords, error)
 	CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error
 	CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error
 	UpdateFoodBenefactorBrunchMealRecord(email string) error
