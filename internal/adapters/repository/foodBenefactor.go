@@ -75,7 +75,7 @@ func (p *Postgres) GetFoodBenefactorById(id string) (*models.FoodBeneficiary, er
 	return user, nil
 }
 
-//FoodBeneficiaryEmailVerification verifies the beneficiary email address
+// FoodBeneficiaryEmailVerification verifies the beneficiary email address
 func (p *Postgres) FoodBeneficiaryEmailVerification(id string) (*models.FoodBeneficiary, error) {
 	user := &models.FoodBeneficiary{}
 	if err := p.DB.Model(user).Where("id =?", id).Update("is_active", true).Error; err != nil {
@@ -88,6 +88,17 @@ func (p *Postgres) FoodBeneficiaryEmailVerification(id string) (*models.FoodBene
 func (p *Postgres) FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error) {
 	user := &models.MealRecords{}
 	err := p.DB.Where("user_email =? AND meal_date = ?", email, date).Last(user).Error
+	if user.UserEmail == "" {
+		return nil, err
+	}
+	return user, nil
+}
+
+// FindFoodBenefactorMealRecord finds a benefactor meal record
+func (p *Postgres) FindActiveUsersByMonth(date string) (*models.MealRecords, error) {
+	user := &models.MealRecords{}
+
+	err := p.DB.Where("user_email =? AND meal_date = ?", date).Last(user).Error
 	if user.UserEmail == "" {
 		return nil, err
 	}
@@ -132,7 +143,7 @@ func (p *Postgres) CreateFoodBenefactorBrunchMealRecord(user *models.FoodBenefic
 	return err
 }
 
-//UpdateFoodBenefactorBrunchMealRecord updates the beneficiary meal record
+// UpdateFoodBenefactorBrunchMealRecord updates the beneficiary meal record
 func (p *Postgres) UpdateFoodBenefactorBrunchMealRecord(email string) error {
 	user := &models.MealRecords{}
 	if err := p.DB.Model(user).Where("user_email =?", email).Update("brunch", true).Error; err != nil {
@@ -141,7 +152,7 @@ func (p *Postgres) UpdateFoodBenefactorBrunchMealRecord(email string) error {
 	return nil
 }
 
-//UpdateFoodBenefactorDinnerMealRecord updates the beneficiary meal record
+// UpdateFoodBenefactorDinnerMealRecord updates the beneficiary meal record
 func (p *Postgres) UpdateFoodBenefactorDinnerMealRecord(email string) error {
 	user := &models.MealRecords{}
 	if err := p.DB.Model(user).Where("user_email =?", email).Update("dinner", true).Error; err != nil {
@@ -166,7 +177,7 @@ func (p *Postgres) CreateFoodBenefactorDinnerMealRecord(user *models.FoodBenefic
 	return err
 }
 
-//FindAllFoodBeneficiary finds and list all food beneficiaries
+// FindAllFoodBeneficiary finds and list all food beneficiaries
 func (p *Postgres) FindAllFoodBeneficiary(pagination *models.Pagination) ([]models.UserDetails, error) {
 	var foodBeneficiary []models.UserDetails
 	offset := (pagination.Page - 1) * pagination.Limit
@@ -178,7 +189,7 @@ func (p *Postgres) FindAllFoodBeneficiary(pagination *models.Pagination) ([]mode
 	return foodBeneficiary, nil
 }
 
-//SearchFoodBeneficiary searches for food beneficiary
+// SearchFoodBeneficiary searches for food beneficiary
 func (p *Postgres) SearchFoodBeneficiary(text string, pagination *models.Pagination) ([]models.UserDetails, error) {
 	var users []models.FoodBeneficiary
 	offset := (pagination.Page - 1) * pagination.Limit
