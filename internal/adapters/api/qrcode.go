@@ -13,7 +13,7 @@ import (
 // @Summary      Gets the food in the database required to generate QR code
 // @Description  This should be used to get the food in the database to generate QR code meant for the day.
 // @Tags         Food
-//params		 mealType query string true "mealType"
+// params		 mealType query string true "mealType"
 // @Accept       json
 // @Produce      json
 // @Success      200  {object} models.Food string "success"
