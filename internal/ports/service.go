@@ -4,6 +4,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"mime/multipart"
+	"time"
 )
 
 type UserService interface {
@@ -14,7 +15,6 @@ type UserService interface {
 	FindKitchenStaffByFullName(fullname string) (*models.KitchenStaff, error)
 	FindKitchenStaffByEmail(email string) (*models.KitchenStaff, error)
 	FindKitchenStaffByLocation(location string) (*models.KitchenStaff, error)
-	GetAllFoodBeneficiaries() ([]models.FoodBeneficiary, error)
 	CreateKitchenStaff(user *models.KitchenStaff) (*models.KitchenStaff, error)
 	FindAdminByEmail(email string) (*models.Admin, error)
 	TokenInBlacklist(token *string) bool
@@ -31,6 +31,7 @@ type UserService interface {
 	KitchenStaffEmailVerification(id string) (*models.KitchenStaff, error)
 	AdminEmailVerification(id string) (*models.Admin, error)
 	FindAllFoodBeneficiary(pagination *models.Pagination) ([]models.UserDetails, error)
+	FindActiveUsersByMonth(date string) (*models.MealRecords, error)
 	FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error)
 	CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error
 	CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error
@@ -53,6 +54,7 @@ type UserService interface {
 	NumberOfBlockedBeneficiary() (int64, error)
 	GetBlockedBeneficiary() ([]models.FoodBeneficiary, error)
 	UpdateFoodStatusById(id string, status string) error
+	GetAllFoodBeneficiaries() ([]models.FoodBeneficiary, error)
 	FindFoodByDate(year int, month time.Month, day int) ([]models.Food, error)
 }
 
