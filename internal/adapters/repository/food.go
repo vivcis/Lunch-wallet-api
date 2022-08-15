@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/decadevs/lunch-api/internal/core/models"
+	"time"
 )
 
 // CreateFoodTimetable creates food in timetable
@@ -90,4 +91,9 @@ func (p *Postgres) FindAllFoodByDate(year int, month int, day int) ([]models.Foo
 		return nil, errors.New(" food not found")
 	}
 	return food, nil
+}
+
+func (p *Postgres) UpdateFoodStatusById(id string, status string) error {
+	//TODO implement me
+	panic("implement me")
 }
