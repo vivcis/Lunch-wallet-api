@@ -34,7 +34,7 @@ func (p *Postgres) AdminResetPassword(id, newPassword string) (*models.Admin, er
 	return user, nil
 }
 
-//AdminEmailVerification verifies the admin email address
+// AdminEmailVerification verifies the admin email address
 func (p *Postgres) AdminEmailVerification(id string) (*models.Admin, error) {
 	user := &models.Admin{}
 	if err := p.DB.Model(user).Where("id =?", id).Update("is_active", true).Error; err != nil {
