@@ -35,16 +35,18 @@ func Run() (*gorm.DB, error) {
 		log.Fatal(err)
 		return nil, err
 	}
-	user := &models.FoodBeneficiary{
+	user := &models.Admin{
 		User: models.User{
-			FullName:     "jdoe",
-			Email:        "a@decagon.dev",
-			Location:     "ETP",
-			PasswordHash: "$223456788878878989",
-			IsActive:     true,
-			Token:        "",
+			FullName: "Chinenye Ikpa",
+			Email:    "chinenyei@decagonhq.com",
+			Location: "ETP",
+			Password: "Admin@123",
+			IsActive: true,
+			Token:    "",
 		},
-		Stack: "GO",
+	}
+	if err = user.HashPassword(); err != nil {
+		return nil, err
 	}
 	db.Create(&user)
 	return db, nil
