@@ -1,6 +1,7 @@
 package api
 
 import (
+	"github.com/decadevs/lunch-api/internal/adapters/repository"
 	"github.com/decadevs/lunch-api/internal/core/helpers"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -9,17 +10,24 @@ import (
 
 func (u *HTTPHandler) GetAllBeneficiaryHandle(c *gin.Context) {
 
-	Beneficiaries, err := u.UserService.GetAllFoodBeneficiaries()
+	_, err := u.GetAdminFromContext(c)
 	if err != nil {
-		helpers.JSON(c, "Error Exist in Getting All Sellers", http.StatusInternalServerError, err.Error(), nil)
+		helpers.JSON(c, "internal server error", 500, nil, []string{"This is an internal server error"})
 		return
 	}
+	pagination := repository.GeneratePaginationFromRequest(c)
+	userLists, err := u.UserService.FindAllFoodBeneficiary(&pagination)
 
-	helpers.JSON(c, "Beneficiaries found", http.StatusOK, Beneficiaries, nil)
+	if err != nil {
+		helpers.JSON(c, "internal server error", 500, nil, []string{"An internal server error"})
+		return
+	}
+	helpers.JSON(c, "food beneficiaries found successfully", http.StatusOK, userLists, nil)
 
 }
+
 func (u *HTTPHandler) GetMealTimetableHandle(c *gin.Context) {
-	_, err := u.GetBenefactorFromContext(c)
+	_, err := u.GetAdminFromContext(c)
 	if err != nil {
 		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
 		return
@@ -39,4 +47,40 @@ func (u *HTTPHandler) GetMealTimetableHandle(c *gin.Context) {
 
 func (u *HTTPHandler) GetTickets(c *gin.Context) {
 
+}
+
+func (u *HTTPHandler) AdminSearchFoodBeneficiaries(c *gin.Context) {
+	_, err := u.GetAdminFromContext(c)
+	if err != nil {
+		helpers.JSON(c, "An internal server error", 500, nil, []string{"internal server error"})
+		return
+	}
+	pagination := repository.GeneratePaginationFromRequest(c)
+	query := c.Param("text")
+
+	beneficiaries, err := u.UserService.SearchFoodBeneficiary(query, &pagination)
+	if err != nil {
+		helpers.JSON(c, "An internal server error", 500, nil, []string{"internal server error"})
+		return
+	}
+	if len(beneficiaries) == 0 {
+		helpers.JSON(c, "Record Not Found", 404, nil, []string{"Record Not Found"})
+		return
+	}
+	helpers.JSON(c, "information gotten", http.StatusOK, beneficiaries, nil)
+}
+
+func (u *HTTPHandler) AdminGetTotalNumberOfUsers(c *gin.Context) {
+	_, err := u.GetAdminFromContext(c)
+	if err != nil {
+		helpers.JSON(c, "An internal server error", 500, nil, []string{"internal server error"})
+		return
+	}
+
+	totalNumber, err := u.UserService.GetTotalUsers()
+	if err != nil {
+		helpers.JSON(c, "internal server error", 500, nil, []string{"Unable to get total number of users"})
+		return
+	}
+	helpers.JSON(c, "Total number of users", http.StatusOK, totalNumber, nil)
 }
