@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/decadevs/lunch-api/internal/core/models"
-	"time"
 )
 
 // CreateFoodTimetable creates food in timetable
@@ -35,7 +34,7 @@ func (p *Postgres) FindDinnerByDate(year int, month int, day int) ([]models.Food
 }
 
 // FindDinnerByDate finds dinner by date
-func (p *Postgres) FindFoodByDate(year int, month time.Month, day int) ([]models.Food, error) {
+func (p *Postgres) FindFoodByDate(year int, month int, day int) ([]models.Food, error) {
 	var err error
 	var food []models.Food
 	if err = p.DB.Where("year = ?", year).Where("month = ?", month).Where("day = ?", day).Find(&food).Error; err != nil {
