@@ -5,7 +5,6 @@ import (
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/decadevs/lunch-api/internal/ports"
 	"mime/multipart"
-	"time"
 )
 
 type userService struct {
@@ -66,8 +65,12 @@ func (u *userService) KitchenStaffResetPassword(id, newPassword string) (*models
 	return u.userRepository.KitchenStaffResetPassword(id, newPassword)
 }
 
-func (u *userService) FindActiveUsersByMonth(date string) (*models.MealRecords, error) {
+func (u *userService) FindActiveUsersByMonth(date string) ([]int64, error) {
 	return u.userRepository.FindActiveUsersByMonth(date)
+}
+
+func (u *userService) FindNumbersOfScannedUsers(date string) (int64, error) {
+	return u.userRepository.FindNumbersOfScannedUsers(date)
 }
 
 func (u *userService) FindFoodBenefactorByFullName(fullname string) (*models.FoodBeneficiary, error) {
@@ -229,6 +232,6 @@ func (u *userService) GetAllFoodBeneficiaries() ([]models.FoodBeneficiary, error
 	return u.userRepository.GetAllFoodBeneficiaries()
 }
 
-func (u *userService) FindFoodByDate(year int, month time.Month, day int) ([]models.Food, error) {
+func (u *userService) FindFoodByDate(year int, month int, day int) ([]models.Food, error) {
 	return u.userRepository.FindFoodByDate(year, month, day)
 }
