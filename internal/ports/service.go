@@ -4,7 +4,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"mime/multipart"
-	"time"
 )
 
 type UserService interface {
@@ -32,7 +31,7 @@ type UserService interface {
 	KitchenStaffEmailVerification(id string) (*models.KitchenStaff, error)
 	AdminEmailVerification(id string) (*models.Admin, error)
 	FindAllFoodBeneficiary(pagination *models.Pagination) ([]models.UserDetails, error)
-	FindActiveUsersByMonth(date string) (*models.MealRecords, error)
+	FindActiveUsersByMonth(date string) ([]int64, error)
 	FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error)
 	CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error
 	CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error
@@ -45,6 +44,7 @@ type UserService interface {
 	UpdateMeal(id string, food models.Food) error
 	DeleteMeal(id string) error
 	FindAllFoodByDate(year int, month int, day int) ([]models.Food, error)
+	FindNumbersOfScannedUsers(date string) (int64, error)
 	CreateNotification(notification models.Notification) error
 	FindNotificationByDate(year int, month int, day int) ([]models.Notification, error)
 	GetFoodBenefactorById(id string) (*models.FoodBeneficiary, error)
@@ -55,8 +55,7 @@ type UserService interface {
 	NumberOfBlockedBeneficiary() (int64, error)
 	GetBlockedBeneficiary() ([]models.FoodBeneficiary, error)
 	UpdateFoodStatusById(id string, status string) error
-	GetAllFoodBeneficiaries() ([]models.FoodBeneficiary, error)
-	FindFoodByDate(year int, month time.Month, day int) ([]models.Food, error)
+	FindFoodByDate(year int, month int, day int) ([]models.Food, error)
 }
 
 // MailerService interface to implement mailing service
