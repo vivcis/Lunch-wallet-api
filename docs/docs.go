@@ -63,6 +63,50 @@ const docTemplate = `{
                 }
             }
         },
+        "/admin/blockfoodbeneficiary/:id": {
+            "put": {
+                "description": "Admin blocks a food beneficiary",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Block a food beneficiary",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "food beneficiary blocked",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/createtimetable": {
             "post": {
                 "description": "creates meal by collecting fields in models.Food in a form data. Note: \"images\" is a file to be uploaded in jpeg or png. \"name\" is the name of the meal, \"type\" is either brunch or dinner, \"weekday\" can be ignored but it is either monday - sunday, \"kitchen\" is either uno, edo-tech park, etc. \"year\", \"month\" and \"day\" are numbers. It is an authorized route to only ADMIN",
@@ -144,9 +188,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/benefactor/allfood": {
-            "get": {
-                "description": "This should be used to get all the food in the database meant for today. This should be used instead of GetBrunch and GetDinner seperately for scalability purpose when rendering on the Beneficiary dashboard. Frontend can seperate dinner and brunch. It is an authorized route to only foodBeneficiary",
+        "/adminlogout": {
+            "post": {
+                "description": "Log out admin",
                 "consumes": [
                     "application/json"
                 ],
@@ -154,85 +198,46 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Food"
+                    "Users"
                 ],
-                "summary": "Gets all the food in the database using the date of the present day",
+                "summary": "Logout User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User Email",
+                        "name": "email",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User Token",
+                        "name": "token",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Food successfully gotten",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Food"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "internal server error",
+                        "description": "success",
                         "schema": {
                             "type": "string"
                         }
-                    }
-                }
-            }
-        },
-        "/benefactor/brunch": {
-            "get": {
-                "description": "Gets all the brunch in the database meant for today. GetAllFood should be used instead for scalability purpose when rendering on the Beneficiary dashboard. Frontend can filter brunch and dinner It is an authorized route to only foodBeneficiary",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Food"
-                ],
-                "summary": "Gets all the brunch in the database using the date of the present day",
-                "responses": {
-                    "200": {
-                        "description": "Brunch found",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Food"
-                            }
-                        }
                     },
-                    "500": {
-                        "description": "internal server error",
+                    "400": {
+                        "description": "error",
                         "schema": {
                             "type": "string"
                         }
-                    }
-                }
-            }
-        },
-        "/benefactor/dinner": {
-            "get": {
-                "description": "Gets all the dinner in the database meant for today. GetAllFood should be used instead for scalability purpose when rendering on the Beneficiary dashboard. Frontend can filter brunch and dinner It is an authorized route to only foodBeneficiary",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Food"
-                ],
-                "summary": "Gets all the dinner in the database using the date of the present day",
-                "responses": {
-                    "200": {
-                        "description": "Dinner found",
+                    },
+                    "404": {
+                        "description": "error",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Food"
-                            }
+                            "type": "string"
                         }
                     },
                     "500": {
-                        "description": "internal server error",
+                        "description": "error",
                         "schema": {
                             "type": "string"
                         }
@@ -302,6 +307,116 @@ const docTemplate = `{
                         "name": "token",
                         "in": "path",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/changedinnerstatus": {
+            "put": {
+                "description": "Change dinner food status by kitchen staff from NOT SERVING to either SERVED or SERVING",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Food"
+                ],
+                "summary": "Update Food",
+                "parameters": [
+                    {
+                        "description": "status",
+                        "name": "food",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Food"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/staff/changebrunchstatus": {
+            "put": {
+                "description": "Change brunch food status by kitchen staff from NOT SERVING to either SERVED or SERVING",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Food"
+                ],
+                "summary": "Update Food",
+                "parameters": [
+                    {
+                        "description": "status",
+                        "name": "food",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Food"
+                            }
+                        }
                     }
                 ],
                 "responses": {
@@ -515,6 +630,38 @@ const docTemplate = `{
                 }
             }
         },
+        "/user/allfood": {
+            "get": {
+                "description": "This should be used to get all the food in the database meant for today. This should be used instead of GetBrunch and GetDinner seperately for scalability purpose when rendering on the Beneficiary dashboard. Frontend can seperate dinner and brunch.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Gets all the food in the database using the date of the present day",
+                "responses": {
+                    "200": {
+                        "description": "Food successfully gotten",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Food"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/user/benefactorlogin": {
             "post": {
                 "description": "Allows Food Beneficiary to log in in order to use app dashboard. Beneficiary must be active before he or she can log in",
@@ -656,6 +803,70 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/brunch": {
+            "get": {
+                "description": "Gets all the brunch in the database meant for today. GetAllFood should be used instead for scalability purpose when rendering on the Beneficiary dashboard. Frontend can filter brunch and dinner.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Gets all the brunch in the database using the date of the present day",
+                "responses": {
+                    "200": {
+                        "description": "Brunch found",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Food"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/dinner": {
+            "get": {
+                "description": "Gets all the dinner in the database meant for today. GetAllFood should be used instead for scalability purpose when rendering on the Beneficiary dashboard. Frontend can filter brunch and dinner.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Gets all the dinner in the database using the date of the present day",
+                "responses": {
+                    "200": {
+                        "description": "Dinner found",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Food"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
                         "schema": {
                             "type": "string"
                         }

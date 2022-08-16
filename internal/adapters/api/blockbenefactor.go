@@ -15,7 +15,7 @@ import (
 // @Param name path string true "id"
 // @Accept       json
 // @Produce      json
-// @Success      200  {object} userID string "food beneficiary blocked"
+// @Success      200  {string}  string "food beneficiary blocked"
 // @Failure      500  {string}  string "error"
 // @Failure      400  {string}  string "error"
 // @Router       /admin/blockfoodbeneficiary/:id [put]
