@@ -6,6 +6,16 @@ import (
 	"time"
 )
 
+// GetDinnerTimetable godoc
+// @Summary      Gets food for dinner
+// @Description  Kitchen staff gets the timetable for dinner for a particular date. It is an authorized route to only KITCHEN STAFF
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Success      200  {number} string "successfully gotten"
+// @Failure      500  {string}  string "internal server error"
+// @Failure      400  {string}  string "bad request"
+// @Router       /staff/getdinnertimetable [get]
 func (u *HTTPHandler) GetDinnerTimetable(c *gin.Context) {
 	_, err := u.GetKitchenStaffFromContext(c)
 	if err != nil {
