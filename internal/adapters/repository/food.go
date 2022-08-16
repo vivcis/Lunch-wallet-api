@@ -16,7 +16,7 @@ func (p *Postgres) FindBrunchByDate(year int, month int, day int) ([]models.Food
 	var err error
 	var food []models.Food
 	if err = p.DB.Where("year = ?", year).Where("month = ?", month).Where("day = ?", day).
-		Where("type = ?", "BRUNCH").Find(&food).Error; err != nil {
+		Where("type = ?", "BRUNCH").Preload("Images").Find(&food).Error; err != nil {
 		return nil, errors.New(" food not found")
 	}
 	return food, nil
@@ -27,7 +27,7 @@ func (p *Postgres) FindDinnerByDate(year int, month int, day int) ([]models.Food
 	var err error
 	var food []models.Food
 	if err = p.DB.Where("year = ?", year).Where("month = ?", month).Where("day = ?", day).
-		Where("type = ?", "DINNER").Find(&food).Error; err != nil {
+		Where("type = ?", "DINNER").Preload("Images").Find(&food).Error; err != nil {
 		return nil, errors.New(" food not found")
 	}
 	return food, nil
@@ -37,7 +37,7 @@ func (p *Postgres) FindDinnerByDate(year int, month int, day int) ([]models.Food
 func (p *Postgres) FindFoodByDate(year int, month int, day int) ([]models.Food, error) {
 	var err error
 	var food []models.Food
-	if err = p.DB.Where("year = ?", year).Where("month = ?", month).Where("day = ?", day).Find(&food).Error; err != nil {
+	if err = p.DB.Where("year = ?", year).Where("month = ?", month).Where("day = ?", day).Preload("Images").Find(&food).Error; err != nil {
 		return nil, errors.New(" food not found")
 	}
 	return food, nil
@@ -85,7 +85,7 @@ func (p *Postgres) UpdateMeal(id string, food models.Food) error {
 func (p *Postgres) FindAllFoodByDate(year int, month int, day int) ([]models.Food, error) {
 	var err error
 	var food []models.Food
-	if err = p.DB.Where("year = ?", year).Where("month = ?", month).Where("day = ?", day).
+	if err = p.DB.Where("year = ?", year).Where("month = ?", month).Where("day = ?", day).Preload("Images").
 		Find(&food).Error; err != nil {
 		return nil, errors.New(" food not found")
 	}
