@@ -94,15 +94,33 @@ func (p *Postgres) FindFoodBenefactorMealRecord(email, date string) (*models.Mea
 	return user, nil
 }
 
+// err = p.DB.Raw(`SELECT count(id) FROM <food_benefactors> GROUP by Date_part("month", created_at)`).Error
+// err = p.DB.Select("COUNT(id)").Find(&user).Group(`Date_part(month; created_at)`).Error
+// //So your query should be select count(id) from <food_benefactors> group by Date_part('month', created_at)
+// err := p.DB.Where("is_active = ? AND is_block = ?", true, false).Find(&user).Group("Date_Part(month, created_at)").Count(&num).Error
 // FindFoodBenefactorMealRecord finds a benefactor meal record
-func (p *Postgres) FindActiveUsersByMonth(date string) (*models.MealRecords, error) {
-	user := &models.MealRecords{}
+func (p *Postgres) FindActiveUsersByMonth(date string) ([]int64, error) {
+	user := &models.FoodBeneficiary{}
+	var num int64
+	var nums []int64
 
-	err := p.DB.Where("user_email =? AND meal_date = ?", date).Last(user).Error
-	if user.UserEmail == "" {
+	err := p.DB.Model(user).Where("is_block =? AND is_active = ?", false, true).Find(&nums).Count(&num).Group("date_part month, created_at").Error
+
+	if err != nil {
 		return nil, err
 	}
-	return user, nil
+	return nums, nil
+}
+
+// FindFoodBenefactorMealRecord finds a benefactor meal record
+func (p *Postgres) FindNumbersOfScannedUsers(date string) (int64, error) {
+	var user []models.QRCodeMealRecords
+	var number int64
+	if err := p.DB.Where("created_at = ?", date).Find(&user).Count(&number).Error; err != nil {
+		return 0, err
+	}
+	return number, nil
+
 }
 
 // FindFoodBenefactorQRCodeMealRecord finds a benefactor QR meal record
