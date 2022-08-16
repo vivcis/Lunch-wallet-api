@@ -33,6 +33,16 @@ func (p *Postgres) FindDinnerByDate(year int, month int, day int) ([]models.Food
 	return food, nil
 }
 
+// FindDinnerByDate finds dinner by date
+func (p *Postgres) FindFoodByDate(year int, month int, day int) ([]models.Food, error) {
+	var err error
+	var food []models.Food
+	if err = p.DB.Where("year = ?", year).Where("month = ?", month).Where("day = ?", day).Find(&food).Error; err != nil {
+		return nil, errors.New(" food not found")
+	}
+	return food, nil
+}
+
 func (p *Postgres) GetFoodByID(id string) (*models.Food, error) {
 	food := &models.Food{}
 	if err := p.DB.Where("ID = ?", id).First(food).Error; err != nil {
@@ -80,4 +90,9 @@ func (p *Postgres) FindAllFoodByDate(year int, month int, day int) ([]models.Foo
 		return nil, errors.New(" food not found")
 	}
 	return food, nil
+}
+
+func (p *Postgres) UpdateFoodStatusById(id string, status string) error {
+	//TODO implement me
+	panic("implement me")
 }

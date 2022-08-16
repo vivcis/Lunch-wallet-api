@@ -30,7 +30,7 @@ func (q FieldError) String() string {
 	return sb.String()
 }
 
-//NewFieldError returns a field error
+// NewFieldError returns a field error
 func NewFieldError(err validator.FieldError) FieldError {
 	return FieldError{err: err}
 }

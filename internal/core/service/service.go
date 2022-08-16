@@ -65,6 +65,14 @@ func (u *userService) KitchenStaffResetPassword(id, newPassword string) (*models
 	return u.userRepository.KitchenStaffResetPassword(id, newPassword)
 }
 
+func (u *userService) FindActiveUsersByMonth(date string) ([]int64, error) {
+	return u.userRepository.FindActiveUsersByMonth(date)
+}
+
+func (u *userService) FindNumbersOfScannedUsers(date string) (int64, error) {
+	return u.userRepository.FindNumbersOfScannedUsers(date)
+}
+
 func (u *userService) FindFoodBenefactorByFullName(fullname string) (*models.FoodBeneficiary, error) {
 	return u.userRepository.FindFoodBenefactorByFullName(fullname)
 }
@@ -214,4 +222,16 @@ func (u *userService) NumberOfBlockedBeneficiary() (int64, error) {
 
 func (u *userService) GetBlockedBeneficiary() ([]models.FoodBeneficiary, error) {
 	return u.userRepository.GetBlockedBeneficiary()
+}
+
+func (u *userService) UpdateFoodStatusById(id string, status string) error {
+	return u.userRepository.UpdateFoodStatusById(id, status)
+}
+
+func (u *userService) GetAllFoodBeneficiaries() ([]models.FoodBeneficiary, error) {
+	return u.userRepository.GetAllFoodBeneficiaries()
+}
+
+func (u *userService) FindFoodByDate(year int, month int, day int) ([]models.Food, error) {
+	return u.userRepository.FindFoodByDate(year, month, day)
 }

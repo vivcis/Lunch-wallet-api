@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-//GeneratePaginationFromRequest ..
+// GeneratePaginationFromRequest ..
 func GeneratePaginationFromRequest(c *gin.Context) models.Pagination {
 	limit := 10
 	page := 1

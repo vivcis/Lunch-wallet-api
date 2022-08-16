@@ -75,7 +75,7 @@ func (p *Postgres) GetFoodBenefactorById(id string) (*models.FoodBeneficiary, er
 	return user, nil
 }
 
-//FoodBeneficiaryEmailVerification verifies the beneficiary email address
+// FoodBeneficiaryEmailVerification verifies the beneficiary email address
 func (p *Postgres) FoodBeneficiaryEmailVerification(id string) (*models.FoodBeneficiary, error) {
 	user := &models.FoodBeneficiary{}
 	if err := p.DB.Model(user).Where("id =?", id).Update("is_active", true).Error; err != nil {
@@ -92,6 +92,35 @@ func (p *Postgres) FindFoodBenefactorMealRecord(email, date string) (*models.Mea
 		return nil, err
 	}
 	return user, nil
+}
+
+// err = p.DB.Raw(`SELECT count(id) FROM <food_benefactors> GROUP by Date_part("month", created_at)`).Error
+// err = p.DB.Select("COUNT(id)").Find(&user).Group(`Date_part(month; created_at)`).Error
+// //So your query should be select count(id) from <food_benefactors> group by Date_part('month', created_at)
+// err := p.DB.Where("is_active = ? AND is_block = ?", true, false).Find(&user).Group("Date_Part(month, created_at)").Count(&num).Error
+// FindFoodBenefactorMealRecord finds a benefactor meal record
+func (p *Postgres) FindActiveUsersByMonth(date string) ([]int64, error) {
+	user := &models.FoodBeneficiary{}
+	var num int64
+	var nums []int64
+
+	err := p.DB.Model(user).Where("is_block =? AND is_active = ?", false, true).Find(&nums).Count(&num).Group("date_part month, created_at").Error
+
+	if err != nil {
+		return nil, err
+	}
+	return nums, nil
+}
+
+// FindFoodBenefactorMealRecord finds a benefactor meal record
+func (p *Postgres) FindNumbersOfScannedUsers(date string) (int64, error) {
+	var user []models.QRCodeMealRecords
+	var number int64
+	if err := p.DB.Where("created_at = ?", date).Find(&user).Count(&number).Error; err != nil {
+		return 0, err
+	}
+	return number, nil
+
 }
 
 // FindFoodBenefactorQRCodeMealRecord finds a benefactor QR meal record
@@ -132,7 +161,7 @@ func (p *Postgres) CreateFoodBenefactorBrunchMealRecord(user *models.FoodBenefic
 	return err
 }
 
-//UpdateFoodBenefactorBrunchMealRecord updates the beneficiary meal record
+// UpdateFoodBenefactorBrunchMealRecord updates the beneficiary meal record
 func (p *Postgres) UpdateFoodBenefactorBrunchMealRecord(email string) error {
 	user := &models.MealRecords{}
 	if err := p.DB.Model(user).Where("user_email =?", email).Update("brunch", true).Error; err != nil {
@@ -141,7 +170,7 @@ func (p *Postgres) UpdateFoodBenefactorBrunchMealRecord(email string) error {
 	return nil
 }
 
-//UpdateFoodBenefactorDinnerMealRecord updates the beneficiary meal record
+// UpdateFoodBenefactorDinnerMealRecord updates the beneficiary meal record
 func (p *Postgres) UpdateFoodBenefactorDinnerMealRecord(email string) error {
 	user := &models.MealRecords{}
 	if err := p.DB.Model(user).Where("user_email =?", email).Update("dinner", true).Error; err != nil {
@@ -166,7 +195,7 @@ func (p *Postgres) CreateFoodBenefactorDinnerMealRecord(user *models.FoodBenefic
 	return err
 }
 
-//FindAllFoodBeneficiary finds and list all food beneficiaries
+// FindAllFoodBeneficiary finds and list all food beneficiaries
 func (p *Postgres) FindAllFoodBeneficiary(pagination *models.Pagination) ([]models.UserDetails, error) {
 	var foodBeneficiary []models.UserDetails
 	offset := (pagination.Page - 1) * pagination.Limit
@@ -178,7 +207,7 @@ func (p *Postgres) FindAllFoodBeneficiary(pagination *models.Pagination) ([]mode
 	return foodBeneficiary, nil
 }
 
-//SearchFoodBeneficiary searches for food beneficiary
+// SearchFoodBeneficiary searches for food beneficiary
 func (p *Postgres) SearchFoodBeneficiary(text string, pagination *models.Pagination) ([]models.UserDetails, error) {
 	var users []models.FoodBeneficiary
 	offset := (pagination.Page - 1) * pagination.Limit
@@ -211,4 +240,14 @@ func (p *Postgres) GetBlockedBeneficiary() ([]models.FoodBeneficiary, error) {
 		return nil, err
 	}
 	return user, nil
+}
+
+// GetAllFoodBeneficiaries  returns all the sellers in the updated database
+func (p *Postgres) GetAllFoodBeneficiaries() ([]models.FoodBeneficiary, error) {
+	var foodBeneficiary []models.FoodBeneficiary
+	err := p.DB.Model(&models.FoodBeneficiary{}).Find(&foodBeneficiary).Error
+	if err != nil {
+		return nil, err
+	}
+	return foodBeneficiary, nil
 }

@@ -39,6 +39,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 		r.POST("/user/benefactorlogin", handler.LoginFoodBenefactorHandler)
 		r.POST("/user/adminlogin", handler.LoginAdminHandler)
 		r.POST("/user/beneficiaryforgotpassword", handler.FoodBeneficiaryForgotPassword)
+		r.POST("/user/getallbeneficiaries", handler.GetAllBeneficiaryHandle)
 		r.PATCH("/user/beneficiaryresetpassword/:token", handler.FoodBeneficiaryResetPassword)
 		r.POST("/user/kitchenstaffforgotpassword", handler.KitchenStaffForgotPassword)
 		r.PATCH("/user/kitchenstaffresetpassword/:token", handler.KitchenStaffResetPassword)
@@ -89,6 +90,12 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 		authorizeAdmin.DELETE("/removefoodbeneficiary/:id", handler.RemoveFoodBeneficiary)
 		authorizeAdmin.GET("/numberblocked", handler.GetNumberOfBlockedUsers)
 		authorizeAdmin.GET("/blockedusers", handler.GetBlockedUsers)
+		authorizeAdmin.GET("/getTimetable", handler.GetMealTimetableHandle)
+		authorizeAdmin.GET("/getAllBeneficiaries", handler.GetAllBeneficiaryHandle)
+		authorizeAdmin.GET("/searchBeneficiaries/:text", handler.AdminSearchFoodBeneficiaries)
+		authorizeAdmin.GET("/getTotalNumberOfUsers", handler.AdminGetTotalNumberOfUsers)
+		authorizeAdmin.GET("/getTotalNumberOfScannedUsers", handler.GetNumberOfScannedUsers)
+
 	}
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

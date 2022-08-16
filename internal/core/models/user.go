@@ -36,7 +36,7 @@ type UserProfile struct {
 	Avatar   string `json:"avatar"`
 }
 
-//FoodBeneficiary represents a decadev
+// FoodBeneficiary represents a decadev
 type FoodBeneficiary struct {
 	User
 	Stack string `json:"stack" binding:"required"`
