@@ -46,6 +46,9 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 		r.POST("/user/adminforgotpassword", handler.AdminForgotPassword)
 		r.PATCH("/user/adminresetpassword/:token", handler.AdminResetPassword)
 		r.GET("/user/notifications", handler.GetNotification)
+		r.GET("/user/brunch", handler.GetBrunchHandle)
+		r.GET("/user/dinner", handler.GetDinnerHandle)
+		r.GET("/user/allfood", handler.GetAllFoodHandler)
 	}
 
 	// authorizeKitchenStaff authorizes all authorized kitchen staff handler
@@ -69,9 +72,6 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 	authorizeBenefactor.Use(middleware.AuthorizeFoodBenefactor(userService.FindFoodBenefactorByEmail, userService.TokenInBlacklist))
 	{
 		authorizeBenefactor.POST("/beneficiarylogout", handler.FoodBeneficiaryLogout)
-		authorizeBenefactor.GET("/brunch", handler.GetBrunchHandle)
-		authorizeBenefactor.GET("/dinner", handler.GetDinnerHandle)
-		authorizeBenefactor.GET("/allfood", handler.GetAllFoodHandler)
 		authorizeBenefactor.GET("/qrbrunch", handler.BeneficiaryQRBrunch)
 		authorizeBenefactor.GET("/qrdinner", handler.BeneficiaryQRDinner)
 		authorizeBenefactor.POST("/qrmealrecords", handler.MealRecord)
