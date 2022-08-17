@@ -236,6 +236,6 @@ func (u *userService) FindFoodByDate(year int, month int, day int) ([]models.Foo
 	return u.userRepository.FindFoodByDate(year, month, day)
 }
 
-func (u *userService) FindScannedUsers(date string) ([]models.FoodBeneficiary, error) {
-	return u.userRepository.FindScannedUsers(date)
+func (u *userService) FindListOfScannedUsers(date string, pagination *models.Pagination) ([]models.UserDetails, error) {
+	return u.userRepository.FindListOfScannedUsers(date, pagination)
 }
