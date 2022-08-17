@@ -16,7 +16,7 @@ import (
 // @Success      200  {number} string "information gotten"
 // @Failure      500  {string}  string "internal server error"
 // @Failure      400  {string}  string "bad request"
-// @Router       /staff/searchbeneficiary/:text [get]
+// @Router       /staff/searchbeneficiary/{text}[get]
 func (u *HTTPHandler) SearchFoodBeneficiaries(c *gin.Context) {
 	_, err := u.GetKitchenStaffFromContext(c)
 	if err != nil {
