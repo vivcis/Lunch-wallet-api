@@ -3,6 +3,7 @@ package repository
 import (
 	"errors"
 	"github.com/decadevs/lunch-api/internal/core/models"
+	"log"
 	"time"
 )
 
@@ -94,22 +95,26 @@ func (p *Postgres) FindFoodBenefactorMealRecord(email, date string) (*models.Mea
 	return user, nil
 }
 
-// err = p.DB.Raw(`SELECT count(id) FROM <food_benefactors> GROUP by Date_part("month", created_at)`).Error
-// err = p.DB.Select("COUNT(id)").Find(&user).Group(`Date_part(month; created_at)`).Error
-// //So your query should be select count(id) from <food_benefactors> group by Date_part('month', created_at)
-// err := p.DB.Where("is_active = ? AND is_block = ?", true, false).Find(&user).Group("Date_Part(month, created_at)").Count(&num).Error
-// FindFoodBenefactorMealRecord finds a benefactor meal record
-func (p *Postgres) FindActiveUsersByMonth(date string) ([]int64, error) {
-	user := &models.FoodBeneficiary{}
-	var num int64
-	var nums []int64
-
-	err := p.DB.Model(user).Where("is_block =? AND is_active = ?", false, true).Find(&nums).Count(&num).Group("date_part month, created_at").Error
-
+// FindActiveUsersByMonth finds the number of active users for each month
+func (p *Postgres) FindActiveUsersByMonth() (interface{}, error) {
+	type Result struct {
+		Date_part int
+		Count     int
+	}
+	var result []Result
+	err := p.DB.Raw(`select count(id), Date_part('month', created_at) from food_beneficiaries where is_active = ? AND is_block = ? group by Date_part('month', created_at)`, true, false).Scan(&result).Error
+	log.Println(result)
 	if err != nil {
 		return nil, err
 	}
-	return nums, nil
+	return result, nil
+}
+
+// FindActiveUsersByMonth finds the number of active users for each month
+func (p *Postgres) FindScannedUsers(date string) ([]models.FoodBeneficiary, error) {
+	var result []models.FoodBeneficiary
+
+	return result, nil
 }
 
 // FindFoodBenefactorMealRecord finds a benefactor meal record

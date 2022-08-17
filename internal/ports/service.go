@@ -31,7 +31,7 @@ type UserService interface {
 	KitchenStaffEmailVerification(id string) (*models.KitchenStaff, error)
 	AdminEmailVerification(id string) (*models.Admin, error)
 	FindAllFoodBeneficiary(pagination *models.Pagination) ([]models.UserDetails, error)
-	FindActiveUsersByMonth(date string) ([]int64, error)
+	FindActiveUsersByMonth() (interface{}, error)
 	FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error)
 	CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error
 	CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error
@@ -56,6 +56,7 @@ type UserService interface {
 	GetBlockedBeneficiary() ([]models.FoodBeneficiary, error)
 	UpdateFoodStatusById(id string, status string) error
 	FindFoodByDate(year int, month int, day int) ([]models.Food, error)
+	FindScannedUsers(date string) ([]models.FoodBeneficiary, error)
 }
 
 // MailerService interface to implement mailing service

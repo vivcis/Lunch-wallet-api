@@ -95,6 +95,7 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 		authorizeAdmin.GET("/searchBeneficiaries/:text", handler.AdminSearchFoodBeneficiaries)
 		authorizeAdmin.GET("/getTotalNumberOfUsers", handler.AdminGetTotalNumberOfUsers)
 		authorizeAdmin.GET("/getTotalNumberOfScannedUsers", handler.GetNumberOfScannedUsers)
+		authorizeAdmin.GET("/getGraphData", handler.GetGraphData)
 
 	}
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

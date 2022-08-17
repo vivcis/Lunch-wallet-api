@@ -46,9 +46,31 @@ func (u *HTTPHandler) GetMealTimetableHandle(c *gin.Context) {
 
 }
 
-func (u *HTTPHandler) GetTickets(c *gin.Context) {
-
+func (u *HTTPHandler) GetScannedUsersByDate(c *gin.Context) {
+	_, err := u.GetAdminFromContext(c)
+	if err != nil {
+		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
+		return
+	}
+	date := time.Now().Format("2006-01-02")
+	log.Println(date)
+	helpers.JSON(c, "Successful", 200, nil, nil)
 }
+
+func (u *HTTPHandler) GetGraphData(c *gin.Context) {
+	_, err := u.GetAdminFromContext(c)
+	if err != nil {
+		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
+		return
+	}
+	graphData, err := u.UserService.FindActiveUsersByMonth()
+	if err != nil {
+		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
+		return
+	}
+	helpers.JSON(c, "Successful", 200, graphData, nil)
+}
+
 func (u *HTTPHandler) GetNumberOfScannedUsers(c *gin.Context) {
 	_, err := u.GetAdminFromContext(c)
 	if err != nil {
@@ -75,7 +97,6 @@ func (u *HTTPHandler) GetNumberOfScannedUsers(c *gin.Context) {
 
 	res.Scanned = scanned
 	res.NotScanned = int64(total) - scanned
-	log.Println(scanned)
 	helpers.JSON(c, "Successful", 200, res, nil)
 }
 
