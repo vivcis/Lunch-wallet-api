@@ -31,7 +31,7 @@ type UserRepository interface {
 	AdminEmailVerification(id string) (*models.Admin, error)
 	FindAllFoodBeneficiary(pagination *models.Pagination) ([]models.UserDetails, error)
 	FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error)
-	FindActiveUsersByMonth(date string) ([]int64, error)
+	FindActiveUsersByMonth() (interface{}, error)
 	FindNumbersOfScannedUsers(date string) (int64, error)
 	CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error
 	CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error
@@ -56,6 +56,7 @@ type UserRepository interface {
 	UpdateFoodStatusById(id string, status string) error
 	GetAllFoodBeneficiaries() ([]models.FoodBeneficiary, error)
 	FindFoodByDate(year int, month int, day int) ([]models.Food, error)
+	FindScannedUsers(date string) ([]models.FoodBeneficiary, error)
 }
 
 // MailerRepository interface to implement mailing service
