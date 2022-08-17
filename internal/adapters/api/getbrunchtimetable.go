@@ -32,5 +32,5 @@ func (u *HTTPHandler) GetBrunchTimetable(c *gin.Context) {
 		helpers.JSON(c, "food found", 200, nil, []string{"food found"})
 		return
 	}
-	helpers.JSON(c, "Dinner found", 200, food, nil)
+	helpers.JSON(c, "Brunch found", 200, food, nil)
 }
