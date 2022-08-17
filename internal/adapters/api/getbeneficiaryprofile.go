@@ -16,7 +16,7 @@ import (
 // @Success      200  {number} string "successfully gotten"
 // @Failure      500  {string}  string "internal server error"
 // @Failure      400  {string}  string "bad request"
-// @Router       /admin/getfoodbeneficiaryprofile/:id [get]
+// @Router       /admin/getfoodbeneficiaryprofile/{id} [get]
 func (u *HTTPHandler) GetFoodBeneficiaryProfile(c *gin.Context) {
 	_, err := u.GetAdminFromContext(c)
 	if err != nil {
