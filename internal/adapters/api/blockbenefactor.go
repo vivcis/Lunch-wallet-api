@@ -18,7 +18,7 @@ import (
 // @Success      200  {string}  string "food beneficiary blocked"
 // @Failure      500  {string}  string "error"
 // @Failure      400  {string}  string "error"
-// @Router       /admin/blockfoodbeneficiary/:id [put]
+// @Router       /admin/blockfoodbeneficiary/{id} [put]
 func (u *HTTPHandler) BlockFoodBeneficiary(c *gin.Context) {
 	_, err := u.GetAdminFromContext(c)
 	if err != nil {
