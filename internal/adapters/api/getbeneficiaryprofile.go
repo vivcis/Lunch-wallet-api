@@ -7,6 +7,16 @@ import (
 	"net/http"
 )
 
+// GetFoodBeneficiaryProfile godoc
+// @Summary      Gets profile of a food beneficiary
+// @Description  Admin gets to see the profile information of a food beneficiary. It is an authorized route to only ADMIN
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Success      200  {number} string "successfully gotten"
+// @Failure      500  {string}  string "internal server error"
+// @Failure      400  {string}  string "bad request"
+// @Router       /admin/getfoodbeneficiaryprofile/{id} [get]
 func (u *HTTPHandler) GetFoodBeneficiaryProfile(c *gin.Context) {
 	_, err := u.GetAdminFromContext(c)
 	if err != nil {

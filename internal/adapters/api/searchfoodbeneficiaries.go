@@ -7,6 +7,16 @@ import (
 	"net/http"
 )
 
+// SearchFoodBeneficiaries godoc
+// @Summary      Search Food Beneficiary
+// @Description  Kitchen staff can search for a food beneficiary by name, location or stack. It is an authorized route to only KITCHEN STAFF
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Success      200  {number} string "information gotten"
+// @Failure      500  {string}  string "internal server error"
+// @Failure      400  {string}  string "bad request"
+// @Router       /staff/searchbeneficiary/{text}[get]
 func (u *HTTPHandler) SearchFoodBeneficiaries(c *gin.Context) {
 	_, err := u.GetKitchenStaffFromContext(c)
 	if err != nil {
