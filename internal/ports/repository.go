@@ -56,7 +56,7 @@ type UserRepository interface {
 	UpdateFoodStatusById(id string, status string) error
 	GetAllFoodBeneficiaries() ([]models.FoodBeneficiary, error)
 	FindFoodByDate(year int, month int, day int) ([]models.Food, error)
-	FindScannedUsers(date string) ([]models.FoodBeneficiary, error)
+	FindListOfScannedUsers(date string, pagination *models.Pagination) ([]models.UserDetails, error)
 }
 
 // MailerRepository interface to implement mailing service

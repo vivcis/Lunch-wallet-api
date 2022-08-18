@@ -404,3 +404,66 @@ func TestGetGraphData(t *testing.T) {
 		assert.Contains(t, rw.Body.String(), "Successful")
 	})
 }
+
+func TestHandleGetListOfScannedUsersByDate(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	mockDb := mocks.NewMockUserRepository(ctrl)
+
+	r := &api.HTTPHandler{
+		UserService: mockDb,
+	}
+	router := server.SetupRouter(r, mockDb)
+
+	user := models.User{
+		FullName: "Joseph A",
+		Email:    "joseph@decagon.dev",
+		IsActive: true,
+	}
+	page := models.Pagination{
+		Page:  1,
+		Limit: 10,
+		Sort:  "created_at asc",
+	}
+	admin := models.Admin{
+		User: user,
+	}
+
+	beneficiary := models.UserDetails{
+		Stack: "Golang",
+	}
+	foodBeneficiary := []models.UserDetails{
+		beneficiary,
+	}
+
+	bytes, _ := json.Marshal(user)
+
+	date := time.Now().Format("2006-01-02")
+	secret := os.Getenv("JWT_SECRET")
+	accessClaims, _ := middleware.GenerateClaims(admin.Email)
+	accToken, _ := middleware.GenerateToken(jwt.SigningMethodHS256, accessClaims, &secret)
+
+	t.Run("testing bad request", func(t *testing.T) {
+		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
+		mockDb.EXPECT().FindAdminByEmail(admin.Email).Return(&admin, nil)
+		mockDb.EXPECT().FindListOfScannedUsers(date, &page).Return(nil, errors.New("internal server error"))
+
+		rw := httptest.NewRecorder()
+		req, _ := http.NewRequest(http.MethodGet, "/api/v1/admin/getScannedUsersByDate", strings.NewReader(string(bytes)))
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))
+		router.ServeHTTP(rw, req)
+		assert.Equal(t, http.StatusInternalServerError, rw.Code)
+		assert.Contains(t, rw.Body.String(), "internal server error")
+	})
+
+	t.Run("successful request", func(t *testing.T) {
+		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
+		mockDb.EXPECT().FindAdminByEmail(admin.Email).Return(&admin, nil)
+		mockDb.EXPECT().FindListOfScannedUsers(date, &page).Return(foodBeneficiary, nil)
+		rw := httptest.NewRecorder()
+		req, _ := http.NewRequest(http.MethodGet, "/api/v1/admin/getScannedUsersByDate", strings.NewReader(string(bytes)))
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", *accToken))
+		router.ServeHTTP(rw, req)
+		assert.Equal(t, http.StatusOK, rw.Code)
+		assert.Contains(t, rw.Body.String(), "Successful")
+	})
+}

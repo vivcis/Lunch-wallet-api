@@ -3,7 +3,6 @@ package repository
 import (
 	"errors"
 	"github.com/decadevs/lunch-api/internal/core/models"
-	"log"
 	"time"
 )
 
@@ -103,21 +102,26 @@ func (p *Postgres) FindActiveUsersByMonth() (interface{}, error) {
 	}
 	var result []Result
 	err := p.DB.Raw(`select count(id), Date_part('month', created_at) from food_beneficiaries where is_active = ? AND is_block = ? group by Date_part('month', created_at)`, true, false).Scan(&result).Error
-	log.Println(result)
 	if err != nil {
 		return nil, err
 	}
 	return result, nil
 }
 
-// FindActiveUsersByMonth finds the number of active users for each month
-func (p *Postgres) FindScannedUsers(date string) ([]models.FoodBeneficiary, error) {
-	var result []models.FoodBeneficiary
+// FindListOfScannedUsers  finds the list of scanned users for each day
+func (p *Postgres) FindListOfScannedUsers(date string, pagination *models.Pagination) ([]models.UserDetails, error) {
 
+	offset := (pagination.Page - 1) * pagination.Limit
+	queryBuider := p.DB.Limit(pagination.Limit).Offset(offset).Order("qr_code_meal_records.created_at asc")
+	var result []models.UserDetails
+	err := queryBuider.Table("qr_code_meal_records").Select("food_beneficiaries.full_name, food_beneficiaries.location, food_beneficiaries.stack").Joins("right join food_beneficiaries ON food_beneficiaries.id =qr_code_meal_records.user_id").Where("qr_code_meal_records.created_at >= ?", date).Scan(&result).Error
+	if err != nil {
+		return nil, err
+	}
 	return result, nil
 }
 
-// FindFoodBenefactorMealRecord finds a benefactor meal record
+// FindNumbersOfScannedUsers finds the number of users that have scanned their qr codes for a particular day
 func (p *Postgres) FindNumbersOfScannedUsers(date string) (int64, error) {
 	var user []models.QRCodeMealRecords
 	var number int64
@@ -219,7 +223,7 @@ func (p *Postgres) SearchFoodBeneficiary(text string, pagination *models.Paginat
 	queryBuider := p.DB.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
 	err := queryBuider.Where("full_name = ?", text).Or("location = ?", text).Or("stack = ?", text).Find(&users).Error
 	var result []models.UserDetails
-	for i, _ := range users {
+	for i := range users {
 		userDetails := models.UserDetails{
 			FullName: users[i].FullName,
 			Stack:    users[i].Stack,

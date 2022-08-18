@@ -4,12 +4,11 @@ import (
 	"github.com/decadevs/lunch-api/internal/adapters/repository"
 	"github.com/decadevs/lunch-api/internal/core/helpers"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 	"time"
 )
 
-func (u *HTTPHandler) GetAllBeneficiaryHandle(c *gin.Context) {
+func (u *HTTPHandler) HandleAdminGetAllBeneficiaries(c *gin.Context) {
 
 	_, err := u.GetAdminFromContext(c)
 	if err != nil {
@@ -27,7 +26,7 @@ func (u *HTTPHandler) GetAllBeneficiaryHandle(c *gin.Context) {
 
 }
 
-func (u *HTTPHandler) GetMealTimetableHandle(c *gin.Context) {
+func (u *HTTPHandler) HandleAdminGetMealTimetable(c *gin.Context) {
 	_, err := u.GetAdminFromContext(c)
 	if err != nil {
 		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
@@ -46,18 +45,24 @@ func (u *HTTPHandler) GetMealTimetableHandle(c *gin.Context) {
 
 }
 
-func (u *HTTPHandler) GetScannedUsersByDate(c *gin.Context) {
+func (u *HTTPHandler) HandleGetListOfScannedUsersByDate(c *gin.Context) {
 	_, err := u.GetAdminFromContext(c)
 	if err != nil {
 		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
 		return
 	}
 	date := time.Now().Format("2006-01-02")
-	log.Println(date)
-	helpers.JSON(c, "Successful", 200, nil, nil)
+	pagination := repository.GeneratePaginationFromRequest(c)
+	data, err := u.UserService.FindListOfScannedUsers(date, &pagination)
+	if err != nil {
+		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
+		return
+	}
+
+	helpers.JSON(c, "Successful", 200, data, nil)
 }
 
-func (u *HTTPHandler) GetGraphData(c *gin.Context) {
+func (u *HTTPHandler) HandleGetGraphData(c *gin.Context) {
 	_, err := u.GetAdminFromContext(c)
 	if err != nil {
 		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
@@ -71,7 +76,7 @@ func (u *HTTPHandler) GetGraphData(c *gin.Context) {
 	helpers.JSON(c, "Successful", 200, graphData, nil)
 }
 
-func (u *HTTPHandler) GetNumberOfScannedUsers(c *gin.Context) {
+func (u *HTTPHandler) HandleGetNumberOfScannedUsers(c *gin.Context) {
 	_, err := u.GetAdminFromContext(c)
 	if err != nil {
 		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
@@ -79,7 +84,6 @@ func (u *HTTPHandler) GetNumberOfScannedUsers(c *gin.Context) {
 	}
 
 	date := time.Now().Format("2006-01-02")
-
 	scanned, err := u.UserService.FindNumbersOfScannedUsers(date)
 	if err != nil {
 		helpers.JSON(c, "internal server error", 500, nil, []string{"internal server error"})
@@ -100,7 +104,7 @@ func (u *HTTPHandler) GetNumberOfScannedUsers(c *gin.Context) {
 	helpers.JSON(c, "Successful", 200, res, nil)
 }
 
-func (u *HTTPHandler) AdminSearchFoodBeneficiaries(c *gin.Context) {
+func (u *HTTPHandler) HandleAdminSearchFoodBeneficiaries(c *gin.Context) {
 	_, err := u.GetAdminFromContext(c)
 	if err != nil {
 		helpers.JSON(c, "An internal server error", 500, nil, []string{"internal server error"})
@@ -121,7 +125,7 @@ func (u *HTTPHandler) AdminSearchFoodBeneficiaries(c *gin.Context) {
 	helpers.JSON(c, "information gotten", http.StatusOK, beneficiaries, nil)
 }
 
-func (u *HTTPHandler) AdminGetTotalNumberOfUsers(c *gin.Context) {
+func (u *HTTPHandler) HandleAdminGetTotalNumberOfUsers(c *gin.Context) {
 	_, err := u.GetAdminFromContext(c)
 	if err != nil {
 		helpers.JSON(c, "An internal server error", 500, nil, []string{"internal server error"})

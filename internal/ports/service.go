@@ -56,7 +56,7 @@ type UserService interface {
 	GetBlockedBeneficiary() ([]models.FoodBeneficiary, error)
 	UpdateFoodStatusById(id string, status string) error
 	FindFoodByDate(year int, month int, day int) ([]models.Food, error)
-	FindScannedUsers(date string) ([]models.FoodBeneficiary, error)
+	FindListOfScannedUsers(date string, pagination *models.Pagination) ([]models.UserDetails, error)
 }
 
 // MailerService interface to implement mailing service
