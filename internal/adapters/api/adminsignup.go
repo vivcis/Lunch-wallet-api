@@ -85,7 +85,7 @@ func (u *HTTPHandler) AdminSignUp(c *gin.Context) {
 // @Failure      400  {string}  string "error"
 // @Failure      404  {string}  string "error"
 // @Failure      500  {string}  string "error"
-// @Router       /user/adminverifyemail/{token} [patch]
+// @Router       /user/adminverifyemail [patch]
 func (u *HTTPHandler) AdminVerifyEmail(c *gin.Context) {
 	token := c.Query("token")
 	secretString := os.Getenv("JWT_SECRET")

@@ -85,7 +85,7 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 // @Failure      400  {string}  string "error"
 // @Failure      404  {string}  string "error"
 // @Failure      500  {string}  string "error"
-// @Router       /user/kitchenstaffverifyemail/{token} [patch]
+// @Router       /user/kitchenstaffverifyemail [patch]
 func (u *HTTPHandler) KitchenStaffVerifyEmail(c *gin.Context) {
 	token := c.Query("token")
 	secretString := os.Getenv("JWT_SECRET")
