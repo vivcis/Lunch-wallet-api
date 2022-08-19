@@ -56,7 +56,7 @@
                 }
             }
         },
-        "/admin/blockfoodbeneficiary/:id": {
+        "/admin/blockfoodbeneficiary/{id}": {
             "put": {
                 "description": "Admin blocks a food beneficiary",
                 "consumes": [
@@ -146,6 +146,73 @@
                 }
             }
         },
+        "/admin/deletemeal/:id": {
+            "delete": {
+                "description": "Delete meal by clicking on the particular food. The id of each food is attached to the link/endpoint. When you click on the food to be deleted, the id is gotten from the link/endpoint and the food is deleted. It is an authorized route to only ADMIN",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Food"
+                ],
+                "summary": "Admin deletes meal",
+                "responses": {
+                    "200": {
+                        "description": "Successfully Deleted",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "not authorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/getfoodbeneficiaryprofile/{id}": {
+            "get": {
+                "description": "Admin gets to see the profile information of a food beneficiary. It is an authorized route to only ADMIN",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Gets profile of a food beneficiary",
+                "responses": {
+                    "200": {
+                        "description": "successfully gotten",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/numberblocked": {
             "get": {
                 "description": "Admin gets to see how manuy beneficiaries blocked. It is an authorized route to only ADMIN",
@@ -168,6 +235,38 @@
                     },
                     "400": {
                         "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/updatemeal/:id": {
+            "put": {
+                "description": "Update meal by clicking on the particular food. The id of each food is attached to the link/endpoint. When you click on the food to be updated, the id is gotten from the link/endpoint. It is an authorized route to only ADMIN",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Food"
+                ],
+                "summary": "Admin updates meal",
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "not authorized",
                         "schema": {
                             "type": "string"
                         }
@@ -462,6 +561,216 @@
                     },
                     "400": {
                         "description": "invalid meal type",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/staff/getbrunchtimetable": {
+            "get": {
+                "description": "Kitchen staff gets the timetable for brunch for a particular date. It is an authorized route to only KITCHEN STAFF",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Gets food for brunch",
+                "responses": {
+                    "200": {
+                        "description": "successfully gotten",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/staff/getdinnertimetable": {
+            "get": {
+                "description": "Kitchen staff gets the timetable for dinner for a particular date. It is an authorized route to only KITCHEN STAFF",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Gets food for dinner",
+                "responses": {
+                    "200": {
+                        "description": "successfully gotten",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/staff/gettotalusers": {
+            "get": {
+                "description": "Kitchen staff gets total number of food beneficiaries. It is an authorized route to only KITCHEN STAFF",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get total number of food beneficiaries",
+                "responses": {
+                    "200": {
+                        "description": "Total number of users",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/staff/getusers": {
+            "get": {
+                "description": "Kitchen staff gets list of food beneficiaries. It is an authorized route to only KITCHEN STAFF",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "GetsFood Beneficiaries",
+                "responses": {
+                    "200": {
+                        "description": "food beneficiaries found successfully",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/staff/removefoodbeneficiary/{id}": {
+            "delete": {
+                "description": "Admin deletes/removes a food beneficiary from the dashboard. It is an authorized route to only ADMIN",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Remove a Food Beneficiary",
+                "responses": {
+                    "200": {
+                        "description": "food beneficiary removed",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/staff/searchbeneficiary/:text": {
+            "get": {
+                "description": "Kitchen staff can search for a food beneficiary by name, location or stack. It is an authorized route to only KITCHEN STAFF",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Search Food Beneficiary",
+                "responses": {
+                    "200": {
+                        "description": "information gotten",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
                         "schema": {
                             "type": "string"
                         }
