@@ -88,7 +88,7 @@ func (u *HTTPHandler) FoodBeneficiarySignUp(c *gin.Context) {
 // @Failure      400  {string}  string "error"
 // @Failure      404  {string}  string "error"
 // @Failure      500  {string}  string "error"
-// @Router       /user/beneficiaryverifyemail/{token} [patch]
+// @Router       /user/beneficiaryverifyemail [patch]
 func (u *HTTPHandler) BeneficiaryVerifyEmail(c *gin.Context) {
 	token := c.Query("token")
 	secretString := os.Getenv("JWT_SECRET")
