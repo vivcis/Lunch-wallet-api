@@ -217,7 +217,7 @@ paths:
       summary: This endpoint enables admin to see all blocked users
       tags:
       - Users
-  /admin/blockfoodbeneficiary/:id:
+  /admin/blockfoodbeneficiary/{id}:
     put:
       consumes:
       - application/json
@@ -280,6 +280,54 @@ paths:
       summary: Admin creates meal
       tags:
       - Food
+  /admin/deletemeal/:id:
+    delete:
+      consumes:
+      - application/json
+      description: Delete meal by clicking on the particular food. The id of each
+        food is attached to the link/endpoint. When you click on the food to be deleted,
+        the id is gotten from the link/endpoint and the food is deleted. It is an
+        authorized route to only ADMIN
+      responses:
+        "200":
+          description: Successfully Deleted
+          schema:
+            type: string
+        "401":
+          description: not authorized
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Admin deletes meal
+      tags:
+      - Food
+  /admin/getfoodbeneficiaryprofile/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Admin gets to see the profile information of a food beneficiary.
+        It is an authorized route to only ADMIN
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: successfully gotten
+          schema:
+            type: number
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Gets profile of a food beneficiary
+      tags:
+      - Users
   /admin/numberblocked:
     get:
       consumes:
@@ -304,6 +352,30 @@ paths:
       summary: Gets number of blocked benefeciary
       tags:
       - Users
+  /admin/updatemeal/:id:
+    put:
+      consumes:
+      - application/json
+      description: Update meal by clicking on the particular food. The id of each
+        food is attached to the link/endpoint. When you click on the food to be updated,
+        the id is gotten from the link/endpoint. It is an authorized route to only
+        ADMIN
+      responses:
+        "200":
+          description: Successfully updated
+          schema:
+            type: string
+        "401":
+          description: not authorized
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Admin updates meal
+      tags:
+      - Food
   /adminlogout:
     post:
       consumes:
@@ -502,6 +574,150 @@ paths:
       summary: Gets the food in the database required to generate QR code
       tags:
       - Food
+  /staff/getbrunchtimetable:
+    get:
+      consumes:
+      - application/json
+      description: Kitchen staff gets the timetable for brunch for a particular date.
+        It is an authorized route to only KITCHEN STAFF
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: successfully gotten
+          schema:
+            type: number
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Gets food for brunch
+      tags:
+      - Users
+  /staff/getdinnertimetable:
+    get:
+      consumes:
+      - application/json
+      description: Kitchen staff gets the timetable for dinner for a particular date.
+        It is an authorized route to only KITCHEN STAFF
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: successfully gotten
+          schema:
+            type: number
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Gets food for dinner
+      tags:
+      - Users
+  /staff/gettotalusers:
+    get:
+      consumes:
+      - application/json
+      description: Kitchen staff gets total number of food beneficiaries. It is an
+        authorized route to only KITCHEN STAFF
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Total number of users
+          schema:
+            type: number
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Get total number of food beneficiaries
+      tags:
+      - Users
+  /staff/getusers:
+    get:
+      consumes:
+      - application/json
+      description: Kitchen staff gets list of food beneficiaries. It is an authorized
+        route to only KITCHEN STAFF
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: food beneficiaries found successfully
+          schema:
+            type: number
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: GetsFood Beneficiaries
+      tags:
+      - Users
+  /staff/removefoodbeneficiary/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Admin deletes/removes a food beneficiary from the dashboard. It
+        is an authorized route to only ADMIN
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: food beneficiary removed
+          schema:
+            type: number
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Remove a Food Beneficiary
+      tags:
+      - Users
+  /staff/searchbeneficiary/:text:
+    get:
+      consumes:
+      - application/json
+      description: Kitchen staff can search for a food beneficiary by name, location
+        or stack. It is an authorized route to only KITCHEN STAFF
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: information gotten
+          schema:
+            type: number
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Search Food Beneficiary
+      tags:
+      - Users
   /user/adminlogin:
     post:
       consumes:

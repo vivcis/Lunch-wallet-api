@@ -8,6 +8,15 @@ import (
 	"time"
 )
 
+// DeleteMeal godoc
+// @Summary      Admin deletes meal
+// @Description  Delete meal by clicking on the particular food. The id of each food is attached to the link/endpoint. When you click on the food to be deleted, the id is gotten from the link/endpoint and the food is deleted. It is an authorized route to only ADMIN
+// @Tags         Food
+// @Accept       json
+// @Success      200  {string} string "Successfully Deleted"
+// @Failure      500  {string}  string "internal server error"
+// @Failure      401  {string}  string "not authorized"
+// @Router       /admin/deletemeal/:id [delete]
 func (u *HTTPHandler) DeleteMeal(c *gin.Context) {
 	user, err := u.GetAdminFromContext(c)
 	if err != nil {

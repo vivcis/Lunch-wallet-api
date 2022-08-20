@@ -79,13 +79,25 @@ func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 	}
 
 	mealType := c.PostForm("type")
+	if mealType == "" {
+		helpers.JSON(c, "bad request", http.StatusBadRequest, nil, []string{"fill a meal type (BRUNCH or DINNER)"})
+		return
+	}
 	foodType := strings.ToUpper(mealType)
 
 	foodName := c.PostForm("name")
+	if foodName == "" {
+		helpers.JSON(c, "bad request", http.StatusBadRequest, nil, []string{"what is the food name?"})
+		return
+	}
 
 	weekDay := c.PostForm("weekday")
 
 	kitchen := c.PostForm("kitchen")
+	if mealType == "" {
+		helpers.JSON(c, "bad request", http.StatusBadRequest, nil, []string{"pick a kitchen"})
+		return
+	}
 
 	year, err := strconv.Atoi(c.PostForm("year"))
 	if err != nil {
