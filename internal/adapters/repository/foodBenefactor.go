@@ -39,7 +39,7 @@ func (p *Postgres) FindFoodBenefactorByLocation(location string) (*models.FoodBe
 	return user, nil
 }
 
-// FindUserById finds a benefactor by location
+// FindUserById finds a benefactor by ID
 func (p *Postgres) FindUserById(id string) (*models.FoodBeneficiary, error) {
 	user := &models.FoodBeneficiary{}
 	if err := p.DB.Where("id =?", id).First(user).Error; err != nil {
@@ -66,7 +66,16 @@ func (p *Postgres) CreateFoodBenefactor(user *models.FoodBeneficiary) (*models.F
 	return user, err
 }
 
-//FoodBeneficiaryEmailVerification verifies the beneficiary email address
+func (p *Postgres) GetFoodBenefactorById(id string) (*models.FoodBeneficiary, error) {
+	var user *models.FoodBeneficiary
+	if err := p.DB.Model(&user).Where("id = ?", id).First(&user).Error; err != nil {
+		return nil, err
+
+	}
+	return user, nil
+}
+
+// FoodBeneficiaryEmailVerification verifies the beneficiary email address
 func (p *Postgres) FoodBeneficiaryEmailVerification(id string) (*models.FoodBeneficiary, error) {
 	user := &models.FoodBeneficiary{}
 	if err := p.DB.Model(user).Where("id =?", id).Update("is_active", true).Error; err != nil {
@@ -85,6 +94,66 @@ func (p *Postgres) FindFoodBenefactorMealRecord(email, date string) (*models.Mea
 	return user, nil
 }
 
+// FindActiveUsersByMonth finds the number of active users for each month
+func (p *Postgres) FindActiveUsersByMonth() (interface{}, error) {
+	type Result struct {
+		Date_part int
+		Count     int
+	}
+	var result []Result
+	err := p.DB.Raw(`select count(id), Date_part('month', created_at) from food_beneficiaries where is_active = ? AND is_block = ? group by Date_part('month', created_at)`, true, false).Scan(&result).Error
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// FindListOfScannedUsers  finds the list of scanned users for each day
+func (p *Postgres) FindListOfScannedUsers(date string, pagination *models.Pagination) ([]models.UserDetails, error) {
+
+	offset := (pagination.Page - 1) * pagination.Limit
+	queryBuider := p.DB.Limit(pagination.Limit).Offset(offset).Order("qr_code_meal_records.created_at asc")
+	var result []models.UserDetails
+	err := queryBuider.Table("qr_code_meal_records").Select("food_beneficiaries.full_name, food_beneficiaries.location, food_beneficiaries.stack").Joins("right join food_beneficiaries ON food_beneficiaries.id =qr_code_meal_records.user_id").Where("qr_code_meal_records.created_at >= ?", date).Scan(&result).Error
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// FindNumbersOfScannedUsers finds the number of users that have scanned their qr codes for a particular day
+func (p *Postgres) FindNumbersOfScannedUsers(date string) (int64, error) {
+	var user []models.QRCodeMealRecords
+	var number int64
+	if err := p.DB.Where("created_at = ?", date).Find(&user).Count(&number).Error; err != nil {
+		return 0, err
+	}
+	return number, nil
+
+}
+
+// FindFoodBenefactorQRCodeMealRecord finds a benefactor QR meal record
+func (p *Postgres) FindFoodBenefactorQRCodeMealRecord(mealId, userId string) (*models.QRCodeMealRecords, error) {
+	record := &models.QRCodeMealRecords{}
+	err := p.DB.Where("meal_id = ? AND user_id = ?", mealId, userId).First(record).Error
+	if record.MealId == "" {
+		return nil, err
+	}
+	return record, nil
+}
+
+// CreateFoodBenefactorQRMealRecord creates a benefactor meal record in the database
+func (p *Postgres) CreateFoodBenefactorQRMealRecord(mealRecord *models.QRCodeMealRecords) error {
+	var err error
+	record := &models.QRCodeMealRecords{
+		Model:  models.Model{},
+		MealId: mealRecord.MealId,
+		UserId: mealRecord.UserId,
+	}
+	err = p.DB.Create(record).Error
+	return err
+}
+
 // CreateFoodBenefactorBrunchMealRecord creates a benefactor meal record in the database
 func (p *Postgres) CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error {
 	var err error
@@ -101,7 +170,7 @@ func (p *Postgres) CreateFoodBenefactorBrunchMealRecord(user *models.FoodBenefic
 	return err
 }
 
-//UpdateFoodBenefactorBrunchMealRecord updates the beneficiary meal record
+// UpdateFoodBenefactorBrunchMealRecord updates the beneficiary meal record
 func (p *Postgres) UpdateFoodBenefactorBrunchMealRecord(email string) error {
 	user := &models.MealRecords{}
 	if err := p.DB.Model(user).Where("user_email =?", email).Update("brunch", true).Error; err != nil {
@@ -110,7 +179,7 @@ func (p *Postgres) UpdateFoodBenefactorBrunchMealRecord(email string) error {
 	return nil
 }
 
-//UpdateFoodBenefactorDinnerMealRecord updates the beneficiary meal record
+// UpdateFoodBenefactorDinnerMealRecord updates the beneficiary meal record
 func (p *Postgres) UpdateFoodBenefactorDinnerMealRecord(email string) error {
 	user := &models.MealRecords{}
 	if err := p.DB.Model(user).Where("user_email =?", email).Update("dinner", true).Error; err != nil {
@@ -135,7 +204,7 @@ func (p *Postgres) CreateFoodBenefactorDinnerMealRecord(user *models.FoodBenefic
 	return err
 }
 
-//FindAllFoodBeneficiary finds and list all food beneficiaries
+// FindAllFoodBeneficiary finds and list all food beneficiaries
 func (p *Postgres) FindAllFoodBeneficiary(pagination *models.Pagination) ([]models.UserDetails, error) {
 	var foodBeneficiary []models.UserDetails
 	offset := (pagination.Page - 1) * pagination.Limit
@@ -147,14 +216,14 @@ func (p *Postgres) FindAllFoodBeneficiary(pagination *models.Pagination) ([]mode
 	return foodBeneficiary, nil
 }
 
-//SearchFoodBeneficiary searches for food beneficiary
+// SearchFoodBeneficiary searches for food beneficiary
 func (p *Postgres) SearchFoodBeneficiary(text string, pagination *models.Pagination) ([]models.UserDetails, error) {
 	var users []models.FoodBeneficiary
 	offset := (pagination.Page - 1) * pagination.Limit
 	queryBuider := p.DB.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
 	err := queryBuider.Where("full_name = ?", text).Or("location = ?", text).Or("stack = ?", text).Find(&users).Error
 	var result []models.UserDetails
-	for i, _ := range users {
+	for i := range users {
 		userDetails := models.UserDetails{
 			FullName: users[i].FullName,
 			Stack:    users[i].Stack,
@@ -163,4 +232,31 @@ func (p *Postgres) SearchFoodBeneficiary(text string, pagination *models.Paginat
 		result = append(result, userDetails)
 	}
 	return result, err
+}
+
+func (p *Postgres) NumberOfBlockedBeneficiary() (int64, error) {
+	var user []models.FoodBeneficiary
+	var number int64
+	if err := p.DB.Where("is_block =?", true).Find(&user).Count(&number).Error; err != nil {
+		return 0, err
+	}
+	return number, nil
+}
+
+func (p *Postgres) GetBlockedBeneficiary() ([]models.FoodBeneficiary, error) {
+	var user []models.FoodBeneficiary
+	if err := p.DB.Where("is_block =?", true).Find(&user).Error; err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
+// GetAllFoodBeneficiaries  returns all the sellers in the updated database
+func (p *Postgres) GetAllFoodBeneficiaries() ([]models.FoodBeneficiary, error) {
+	var foodBeneficiary []models.FoodBeneficiary
+	err := p.DB.Model(&models.FoodBeneficiary{}).Find(&foodBeneficiary).Error
+	if err != nil {
+		return nil, err
+	}
+	return foodBeneficiary, nil
 }

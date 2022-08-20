@@ -34,11 +34,30 @@ func (p *Postgres) AdminResetPassword(id, newPassword string) (*models.Admin, er
 	return user, nil
 }
 
-//AdminEmailVerification verifies the admin email address
+// AdminEmailVerification verifies the admin email address
 func (p *Postgres) AdminEmailVerification(id string) (*models.Admin, error) {
 	user := &models.Admin{}
 	if err := p.DB.Model(user).Where("id =?", id).Update("is_active", true).Error; err != nil {
 		return nil, err
 	}
 	return user, nil
+}
+
+func (p *Postgres) AdminBlockFoodBeneficiary(userID string) error {
+	var user *models.FoodBeneficiary
+	err := p.DB.Model(user).Where("id = ?", userID).Update("is_block", true).Error
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *Postgres) AdminRemoveFoodBeneficiary(userID string) error {
+	user := models.FoodBeneficiary{}
+	err := p.DB.Model(&user).Where("id = ?", userID).Delete(&user).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }

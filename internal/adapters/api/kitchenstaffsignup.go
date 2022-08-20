@@ -5,26 +5,42 @@ import (
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"github.com/gin-gonic/gin"
 	"os"
+	"strings"
 )
 
-// KitchenStaffSignUp creates a new kitchen staff
+// CreateUser godoc
+// @Summary      Create User
+// @Description  creates a user
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param staff body models.KitchenStaff true "Add user"
+// @Success      201  {string}  string "success"
+// @Failure      400  {string}  string "error"
+// @Failure      404  {string}  string "error"
+// @Failure      500  {string}  string "error"
+// @Router       /user/kitchenstaffsignup [post]
 func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 	staff := &models.KitchenStaff{}
-	err := c.ShouldBindJSON(staff)
-	if err != nil {
-		helpers.JSON(c, "Unable to bind request", 400, nil, []string{"unable to bind request: validation error"})
+	if err := u.decode(c, staff); err != nil {
+		helpers.JSON(c, "", 400, nil, err)
 		return
 	}
 
-	validateEmail := staff.ValidateEmail()
-	if !validateEmail {
-		helpers.JSON(c, "Enter valid email", 400, nil, []string{"enter valid email"})
+	if strings.Contains(staff.Email, "decagon.dev") || strings.Contains(staff.Email, "decagonhq.com") {
+		helpers.JSON(c, "", 400, nil, []string{"enter a valid email"})
 		return
 	}
 
-	_, err = u.UserService.FindKitchenStaffByEmail(staff.Email)
+	_, err := u.UserService.FindKitchenStaffByEmail(staff.Email)
 	if err == nil {
 		helpers.JSON(c, "Email exist", 400, nil, []string{"email exists"})
+		return
+	}
+
+	validPassword := staff.IsValid(staff.Password)
+	if !validPassword {
+		helpers.JSON(c, "Enter strong password", 400, nil, []string{"password must have upper, lower case, number, special character and length not less than 8 characters"})
 		return
 	}
 
@@ -58,8 +74,20 @@ func (u *HTTPHandler) KitchenStaffSignUp(c *gin.Context) {
 	helpers.JSON(c, "Please check your email to verify your account", 201, nil, nil)
 }
 
+// VerifyEmail godoc
+// @Summary      Verify Email
+// @Description  verifies a kitchen staff email
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param token path string true "Token string"
+// @Success      200  {string}  string "success"
+// @Failure      400  {string}  string "error"
+// @Failure      404  {string}  string "error"
+// @Failure      500  {string}  string "error"
+// @Router       /user/kitchenstaffverifyemail [patch]
 func (u *HTTPHandler) KitchenStaffVerifyEmail(c *gin.Context) {
-	token := c.Param("token")
+	token := c.Query("token")
 	secretString := os.Getenv("JWT_SECRET")
 	userEmail, userr := u.MailerService.DecodeToken(token, secretString)
 	if userr != nil {

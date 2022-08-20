@@ -17,6 +17,7 @@ import (
 	"os"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestUpdateMeal(t *testing.T) {
@@ -37,19 +38,26 @@ func TestUpdateMeal(t *testing.T) {
 	}
 
 	admin := models.Admin{User: user}
-
+	year, month, day := time.Now().Date()
 	food := models.Food{
 		Name:    "Afang Soup",
 		Type:    "brunch",
-		Year:    2022,
-		Month:   8,
-		Day:     3,
+		Year:    year,
+		Month:   int(month),
+		Day:     day,
 		Weekday: "Wednesday",
 	}
 
 	foodJSON, err := json.Marshal(food)
 	if err != nil {
 		t.Fail()
+	}
+
+	notification := models.Notification{
+		Message: admin.FullName + " updated timetable",
+		Year:    food.Year,
+		Month:   int(month),
+		Day:     food.Day,
 	}
 
 	secret := os.Getenv("JWT_SECRET")
@@ -60,6 +68,7 @@ func TestUpdateMeal(t *testing.T) {
 		mockDb.EXPECT().TokenInBlacklist(gomock.Any()).Return(false)
 		mockDb.EXPECT().FindAdminByEmail(admin.Email).Return(&admin, nil)
 		mockDb.EXPECT().UpdateMeal("4", food).Return(nil)
+		mockDb.EXPECT().CreateNotification(notification).Return(nil)
 		rw := httptest.NewRecorder()
 		req, err := http.NewRequest(http.MethodPut,
 			"/api/v1/admin/updatemeal/4",

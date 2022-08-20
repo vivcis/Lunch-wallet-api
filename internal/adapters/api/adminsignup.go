@@ -7,6 +7,18 @@ import (
 	"os"
 )
 
+// CreateUser godoc
+// @Summary      Create User
+// @Description  creates a user
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param user body models.Admin true "Add user"
+// @Success      201  {string}  string "success"
+// @Failure      400  {string}  string "error"
+// @Failure      404  {string}  string "error"
+// @Failure      500  {string}  string "error"
+// @Router       /user/adminsignup [post]
 func (u *HTTPHandler) AdminSignUp(c *gin.Context) {
 	var user *models.Admin
 	err := c.ShouldBindJSON(&user)
@@ -26,6 +38,13 @@ func (u *HTTPHandler) AdminSignUp(c *gin.Context) {
 		helpers.JSON(c, "Email already exists", 400, nil, []string{"email exists"})
 		return
 	}
+
+	validPassword := user.IsValid(user.Password)
+	if !validPassword {
+		helpers.JSON(c, "Enter strong password", 400, nil, []string{"password must have upper, lower case, number, special character and length not less than 8 characters"})
+		return
+	}
+
 	if err = user.HashPassword(); err != nil {
 		helpers.JSON(c, "Unable to hash password", 400, nil, []string{"unable to hash password"})
 		return
@@ -55,8 +74,20 @@ func (u *HTTPHandler) AdminSignUp(c *gin.Context) {
 
 }
 
+// VerifyEmail godoc
+// @Summary      Verify Email
+// @Description  verifies an admin email
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param token path string true "Token string"
+// @Success      200  {string}  string "success"
+// @Failure      400  {string}  string "error"
+// @Failure      404  {string}  string "error"
+// @Failure      500  {string}  string "error"
+// @Router       /user/adminverifyemail [patch]
 func (u *HTTPHandler) AdminVerifyEmail(c *gin.Context) {
-	token := c.Param("token")
+	token := c.Query("token")
 	secretString := os.Getenv("JWT_SECRET")
 	userEmail, userr := u.MailerService.DecodeToken(token, secretString)
 	if userr != nil {

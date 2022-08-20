@@ -14,6 +14,17 @@ import (
 	"time"
 )
 
+// CreateMeal godoc
+// @Summary      Admin creates meal
+// @Description  creates meal by collecting fields in models.Food in a form data. Note: "images" is a file to be uploaded in jpeg or png. "name" is the name of the meal, "type" is either brunch or dinner, "weekday" can be ignored but it is either monday - sunday, "kitchen" is either uno, edo-tech park, etc. "year", "month" and "day" are numbers. It is an authorized route to only ADMIN
+// @Tags         Food
+// @Accept       json
+// @Produce      json
+// @Param Food in form data body models.Food true "images, type, name, kitchen, year, month, day"
+// @Success      200  {string} string "Successfully Created"
+// @Failure      500  {string}  string "internal server error"
+// @Failure      400  {string}  string "bad request"
+// @Router       /admin/createtimetable [post]
 func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 	admin, err := u.GetAdminFromContext(c)
 	if err != nil {
@@ -57,11 +68,9 @@ func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 
 		url, err := u.AWSService.UploadFileToS3(session, file, tempFileName, f.Size)
 		if err != nil {
-			log.Println(err)
 			helpers.JSON(c, "internal server error", http.StatusInternalServerError, nil, []string{"an error occurred while uploading the image"})
 			return
 		}
-		log.Printf("filename: %v", f.Filename)
 
 		img := models.Image{
 			Url: url,
@@ -69,17 +78,25 @@ func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 		images = append(images, img)
 	}
 
-	mealType := c.PostForm("meal")
+	mealType := c.PostForm("type")
+	if mealType == "" {
+		helpers.JSON(c, "bad request", http.StatusBadRequest, nil, []string{"fill a meal type (BRUNCH or DINNER)"})
+		return
+	}
 	foodType := strings.ToUpper(mealType)
 
 	foodName := c.PostForm("name")
+	if foodName == "" {
+		helpers.JSON(c, "bad request", http.StatusBadRequest, nil, []string{"what is the food name?"})
+		return
+	}
 
 	weekDay := c.PostForm("weekday")
 
 	kitchen := c.PostForm("kitchen")
-
-	kitchenModel := models.Kitchen{
-		Name: kitchen,
+	if mealType == "" {
+		helpers.JSON(c, "bad request", http.StatusBadRequest, nil, []string{"pick a kitchen"})
+		return
 	}
 
 	year, err := strconv.Atoi(c.PostForm("year"))
@@ -99,7 +116,7 @@ func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 		return
 	}
 
-	date, err := strconv.Atoi(c.PostForm("date"))
+	date, err := strconv.Atoi(c.PostForm("day"))
 	if err != nil {
 		log.Println(err)
 
@@ -112,16 +129,29 @@ func (u *HTTPHandler) CreateFoodTimetableHandle(c *gin.Context) {
 	food.Type = foodType
 	food.AdminName = admin.FullName
 	food.Year = year
-	food.Month = time.Month(month)
+	food.Month = month
 	food.Day = date
 	food.Weekday = weekDay
 	food.Images = images
-	food.Kitchen = kitchenModel
+	food.Kitchen = kitchen
 	food.Status = "Not serving"
 
 	err = u.UserService.CreateFoodTimetable(food)
 	if err != nil {
 		c.JSON(400, gin.H{"message": "This is a bad request"})
+		return
+	}
+
+	notification := models.Notification{
+		Message: admin.FullName + " added " + foodName + " to timetable",
+		Year:    year,
+		Month:   month,
+		Day:     date,
+	}
+
+	err = u.UserService.CreateNotification(notification)
+	if err != nil {
+		helpers.JSON(c, "Error in getting Notification", http.StatusInternalServerError, nil, []string{"Error in getting Notification"})
 		return
 	}
 

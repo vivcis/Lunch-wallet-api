@@ -13,15 +13,21 @@ import (
 	"os"
 )
 
-// LoginKitchenStaffHandler handles login for Kitchen Staff
+// LoginKitchenStaff godoc
+// @Summary      Login Kitchen Staff
+// @Description  Allows Kitchen staff to log in in order to use app dashboard. Staff must be active before he or she can log in
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param kitchenStaff body models.UserLogin true "email, password"
+// @Success      200  {string}  string "login successful"
+// @Failure      400  {string}  string "bad request"
+// @Failure      500  {string}  string "internal server error"
+// @Router       /user/kitchenstafflogin [post]
 func (u *HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 	kitchenStaff := &models.KitchenStaff{}
-	KitchenStaffLoginRequest := &struct {
-		Email    string `json:"email" binding:"required"`
-		Password string `json:"password" binding:"required"`
-	}{}
+	KitchenStaffLoginRequest := &models.UserLogin{}
 
-	fmt.Println("here", kitchenStaff)
 	err := c.ShouldBindJSON(KitchenStaffLoginRequest)
 	if err != nil {
 		helpers.JSON(c, "bad request", 400, nil, []string{"bad request"})
@@ -32,12 +38,17 @@ func (u *HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 
 	if sqlErr != nil {
 		fmt.Println(sqlErr)
-		helpers.JSON(c, "user not found, sign up", http.StatusInternalServerError, nil, []string{"internal server error"})
+		helpers.JSON(c, "email does not exists", http.StatusInternalServerError, nil, []string{"internal server error"})
 		return
 	}
 
 	if !kitchenStaff.IsActive {
 		helpers.JSON(c, "please activate your account", http.StatusInternalServerError, nil, []string{"please activate your account"})
+		return
+	}
+
+	if kitchenStaff.IsBlock {
+		helpers.JSON(c, "you have been blocked", http.StatusInternalServerError, nil, []string{"you have been blocked"})
 		return
 	}
 
@@ -74,13 +85,20 @@ func (u *HTTPHandler) LoginKitchenStaffHandler(c *gin.Context) {
 
 }
 
-// LoginFoodBenefactorHandler handles login for food benefactors eg. Decadevs
+// LoginFoodBeneficiary godoc
+// @Summary      Login Food Beneficiary
+// @Description  Allows Food Beneficiary to log in in order to use app dashboard. Beneficiary must be active before he or she can log in
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param kitchenStaff body models.UserLogin true "email, password"
+// @Success      200  {string}  string "login successful"
+// @Failure      400  {string}  string "bad request"
+// @Failure      500  {string}  string "internal server error"
+// @Router       /user/benefactorlogin [post]
 func (u *HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
 	benefactor := &models.FoodBeneficiary{}
-	benefactorLoginRequest := &struct {
-		Email    string `json:"email" binding:"required"`
-		Password string `json:"password" binding:"required"`
-	}{}
+	benefactorLoginRequest := &models.UserLogin{}
 
 	err := c.ShouldBindJSON(&benefactorLoginRequest)
 	if err != nil {
@@ -92,12 +110,17 @@ func (u *HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
 
 	if sqlErr != nil {
 		fmt.Println(sqlErr)
-		helpers.JSON(c, "email exists", http.StatusInternalServerError, nil, []string{"internal server error"})
+		helpers.JSON(c, "email does not exists", http.StatusInternalServerError, nil, []string{"internal server error"})
 		return
 	}
 
 	if !benefactor.IsActive {
 		helpers.JSON(c, "please activate your account", http.StatusInternalServerError, nil, []string{"please activate your account"})
+		return
+	}
+
+	if benefactor.IsBlock {
+		helpers.JSON(c, "you have been blocked", http.StatusInternalServerError, nil, []string{"you have been blocked"})
 		return
 	}
 
@@ -134,13 +157,20 @@ func (u *HTTPHandler) LoginFoodBenefactorHandler(c *gin.Context) {
 
 }
 
-// LoginAdminHandler handles login for the Admin
+// LoginAdmin godoc
+// @Summary      Login Admin
+// @Description  Allows Admin to log in in order to use app dashboard. Admin must be active before he or she can log in
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param kitchenStaff body models.UserLogin true "email, password"
+// @Success      200  {string}  string "login successful"
+// @Failure      400  {string}  string "bad request"
+// @Failure      500  {string}  string "internal server error"
+// @Router       /user/adminlogin [post]
 func (u *HTTPHandler) LoginAdminHandler(c *gin.Context) {
 	admin := &models.Admin{}
-	adminLoginRequest := &struct {
-		Email    string `json:"email" binding:"required"`
-		Password string `json:"password" binding:"required"`
-	}{}
+	adminLoginRequest := &models.UserLogin{}
 
 	err := c.ShouldBindJSON(&adminLoginRequest)
 	if err != nil {
@@ -152,12 +182,17 @@ func (u *HTTPHandler) LoginAdminHandler(c *gin.Context) {
 
 	if sqlErr != nil {
 		fmt.Println(sqlErr)
-		helpers.JSON(c, "email exists", http.StatusInternalServerError, nil, []string{"internal server error"})
+		helpers.JSON(c, "email does not exists", http.StatusInternalServerError, nil, []string{"internal server error"})
 		return
 	}
 
 	if !admin.IsActive {
 		helpers.JSON(c, "please activate your account", http.StatusInternalServerError, nil, []string{"please activate your account"})
+		return
+	}
+
+	if admin.IsBlock {
+		helpers.JSON(c, "you have been blocked", http.StatusInternalServerError, nil, []string{"you have been blocked"})
 		return
 	}
 

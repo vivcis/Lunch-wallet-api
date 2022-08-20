@@ -4,7 +4,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/decadevs/lunch-api/internal/core/models"
 	"mime/multipart"
-	"time"
 )
 
 type UserRepository interface {
@@ -25,13 +24,15 @@ type UserRepository interface {
 	AdminResetPassword(id, newPassword string) (*models.Admin, error)
 	CreateFoodTimetable(food models.Food) error
 	CreateAdmin(user *models.Admin) (*models.Admin, error)
-	FindBrunchByDate(year int, month time.Month, day int) ([]models.Food, error)
-	FindDinnerByDate(year int, month time.Month, day int) ([]models.Food, error)
+	FindBrunchByDate(year int, month int, day int) ([]models.Food, error)
+	FindDinnerByDate(year int, month int, day int) ([]models.Food, error)
 	FoodBeneficiaryEmailVerification(id string) (*models.FoodBeneficiary, error)
 	KitchenStaffEmailVerification(id string) (*models.KitchenStaff, error)
 	AdminEmailVerification(id string) (*models.Admin, error)
 	FindAllFoodBeneficiary(pagination *models.Pagination) ([]models.UserDetails, error)
 	FindFoodBenefactorMealRecord(email, date string) (*models.MealRecords, error)
+	FindActiveUsersByMonth() (interface{}, error)
+	FindNumbersOfScannedUsers(date string) (int64, error)
 	CreateFoodBenefactorBrunchMealRecord(user *models.FoodBeneficiary) error
 	CreateFoodBenefactorDinnerMealRecord(user *models.FoodBeneficiary) error
 	UpdateFoodBenefactorBrunchMealRecord(email string) error
@@ -42,6 +43,20 @@ type UserRepository interface {
 	GetTotalUsers() (int, error)
 	UpdateMeal(id string, food models.Food) error
 	DeleteMeal(id string) error
+	FindAllFoodByDate(year int, month int, day int) ([]models.Food, error)
+	CreateNotification(notification models.Notification) error
+	FindNotificationByDate(year int, month int, day int) ([]models.Notification, error)
+	GetFoodBenefactorById(id string) (*models.FoodBeneficiary, error)
+	AdminBlockFoodBeneficiary(userID string) error
+	AdminRemoveFoodBeneficiary(userID string) error
+	FindFoodBenefactorQRCodeMealRecord(mealId, userId string) (*models.QRCodeMealRecords, error)
+	CreateFoodBenefactorQRMealRecord(mealRecord *models.QRCodeMealRecords) error
+	NumberOfBlockedBeneficiary() (int64, error)
+	GetBlockedBeneficiary() ([]models.FoodBeneficiary, error)
+	UpdateFoodStatusById(id string, status string) error
+	GetAllFoodBeneficiaries() ([]models.FoodBeneficiary, error)
+	FindFoodByDate(year int, month int, day int) ([]models.Food, error)
+	FindListOfScannedUsers(date string, pagination *models.Pagination) ([]models.UserDetails, error)
 }
 
 // MailerRepository interface to implement mailing service

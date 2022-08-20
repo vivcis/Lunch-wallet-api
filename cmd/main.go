@@ -2,23 +2,26 @@ package main
 
 import (
 	"github.com/decadevs/lunch-api/cmd/server"
+	_ "github.com/decadevs/lunch-api/docs"
 	"log"
 )
 
-// @title Swagger  lunch wallet service API
-// @version 1.0
-// @description This is Lunch wallet APIs.
-// @termsOfService demo.com
+// @title           Lunch Wallet Swagger API
+// @version         1.0
+// @description     This is a lunch wallet server.
+// @termsOfService  http://swagger.io/terms/
 
-// @contact.name API Support
-// @contact.url https://deca-meal-wallet.herokuapp.com
+// @contact.name   Lunch-wallet Team API Support
+// @contact.url    http://www.swagger.io/support
+// @contact.email  info@lunchwallet.com
 
-// @host localhost:8081
-// @BasePath /api/v1
+// @license.name  BSD
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @securityDefinitions.basic BasicAuth
+// @host      localhost:8080
+// @BasePath  /api/v1
 
-// @securityDefinitions.apikey ApiKeyAuth
+// @securityDefinitions.basic  BasicAuth
 // @in header
 // @name Authorization
 

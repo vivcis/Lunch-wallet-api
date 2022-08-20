@@ -56,7 +56,7 @@ func (p *Postgres) KitchenStaffResetPassword(id, newPassword string) (*models.Ki
 	return user, nil
 }
 
-//KitchenStaffEmailVerification verifies the kitchen staff email address
+// KitchenStaffEmailVerification verifies the kitchen staff email address
 func (p *Postgres) KitchenStaffEmailVerification(id string) (*models.KitchenStaff, error) {
 	user := &models.KitchenStaff{}
 	if err := p.DB.Model(user).Where("id = ?", id).Update("is_active", true).Error; err != nil {
