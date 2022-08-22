@@ -27,7 +27,7 @@ func (u *HTTPHandler) GetMeal(c *gin.Context) {
 		return
 	}
 	mealType := c.Query("mealType")
-	mealtype := strings.ToLower(mealType)
+	mealtype := strings.ToUpper(mealType)
 
 	year, month, day := time.Now().Date()
 
