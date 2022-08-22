@@ -37,7 +37,7 @@ func GeneratePaginationFromRequest(c *gin.Context) models.Pagination {
 
 func StatusEnum(text string) (string, error) {
 	var result string
-	notifyServe := [...]string{"serving", "SERVING", "Serving", "served", "SERVED", "Served"}
+	notifyServe := [...]string{"serving", "SERVING", "Serving", "served", "SERVED", "Served", "not serving", "Not Serving", "NOT SERVING"}
 	for _, v := range notifyServe {
 		if v == text {
 			result = text

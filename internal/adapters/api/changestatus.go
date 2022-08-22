@@ -114,6 +114,12 @@ func (u *HTTPHandler) UpdateDinnerFoodStatus(c *gin.Context) {
 		return
 	}
 
+	inputField, err := repository.StatusEnum(status.Status)
+	if err != nil {
+		helpers.JSON(c, "This is an internal server error", 500, inputField, []string{"incorrect status field"})
+		return
+	}
+
 	errS := u.UserService.UpdateStatus(food, status.Status)
 	if errS != nil {
 		helpers.JSON(c, "internal server error", 500, nil, []string{"error updating food"})
