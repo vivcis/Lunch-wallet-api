@@ -16,6 +16,6 @@ type Food struct {
 
 type Image struct {
 	Model
-	ProductId uint   `json:"product_id"`
+	ProductId string `json:"product_id"`
 	Url       string `json:"url"`
 }
