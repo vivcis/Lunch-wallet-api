@@ -186,10 +186,10 @@ func (u *HTTPHandler) LoginAdminHandler(c *gin.Context) {
 		return
 	}
 
-	if !admin.IsActive {
-		helpers.JSON(c, "please activate your account", http.StatusInternalServerError, nil, []string{"please activate your account"})
-		return
-	}
+	//if !admin.IsActive {
+	//	helpers.JSON(c, "please activate your account", http.StatusInternalServerError, nil, []string{"please activate your account"})
+	//	return
+	//}
 
 	if admin.IsBlock {
 		helpers.JSON(c, "you have been blocked", http.StatusInternalServerError, nil, []string{"you have been blocked"})

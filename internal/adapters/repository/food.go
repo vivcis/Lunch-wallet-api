@@ -45,7 +45,7 @@ func (p *Postgres) FindFoodByDate(year int, month int, day int) ([]models.Food, 
 
 func (p *Postgres) GetFoodByID(id string) (*models.Food, error) {
 	food := &models.Food{}
-	if err := p.DB.Where("ID = ?", id).First(food).Error; err != nil {
+	if err := p.DB.Where("ID = ?", id).Preload("Images").First(food).Error; err != nil {
 		return nil, err
 	}
 	return food, nil
@@ -63,10 +63,17 @@ func (p *Postgres) UpdateStatus(food []models.Food, status string) error {
 }
 
 func (p *Postgres) DeleteMeal(id string) error {
-	var food models.Food
-	err := p.DB.Where("id =?", id).Delete(&food).Error
+	var food = models.Food{}
+	err := p.DB.Table("image").Where("food_id = ?", id).Delete(&food).Error
+	if err != nil {
+		fmt.Println("error deleting food image")
+		fmt.Println(err)
+		return err
+	}
+	err = p.DB.Where("id =?", id).Delete(&food).Error
 	if err != nil {
 		fmt.Println("error deleting food")
+		fmt.Println(err)
 		return err
 	}
 	return nil
